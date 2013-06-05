@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp" >
+
+    <TextView
+        android:id="@+id/textview_first_line"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_toLeftOf="@+id/textview_date"
+        android:gravity="center_vertical"
+        android:text="@string/field_holder_firstrow"
+        android:textSize="@dimen/text_secondary"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/textview_second_line"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textview_first_line"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="@string/field_holder_secondrow"
+        android:textColor="@android:color/tertiary_text_light"
+        android:textSize="@dimen/text_secondary" />
+
+    <TextView
+        android:id="@+id/textview_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="3dp"
+        android:background="#B0B0B0"
+        android:paddingLeft="3dp"
+        android:paddingRight="10dp"
+        android:textSize="@dimen/text_date"
+        android:text="@string/field_holder_firstrow" />
+
+    <TextView
+        android:id="@+id/textview_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textview_second_line"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="@string/ftext_by_author"
+        android:textSize="@dimen/text_tertiary"
+        android:textColor="@android:color/tertiary_text_light"
+        android:textStyle="italic" />
+
+
+    <ImageView
+        android:id="@+id/imageview_reply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textview_second_line"
+        android:contentDescription="@string/text_image"
+        android:src="@drawable/reply_icon" />
+
+
+    <TextView
+        android:id="@+id/textview_last_modified"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textview_author"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="@string/field_holder_secondrow"
+        android:textColor="@android:color/tertiary_text_light"
+        android:textSize="@dimen/text_tertiary" />
+
+</RelativeLayout>

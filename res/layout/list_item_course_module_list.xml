@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    
+    android:padding="8dp">
+
+
+
+
+
+    <TextView
+        android:id="@+id/textview_first_line"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_toRightOf="@+id/imageview_indicator"
+        android:gravity="center_vertical"
+        android:text="@string/field_holder_firstrow"
+        android:textSize="15sp"
+        android:paddingTop="5dp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imageview_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/textview_first_line"
+        android:contentDescription="@string/text_image"
+        android:paddingRight="3dp"
+        android:src="@drawable/chat_icon" />
+
+</RelativeLayout>

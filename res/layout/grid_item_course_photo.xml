@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="@dimen/width_grid"
+        android:layout_height="@dimen/height_grid">
+
+
+    <ImageView
+        android:id="@+id/imageview_photo"
+        android:layout_width="@dimen/width_grid"
+        android:layout_height="@dimen/height_grid"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/text_image"
+        android:src="@drawable/ic_contact_picture" />
+
+
+
+
+    <LinearLayout
+        android:id="@+id/view_bg"
+        android:background="#BF000000"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:padding="5dp"
+        android:orientation="vertical"
+        android:layout_alignBottom="@+id/imageview_photo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/imageview_photo">
+        
+
+	    <TextView
+	        android:id="@+id/textview_date"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textColor="#FFFFFF"
+	        android:textSize="@dimen/text_secondary"
+	        android:text="@string/field_holder_first_line" />
+	
+	    <TextView
+	        android:id="@+id/textview_notes"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="5dp"
+	        android:ellipsize="end"
+	        android:maxLines="2"
+	        android:text="@string/field_holder_second_line"
+	        android:textColor="#FFFFFF"
+	        android:textSize="@dimen/text_tertiary" />
+	    
+    </LinearLayout>
+    
+</RelativeLayout>
