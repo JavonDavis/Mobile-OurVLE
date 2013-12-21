@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mits.mobile.ourvle.Classes.TransportLayer.JSONDescriptors.Moodle.Modules.Forum;
 
@@ -13,18 +13,19 @@ import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.Forum.ExtendedFor
 import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.Forum.ForumDiscussion;
 
 // TODO: Auto-generated Javadoc
+
 /**
  * The Class UserSessionDescriptior.
- * 
+ *
  * @author Aston Hamilton
  */
 public class ExtendedForumDiscussionDescriptior extends
-	JSONObjectDescriptor<ExtendedForumDiscussion> {
+        JSONObjectDescriptor<ExtendedForumDiscussion> {
 
     private final DiscussionParent parent;
 
     public ExtendedForumDiscussionDescriptior(final DiscussionParent parent) {
-	this.parent = parent;
+        this.parent = parent;
     }
 
     /*
@@ -35,16 +36,16 @@ public class ExtendedForumDiscussionDescriptior extends
      */
     @Override
     public JsonElement getJsonElement(final ExtendedForumDiscussion object) {
-	final JsonObject obj = (JsonObject) new ForumDiscussionDescriptior(
-		parent).getJsonElement(object);
+        final JsonObject obj = (JsonObject) new ForumDiscussionDescriptior(
+                parent).getJsonElement(object);
 
-	final JsonObject lastPostObj = new JsonObject();
+        final JsonObject lastPostObj = new JsonObject();
 
-	lastPostObj.addProperty("id", object.getLastPostId());
-	lastPostObj.addProperty("message", object.getLastPortMessage());
+        lastPostObj.addProperty("id", object.getLastPostId());
+        lastPostObj.addProperty("message", object.getLastPortMessage());
 
-	obj.add("last_post", lastPostObj);
-	return obj;
+        obj.add("last_post", lastPostObj);
+        return obj;
     }
 
     /*
@@ -55,20 +56,15 @@ public class ExtendedForumDiscussionDescriptior extends
      */
     @Override
     public ExtendedForumDiscussion getObjectFromJson(final JsonElement json) {
-	final JsonObject jsonObject = (JsonObject) json;
+        final JsonObject jsonObject = (JsonObject) json;
 
-	final ForumDiscussion discussion = JSONDecoder
-		.getObject(
-			new ForumDiscussionDescriptior(parent), jsonObject);
+        final ForumDiscussion discussion = JSONDecoder
+                .getObject(new ForumDiscussionDescriptior(parent), jsonObject);
 
-	final JsonObject lastPostJsonObject = jsonObject.get("last_post")
-		.getAsJsonObject();
+        final int lastPostId = jsonObject.get("lastpost").getAsInt();
+        final String lastPostMessage = "New Message...";
 
-	final int lastPostId = lastPostJsonObject.get("id").getAsInt();
-	final String lastPostMessage = lastPostJsonObject.get("message")
-		.getAsString();
-
-	return new ExtendedForumDiscussion(discussion, lastPostId,
-		lastPostMessage, parent);
+        return new ExtendedForumDiscussion(discussion, lastPostId,
+                                           lastPostMessage, parent);
     }
 }

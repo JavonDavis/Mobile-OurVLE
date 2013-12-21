@@ -15,6 +15,6 @@ public class GetSessionContext extends RemoteWebServiceFunction {
      * @param userSession
      */
     public GetSessionContext(final SessionKeyStore userSession) {
-	super("mobile_mdl_get_site_context", userSession);
+	super("core_webservice_get_site_info", userSession);
     }
 }

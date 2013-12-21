@@ -216,6 +216,9 @@ public class CourseListActivity extends ActivityBase {
 
         @Override
         public int getCount() {
+            if (mUserSession.getContext().getSiteInfo().getNewsForum() == null) {
+                return 2;
+            }
             return 3;
         }
 
@@ -224,13 +227,24 @@ public class CourseListActivity extends ActivityBase {
             final Fragment f;
             switch (position) {
                 case 0:
-                    f = ForumDiscussionListFragment
-                            .newInstance(mUserSession,
-                                         mUserSession.getContext().getSiteInfo()
-                                                     .getNewsForum());
+                    if (mUserSession.getContext().getSiteInfo().getNewsForum() == null) {
+                        f = CourseListFragment.newInstance(mUserSession);
+                    } else {
+                        f = ForumDiscussionListFragment
+                                .newInstance(mUserSession,
+                                             mUserSession.getContext().getSiteInfo()
+                                                         .getNewsForum());
+                    }
                     break;
                 case 1:
-                    f = CourseListFragment.newInstance(mUserSession);
+                    if (mUserSession.getContext().getSiteInfo().getNewsForum() == null) {
+                        f = ViewProfileFragment.newInstance(
+                                mUserSession,
+                                mUserSession.getContext().getCurretnUser(),
+                                null);
+                    } else {
+                        f = CourseListFragment.newInstance(mUserSession);
+                    }
                     break;
                 case 2:
                     f = ViewProfileFragment.newInstance(

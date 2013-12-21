@@ -8,28 +8,28 @@ public class DiscussionParent {
     private final CourseForum forum;
 
     public DiscussionParent(final CourseModule parentModule) {
-	module = parentModule;
-	forum = null;
+        module = parentModule;
+        forum = null;
     }
 
     public DiscussionParent(final CourseForum parentForum) {
-	module = null;
-	forum = parentForum;
+        module = null;
+        forum = parentForum;
     }
 
     public boolean isForum() {
-	return forum != null;
+        return forum != null;
     }
 
     public boolean isModule() {
-	return module != null;
+        return module != null;
     }
 
     public CourseForum getForum() {
-	return forum;
+        return forum;
     }
 
     public CourseModule getModule() {
-	return module;
+        return module;
     }
 }

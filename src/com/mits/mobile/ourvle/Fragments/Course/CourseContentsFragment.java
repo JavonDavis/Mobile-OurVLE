@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mits.mobile.ourvle.Fragments.Course;
 
@@ -39,10 +39,9 @@ import com.mits.mobile.ourvle.Fragments.Components.CourseListFragment.CourseModu
 
 /**
  * @author Aston Hamilton
- * 
  */
 public class CourseContentsFragment extends AuthenticatedListFragment implements
-	OnCommunicationResponseListener, OnReloadFragmentListener {
+        OnCommunicationResponseListener, OnReloadFragmentListener {
 
     private MoodleCourse mCourse;
 
@@ -57,177 +56,177 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
     private String mEmptyListString;
 
     public static CourseContentsFragment newInstance(
-	    final UserSession session,
-	    final MoodleCourse course) {
-	final CourseContentsFragment f = new CourseContentsFragment();
+            final UserSession session,
+            final MoodleCourse course) {
+        final CourseContentsFragment f = new CourseContentsFragment();
 
-	f.setUserSession(session);
-	f.setMoodleCourse(course);
+        f.setUserSession(session);
+        f.setMoodleCourse(course);
 
-	return f;
+        return f;
     }
 
     public void setMoodleCourse(final MoodleCourse course) {
-	getFragmentArguments().putParcelable(ParcelKeys.MOODLE_COURSE,
-		new MoodleCourseParcel(course));
-	mCourse = course;
+        getFragmentArguments().putParcelable(ParcelKeys.MOODLE_COURSE,
+                                             new MoodleCourseParcel(course));
+        mCourse = course;
     }
 
     @Override
     public void onAttach(final Activity activity) {
-	super.onAttach(activity);
-	mActivity = activity;
-	try {
-	    mListener = (Listener) activity;
-	} catch (final ClassCastException e) {
-	    mListener = new Listener() {
+        super.onAttach(activity);
+        mActivity = activity;
+        try {
+            mListener = (Listener) activity;
+        } catch (final ClassCastException e) {
+            mListener = new Listener() {
 
-		@Override
-		public void onCourseModuleSelected(final CourseModule module) {
-		    Toast.makeText(mActivity,
-			    "Selected " + module.getName(), Toast.LENGTH_LONG)
-			    .show();
-		}
-	    };
-	}
+                @Override
+                public void onCourseModuleSelected(final CourseModule module) {
+                    Toast.makeText(mActivity,
+                                   "Selected " + module.getName(), Toast.LENGTH_LONG)
+                         .show();
+                }
+            };
+        }
     }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
 
-	mCourse = ((MoodleCourseParcel) getFragmentArguments()
-		.getParcelable(ParcelKeys.MOODLE_COURSE))
-		.getWrappedObejct();
+        mCourse = ((MoodleCourseParcel) getFragmentArguments()
+                .getParcelable(ParcelKeys.MOODLE_COURSE))
+                .getWrappedObejct();
 
-	mCommunicatioModulePlugin = new DefaultCommunicationModulePlugin(this);
+        mCommunicatioModulePlugin = new DefaultCommunicationModulePlugin(this);
 
-	registerPlugin(mCommunicatioModulePlugin);
+        registerPlugin(mCommunicatioModulePlugin);
 
-	mCourseModuleListAdapter = new CourseModuleListAdapter(mActivity);
+        mCourseModuleListAdapter = new CourseModuleListAdapter(mActivity);
 
-	setListAdapter(mCourseModuleListAdapter);
+        setListAdapter(mCourseModuleListAdapter);
 
-	super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 
-	mEmptyListString = getString(R.string.no_course_contents);
+        mEmptyListString = getString(R.string.no_course_contents);
     }
 
     @Override
     public void onStart() {
-	super.onStart();
+        super.onStart();
 
-	loadCourseContents();
+        loadCourseContents();
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater,
-	    final ViewGroup container,
-	    final Bundle savedInstanceState) {
-	return inflater.inflate(R.layout.fragment_course_contents,
-		container, false);
+                             final ViewGroup container,
+                             final Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_course_contents,
+                                container, false);
     }
 
     @Override
     public void onListItemClick(final ListView l, final View v,
-	    final int position, final long id) {
-	mListener.onCourseModuleSelected(
-		mCourseModuleListAdapter.getItem(position));
+                                final int position, final long id) {
+        mListener.onCourseModuleSelected(
+                mCourseModuleListAdapter.getItem(position));
     }
 
     @Override
     public void onCommunicationError(final ResponseError response) {
-	mCommunicatioModulePlugin.defaultResponseError(response);
+        mCommunicatioModulePlugin.defaultResponseError(response);
     }
 
     @Override
     public void onCommunicationResponse(final int requestId,
-	    final ResponseObject response) {
-	setEmptyText(mEmptyListString);
-	switch (requestId) {
-	case Requests.GET_COURSE_CONTENTS:
-	    mCommunicatioModulePlugin.turnOffLoadingIcon();
-	    final List<CourseSection> courseSectionList = JSONDecoder
-		    .getObjectList(new CourseSectionDescriptor(),
-			    response.getResponseText());
+                                        final ResponseObject response) {
+        setEmptyText(mEmptyListString);
+        switch (requestId) {
+            case Requests.GET_COURSE_CONTENTS:
+                mCommunicatioModulePlugin.turnOffLoadingIcon();
+                final List<CourseSection> courseSectionList = JSONDecoder
+                        .getObjectList(new CourseSectionDescriptor(mCourse.getId().toString()),
+                                       response.getResponseText());
 
-	    mCourseModuleListAdapter.clearPartitions();
+                mCourseModuleListAdapter.clearPartitions();
 
-	    for (final CourseSection section : courseSectionList)
-		mCourseModuleListAdapter
-			.addPartition(section, section.getModuleList());
+                for (final CourseSection section : courseSectionList)
+                    mCourseModuleListAdapter
+                            .addPartition(section, section.getModuleList());
 
-	    mCourseModuleListAdapter.notifyDataSetChanged();
-	    break;
-	}
+                mCourseModuleListAdapter.notifyDataSetChanged();
+                break;
+        }
     }
 
     private void loadCourseContents() {
-	mCommunicatioModulePlugin.turnOnLoadingIcon();
-	setEmptyText("Loading contents....");
-	CommuncationModule.sendAsyncRequest(
-		mActivity,
-		new GetCourseContents(
-			getUserSession(), mCourse),
-		Requests.GET_COURSE_CONTENTS, this);
+        mCommunicatioModulePlugin.turnOnLoadingIcon();
+        setEmptyText("Loading contents....");
+        CommuncationModule.sendAsyncRequest(
+                mActivity,
+                new GetCourseContents(
+                        getUserSession(), mCourse),
+                Requests.GET_COURSE_CONTENTS, this);
     }
 
     @Override
     public void onCommunicationMenuItemTriggered() {
-	loadCourseContents();
+        loadCourseContents();
     }
 
     @Override
     public void onStop() {
-	CommuncationModule.cancelAllRunningAsyncRequests(this);
-	super.onStop();
+        CommuncationModule.cancelAllRunningAsyncRequests(this);
+        super.onStop();
     }
 
     /* ======================== Private CLasses ====================== */
     private static class CourseModuleListAdapter extends
-	    PinnedHeaderListAdapter<CourseSection, CourseModule> {
+            PinnedHeaderListAdapter<CourseSection, CourseModule> {
 
-	public CourseModuleListAdapter(final Context context) {
-	    super(context, R.layout.list_header_simple_pinned,
-		    R.layout.list_item_course_module_list);
-	}
+        public CourseModuleListAdapter(final Context context) {
+            super(context, R.layout.list_header_simple_pinned,
+                  R.layout.list_item_course_module_list);
+        }
 
-	class RowViewHolder implements SimpleViewHolder {
-	    ImageView icon;
-	    TextView firstLine;
-	}
+        class RowViewHolder implements SimpleViewHolder {
+            ImageView icon;
+            TextView firstLine;
+        }
 
-	@Override
-	protected SimpleViewHolder getRowViewHolder(
-		final View rowView) {
-	    final RowViewHolder h = new RowViewHolder();
-	    h.icon = (ImageView) rowView
-		    .findViewById(R.id.imageview_indicator);
-	    h.firstLine = (TextView) rowView
-		    .findViewById(R.id.textview_first_line);
-	    return h;
-	}
+        @Override
+        protected SimpleViewHolder getRowViewHolder(
+                final View rowView) {
+            final RowViewHolder h = new RowViewHolder();
+            h.icon = (ImageView) rowView
+                    .findViewById(R.id.imageview_indicator);
+            h.firstLine = (TextView) rowView
+                    .findViewById(R.id.textview_first_line);
+            return h;
+        }
 
-	@Override
-	protected void bindRowView(
-		final CourseModule rowData,
-		final SimpleViewHolder rowViewHolder) {
+        @Override
+        protected void bindRowView(
+                final CourseModule rowData,
+                final SimpleViewHolder rowViewHolder) {
 
-	    final RowViewHolder h = (RowViewHolder) rowViewHolder;
-	    h.icon.setImageResource(CourseModuleFactory
-		    .getSystemIconResource(rowData));
+            final RowViewHolder h = (RowViewHolder) rowViewHolder;
+            h.icon.setImageResource(CourseModuleFactory
+                                            .getSystemIconResource(rowData));
 
-	    h.firstLine.setText(rowData.getLabel());
-	}
+            h.firstLine.setText(rowData.getLabel());
+        }
     }
 
     /* ========================== Interfaces ======================= */
 
     public static interface Listener {
-	public void onCourseModuleSelected(CourseModule module);
+        public void onCourseModuleSelected(CourseModule module);
     }
 
     private static interface Requests {
-	int GET_COURSE_CONTENTS = 0;
+        int GET_COURSE_CONTENTS = 0;
 
     }
 }

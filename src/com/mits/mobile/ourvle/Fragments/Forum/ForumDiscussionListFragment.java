@@ -4,6 +4,8 @@
 package com.mits.mobile.ourvle.Fragments.Forum;
 
 import org.joda.time.DateTime;
+import org.sourceforge.ah.android.utilities.Communication.EntitySyncroniser.ContentProviders.EntityManagerContract;
+import org.sourceforge.ah.android.utilities.Communication.EntitySyncroniser.EntitySyncronizer;
 import org.sourceforge.ah.android.utilities.Formatters.DateFormatter;
 import org.sourceforge.ah.android.utilities.Plugins.EntitySyncronizerPlugin;
 import org.sourceforge.ah.android.utilities.Widgets.Adapters.DynamicViewAdapter.SimpleViewHolder;
@@ -40,25 +42,32 @@ import com.mits.mobile.ourvle.Fragments.Components.AuthenticatedListFragment;
 /**
  * @author Aston Hamilton
  */
-public class ForumDiscussionListFragment extends AuthenticatedListFragment implements LoaderCallbacks<Cursor> {
+public class ForumDiscussionListFragment extends AuthenticatedListFragment
+        implements LoaderCallbacks<Cursor> {
 
     private DiscussionParent mParent;
 
     private ExtendediscussionListAdapter mListAdapter;
 
-    public static ForumDiscussionListFragment newInstance(final UserSession session, final CourseForum forum) {
-        final ForumDiscussionListFragment f = ForumDiscussionListFragment.newInstance(session, forum, null);
+    public static ForumDiscussionListFragment newInstance(final UserSession session,
+                                                          final CourseForum forum) {
+        final ForumDiscussionListFragment f = ForumDiscussionListFragment.newInstance(session,
+                                                                                      forum, null);
 
         return f;
     }
 
-    public static ForumDiscussionListFragment newInstance(final UserSession session, final CourseModule module) {
-        final ForumDiscussionListFragment f = ForumDiscussionListFragment.newInstance(session, null, module);
+    public static ForumDiscussionListFragment newInstance(final UserSession session,
+                                                          final CourseModule module) {
+        final ForumDiscussionListFragment f = ForumDiscussionListFragment.newInstance(session, null,
+                                                                                      module);
 
         return f;
     }
 
-    private static ForumDiscussionListFragment newInstance(final UserSession session, final CourseForum forum, final CourseModule module) {
+    private static ForumDiscussionListFragment newInstance(final UserSession session,
+                                                           final CourseForum forum,
+                                                           final CourseModule module) {
         final ForumDiscussionListFragment f = new ForumDiscussionListFragment();
 
         f.setUserSession(session);
@@ -74,24 +83,40 @@ public class ForumDiscussionListFragment extends AuthenticatedListFragment imple
     public void setCourseForum(final CourseForum forum) {
         mParent = new DiscussionParent(forum);
 
-        getFragmentArguments().putParcelable(ParcelKeys.PARENT, new DiscussionParentParcel(mParent));
+        getFragmentArguments().putParcelable(ParcelKeys.PARENT, new DiscussionParentParcel(
+                mParent));
 
     }
 
     public void setCourseModule(final CourseModule module) {
         mParent = new DiscussionParent(module);
 
-        getFragmentArguments().putParcelable(ParcelKeys.PARENT, new DiscussionParentParcel(mParent));
+        getFragmentArguments().putParcelable(ParcelKeys.PARENT, new DiscussionParentParcel(
+                mParent));
 
     }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-        mParent = ((DiscussionParentParcel) getFragmentArguments().getParcelable(ParcelKeys.PARENT)).getWrappedObejct();
+        mParent = ((DiscussionParentParcel) getFragmentArguments().getParcelable(ParcelKeys.PARENT))
+                .getWrappedObejct();
 
-        mListAdapter = new ExtendediscussionListAdapter(getParentActivity(), null, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER, mParent);
+        mListAdapter = new ExtendediscussionListAdapter(getParentActivity(), null,
+                                                        CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER,
+                                                        mParent);
 
-        final EntitySyncronizerPlugin plugin = new EntitySyncronizerPlugin(new ForumDiscussionSyncronizationManager(), ForumDiscussionProvider.getSerializedParent(mParent));
+
+        // TODO - Remove Stub (Change status ti inprogress)
+        EntitySyncronizer.updateEntityManagerSyncronizationState(
+                getApplicationContext(),
+                "com.mits.mobile.ourvle.Classes.DataLayer.SyncEntities.ForumDiscussionSyncronizationManager",
+                EntityManagerContract.SyncDirection.PULL,
+                EntityManagerContract.Status.SYNCRONIZED,
+                new DateTime());
+
+        final EntitySyncronizerPlugin plugin = new EntitySyncronizerPlugin(
+                new ForumDiscussionSyncronizationManager(),
+                ForumDiscussionProvider.getSerializedParent(mParent));
 
         registerPlugin(plugin);
 
@@ -103,7 +128,8 @@ public class ForumDiscussionListFragment extends AuthenticatedListFragment imple
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_discussion_list, container, false);
 
         return v;
@@ -111,7 +137,8 @@ public class ForumDiscussionListFragment extends AuthenticatedListFragment imple
 
     @Override
     public void onListItemClick(final ListView l, final View v, final int position, final long id) {
-        final ForumDiscussion discussion = ForumDiscussionCursorWrapper.getDiscussion((Cursor) mListAdapter.getItem(position), mParent);
+        final ForumDiscussion discussion = ForumDiscussionCursorWrapper.getDiscussion(
+                (Cursor) mListAdapter.getItem(position), mParent);
 
         final Bundle b = new Bundle();
         b.putParcelable(ResponseArgs.Discussion, new ForumDiscussionParcel(discussion));
@@ -133,7 +160,16 @@ public class ForumDiscussionListFragment extends AuthenticatedListFragment imple
             } else
                 throw new IllegalArgumentException("Discussion parent not forum or module.");
 
-            return new CursorLoader(getParentActivity(), ForumDiscussionContract.CONTENT_URI, new String[]{ForumDiscussionContract.Columns._ID, ForumDiscussionContract.Columns.DISCUSSION_ID, ForumDiscussionContract.Columns.DISCUSSION_NAME, ForumDiscussionContract.Columns.CREATOR, ForumDiscussionContract.Columns.MODIFIED, ForumDiscussionContract.Columns.LAST_POST_ID, ForumDiscussionContract.Columns.LAST_POST_TEXT}, selection, selectionArgs, null);
+            return new CursorLoader(getParentActivity(), ForumDiscussionContract.CONTENT_URI,
+                                    new String[]{
+                                            ForumDiscussionContract.Columns._ID,
+                                            ForumDiscussionContract.Columns.DISCUSSION_ID,
+                                            ForumDiscussionContract.Columns.DISCUSSION_NAME,
+                                            ForumDiscussionContract.Columns.CREATOR,
+                                            ForumDiscussionContract.Columns.MODIFIED,
+                                            ForumDiscussionContract.Columns.LAST_POST_ID,
+                                            ForumDiscussionContract.Columns.LAST_POST_TEXT
+                                    }, selection, selectionArgs, null);
         }
 
         return null;
@@ -177,8 +213,16 @@ public class ForumDiscussionListFragment extends AuthenticatedListFragment imple
             return c.getString(6);
         }
 
-        public static ExtendedForumDiscussion getDiscussion(final Cursor c, final DiscussionParent parent) {
-            return new ExtendedForumDiscussion(ForumDiscussionCursorWrapper.getDiscussionId(c), ForumDiscussionCursorWrapper.getDiscussionName(c), ForumDiscussionCursorWrapper.getDiscussionCreator(c), ForumDiscussionCursorWrapper.getDiscussionModified(c), ForumDiscussionCursorWrapper.getLastPostId(c), ForumDiscussionCursorWrapper.getLastPostText(c), parent);
+        public static ExtendedForumDiscussion getDiscussion(final Cursor c,
+                                                            final DiscussionParent parent) {
+            return new ExtendedForumDiscussion(ForumDiscussionCursorWrapper.getDiscussionId(c),
+                                               ForumDiscussionCursorWrapper.getDiscussionName(c),
+                                               ForumDiscussionCursorWrapper.getDiscussionCreator(c),
+                                               ForumDiscussionCursorWrapper.getDiscussionModified(
+                                                       c),
+                                               ForumDiscussionCursorWrapper.getLastPostId(c),
+                                               ForumDiscussionCursorWrapper.getLastPostText(c),
+                                               parent);
         }
     }
 
@@ -187,7 +231,8 @@ public class ForumDiscussionListFragment extends AuthenticatedListFragment imple
 
         private final DiscussionParent mParent;
 
-        public ExtendediscussionListAdapter(final Context context, final Cursor c, final int flags, final DiscussionParent parent) {
+        public ExtendediscussionListAdapter(final Context context, final Cursor c, final int flags,
+                                            final DiscussionParent parent) {
             super(context, c, flags);
 
             mParent = parent;
@@ -204,16 +249,21 @@ public class ForumDiscussionListFragment extends AuthenticatedListFragment imple
         public void bindView(final View arg0, final Context arg1, final Cursor arg2) {
             final ViewHolder viewHolder = (ViewHolder) arg0.getTag();
 
-            final ExtendedForumDiscussion discussion = ForumDiscussionCursorWrapper.getDiscussion(arg2, mParent);
+            final ExtendedForumDiscussion discussion = ForumDiscussionCursorWrapper.getDiscussion(
+                    arg2, mParent);
             viewHolder.poster.setText(discussion.getCreator().getFullName());
             viewHolder.discussionTitle.setText(discussion.getName());
-            viewHolder.discussionDate.setText(DateFormatter.getShortDateTime(discussion.getLastModified()));
-            viewHolder.lastReply.setText("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+            viewHolder.discussionDate.setText(DateFormatter.getShortDateTime(
+                    discussion.getLastModified()));
+            viewHolder.lastReply.setText(
+                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
         }
 
         @Override
         public View newView(final Context arg0, final Cursor arg1, final ViewGroup arg2) {
-            final View view = ((LayoutInflater) arg0.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.list_item_discussion_list, arg2, false);
+            final View view = ((LayoutInflater) arg0.getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.list_item_discussion_list,
+                                                              arg2, false);
             final ViewHolder viewHolder = new ViewHolder();
 
             viewHolder.poster = (TextView) view.findViewById(R.id.textview_poster);

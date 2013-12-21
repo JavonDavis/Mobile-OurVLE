@@ -23,9 +23,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/field_login_id_number"
-        android:paddingTop="80dp"
+        android:layout_marginTop="20dp"
         android:singleLine="true"
-        android:text="admin" >
+        android:text="tool_generator_000001" >
 
     </EditText>
 
@@ -38,7 +38,7 @@
         android:ems="10"
         android:hint="@string/field_login_password"
         android:inputType="textPassword"
-        android:text="Password-33" />
+        android:text="P@ssword1" />
 
     <Button
         android:id="@+id/login_btn"

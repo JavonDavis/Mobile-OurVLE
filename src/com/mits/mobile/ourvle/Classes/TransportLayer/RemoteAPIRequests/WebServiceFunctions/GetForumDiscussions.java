@@ -16,15 +16,15 @@ public class GetForumDiscussions extends RemoteWebServiceFunction {
 
     public GetForumDiscussions(final CourseForum forum,
 	    final SessionKeyStore userSession) {
-	super("mobile_mdl_get_forum_discussions_with_last_post", userSession,
-		"forumid", forum.getForumid().toString());
+	super("mod_forum_get_forum_discussions", userSession,
+		"forumids[0]", forum.getForumid().toString());
     }
 
     public GetForumDiscussions(final CourseModule module,
 	    final UserSession userSession) {
-	super("mobile_mdl_get_forum_module_discussions_with_last_post",
+	super("mod_forum_get_forum_discussions",
 		userSession,
-		"moduleid", module.getId().toString());
+		"forumids[0]", module.getId().toString());
     }
 
 }

@@ -5,10 +5,13 @@ package com.mits.mobile.ourvle.Classes.DataLayer.SyncEntities;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.sourceforge.ah.android.utilities.Communication.CommuncationModule;
 import org.sourceforge.ah.android.utilities.Communication.EntitySyncroniser.Client.EntitySyncronizationManager;
 import org.sourceforge.ah.android.utilities.Communication.EntitySyncroniser.Client.SyncRecord;
+import org.sourceforge.ah.android.utilities.Communication.EntitySyncroniser.ContentProviders.EntityManagerContract;
 import org.sourceforge.ah.android.utilities.Communication.EntitySyncroniser.ContentProviders.EntitySyncronizerContract;
+import org.sourceforge.ah.android.utilities.Communication.EntitySyncroniser.EntitySyncronizer;
 import org.sourceforge.ah.android.utilities.Communication.JSONFactory.JSONDecoder;
 import org.sourceforge.ah.android.utilities.Communication.Response.ResponseError;
 import org.sourceforge.ah.android.utilities.Communication.Response.ResponseObject;
@@ -18,9 +21,12 @@ import android.util.Log;
 
 import com.mits.mobile.ourvle.Classes.DataLayer.Authentication.Session.UserSession;
 import com.mits.mobile.ourvle.Classes.DataLayer.Databases.ContentProviders.ForumDiscussionProvider;
+import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.Forum.CourseForum;
 import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.Forum.DiscussionParent;
 import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.Forum.ForumDiscussion;
+import com.mits.mobile.ourvle.Classes.TransportLayer.JSONDescriptors.Moodle.Modules.Forum.CourseForumDescriptior;
 import com.mits.mobile.ourvle.Classes.TransportLayer.JSONDescriptors.Moodle.Modules.Forum.ExtendedForumDiscussionDescriptior;
+import com.mits.mobile.ourvle.Classes.TransportLayer.RemoteAPIRequests.WebServiceFunctions.GetCourseDiscussions;
 import com.mits.mobile.ourvle.Classes.TransportLayer.RemoteAPIRequests.WebServiceFunctions.GetForumDiscussions;
 import com.mits.mobile.ourvle.Classes.Util.ApplicationDataManager;
 
@@ -49,19 +55,33 @@ public class ForumDiscussionSyncronizationManager extends
         final DiscussionParent parent = ForumDiscussionProvider
                 .getDeserializedParent(discussionParentCookie);
 
-        final ResponseObject response;
+        ResponseObject response;
         if (parent.isForum())
             response = CommuncationModule
                     .senRequest(context,
                                 new GetForumDiscussions(parent.getForum(),
                                                         lastUserSession));
-        else
+        else {
             response = CommuncationModule
                     .senRequest(context,
-                                new GetForumDiscussions(parent.getModule(),
+                                new GetCourseDiscussions(parent.getModule().getCourseId(),
                                                         lastUserSession));
 
+            if (response.getStatus() == 200) {
+
+                List<CourseForum> forums = JSONDecoder.getObjectList(new CourseForumDescriptior(), response.getResponseText());
+
+                response = CommuncationModule
+                        .senRequest(context,
+                                    new GetForumDiscussions(parent.getModule(),
+                                                            lastUserSession));
+            }
+
+        }
+
+
         if (response instanceof ResponseError) {
+            Log.e(getClass().toString(), "Discussion Sync Failed: " + response.getResponseText());
             record.withLastResponseText(response.getResponseText());
             record.withSyncStatus(EntitySyncronizerContract.Status.UNSYNCED);
             return;
@@ -87,5 +107,4 @@ public class ForumDiscussionSyncronizationManager extends
               "Executing push syncronization for "
               + getEntityManagerClassName());
     }
-
 }

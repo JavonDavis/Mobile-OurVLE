@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mits.mobile.ourvle.Classes.TransportLayer.JSONDescriptors.Moodle.Modules.Forum;
 
@@ -13,37 +13,44 @@ import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.Forum.DiscussionP
 import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.Forum.ForumDiscussion;
 
 // TODO: Auto-generated Javadoc
+
 /**
  * The Class UserSessionDescriptior.
- * 
+ *
  * @author Aston Hamilton
  */
 public class FullForumDiscussionDescriptior extends
-	JSONObjectDescriptor<ForumDiscussion> {
+        JSONObjectDescriptor<ForumDiscussion> {
+
+    final String mCourseId;
+
+    public FullForumDiscussionDescriptior(final String pCourseId) {
+        mCourseId = pCourseId;
+    }
 
     @Override
     public JsonElement getJsonElement(final ForumDiscussion object) {
-	final JsonElement encodedParent = JSONEncoder.getEncodedObjectElement(
-		new DiscussionParentDescriptor(), object.getParent());
+        final JsonElement encodedParent = JSONEncoder.getEncodedObjectElement(
+                new DiscussionParentDescriptor(mCourseId), object.getParent());
 
-	final JsonObject encodedDiscussion = (JsonObject) JSONEncoder
-		.getEncodedObjectElement(
-			new ForumDiscussionDescriptior(object.getParent()),
-			object);
+        final JsonObject encodedDiscussion = (JsonObject) JSONEncoder
+                .getEncodedObjectElement(
+                        new ForumDiscussionDescriptior(object.getParent()),
+                        object);
 
-	encodedDiscussion.add("parent", encodedParent);
+        encodedDiscussion.add("parent", encodedParent);
 
-	return encodedDiscussion;
+        return encodedDiscussion;
     }
 
     @Override
     public ForumDiscussion getObjectFromJson(final JsonElement json) {
-	final JsonObject jsonObject = (JsonObject) json;
+        final JsonObject jsonObject = (JsonObject) json;
 
-	final DiscussionParent parent = JSONDecoder.getObject(
-		new DiscussionParentDescriptor(), jsonObject.get("parent"));
+        final DiscussionParent parent = JSONDecoder.getObject(
+                new DiscussionParentDescriptor(mCourseId), jsonObject.get("parent"));
 
-	return JSONDecoder.getObject(new ForumDiscussionDescriptior(parent),
-		jsonObject);
+        return JSONDecoder.getObject(new ForumDiscussionDescriptior(parent),
+                                     jsonObject);
     }
 }

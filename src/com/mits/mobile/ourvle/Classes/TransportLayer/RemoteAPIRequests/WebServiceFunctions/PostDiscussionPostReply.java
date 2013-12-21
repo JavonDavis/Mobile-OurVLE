@@ -14,8 +14,8 @@ public class PostDiscussionPostReply extends RemoteWebServiceFunction {
     public PostDiscussionPostReply(final UserSession session,
 	    final DiscussionPostReply reply) {
 
-	super("mobile_mdl_get_user_courses", session,
+	super("core_enrol_get_users_courses", session,
 		"userid", session.getContext()
-			.getCurretnUser().getId().toString());
+			.getCurretnUser().getId());
     }
 }

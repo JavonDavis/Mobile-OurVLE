@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/menu_change_profile"
-    	android:icon="@drawable/profile_icon"></item>
+    	android:icon="@drawable/profile_icon"
+            android:title="Link To Contact"></item>
 </menu>

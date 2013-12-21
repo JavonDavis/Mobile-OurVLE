@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mits.mobile.ourvle.Classes.TransportLayer.JSONDescriptors.Moodle.Courses;
 
@@ -16,46 +16,45 @@ import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Courses.MoodleCourse;
 
 /**
  * @author Aston Hamilton
- * 
  */
 public class CourseEventDescriptor extends
-	JSONObjectDescriptor<CourseEvent> {
+        JSONObjectDescriptor<CourseEvent> {
 
     private final MoodleCourse mCourse;
 
     public CourseEventDescriptor(final MoodleCourse course) {
-	mCourse = course;
+        mCourse = course;
     }
 
     @Override
     public JsonElement getJsonElement(final CourseEvent object) {
-	return null;
+        return null;
     }
 
     @Override
     public CourseEvent getObjectFromJson(final JsonElement json) {
-	final JsonObject courseSectionJson = (JsonObject) json;
+        final JsonObject courseSectionJson = (JsonObject) json;
 
-	final long eventId = courseSectionJson.get("eventId").getAsLong();
-	final String eventName = courseSectionJson.get("eventName")
-		.getAsString();
+        final long eventId = courseSectionJson.get("eventId").getAsLong();
+        final String eventName = courseSectionJson.get("eventName")
+                                                  .getAsString();
 
-	final String eventDescHtmlString = courseSectionJson.get("eventDesc")
-		.getAsString();
-	final String eventDesc = Html.fromHtml(eventDescHtmlString).toString()
-		.trim();
+        final String eventDescHtmlString = courseSectionJson.get("eventDesc")
+                                                            .getAsString();
+        final String eventDesc = Html.fromHtml(eventDescHtmlString).toString()
+                                     .trim();
 
-	final long eventStartMilis = courseSectionJson.get("eventStart")
-		.getAsLong();
-	final DateTime eventStart = new DateTime(eventStartMilis);
+        final long eventStartMilis = courseSectionJson.get("eventStart")
+                                                      .getAsLong();
+        final DateTime eventStart = new DateTime(eventStartMilis);
 
-	final long eventDurationMilis = courseSectionJson.get("eventDuration")
-		.getAsLong();
-	final Duration eventDuration = new Duration(eventDurationMilis);
+        final long eventDurationMilis = courseSectionJson.get("eventDuration")
+                                                         .getAsLong();
+        final Duration eventDuration = new Duration(eventDurationMilis);
 
-	final long userId = courseSectionJson.get("userId").getAsLong();
+        final long userId = courseSectionJson.get("userId").getAsLong();
 
-	return new CourseEvent(eventId, eventName, eventDesc,
-		eventStart, eventDuration, userId, mCourse);
+        return new CourseEvent(eventId, eventName, eventDesc,
+                               eventStart, eventDuration, userId, mCourse);
     }
 }

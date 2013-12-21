@@ -1,8 +1,8 @@
-## Mobile OurVLE
+# Mobile OurVLE
 This is an android client for OurVLE.
 
-###Dependencies
-####Android Utilities 
+##Dependencies
+###Android Utilities 
 
 <https://bitbucket.org/uwimona/android-utilities/overview>
 
@@ -22,3 +22,7 @@ You can find these libs in the Java Jar Dependency Repository
         - commons-logging-1.1.1.jar
         - backport-util-concurrent-3.1.jar  
         
+
+##Contributors
++ Aston Hamilton (ahamidev@gmail.com)
++ Renee Whitelocke

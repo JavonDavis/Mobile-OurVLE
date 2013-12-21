@@ -12,7 +12,7 @@ import com.mits.mobile.ourvle.Classes.TransportLayer.APIEndpoints;
 public class LoginRemoteFunction extends RemoteAPIRequest {
     public LoginRemoteFunction(final String username, final String password) {
 	super("username", username, "password", password, "service",
-		"moodle_mobile_ourvle");
+		"mobile_moodle");
     }
 
     @Override

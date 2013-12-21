@@ -28,15 +28,11 @@ public class SiteInfoDescriptor extends JSONObjectDescriptor<SiteInfo> {
     public SiteInfo getObjectFromJson(final JsonElement arg0) {
 	final JsonObject jsonObject = (JsonObject) arg0;
 
-	final String name = jsonObject.get("name").getAsString();
-	final String url = jsonObject.get("url").getAsString();
-	final int frontPageId = jsonObject.get("frontpage_id").getAsInt();
-	final JsonObject newsForumJsonObject = jsonObject.get("news_forum")
-		.getAsJsonObject();
+	final String name = jsonObject.get("sitename").getAsString();
+	final String url = jsonObject.get("siteurl").getAsString();
+	final int frontPageId = 1; //SITE Course Id is always 1
 
-	final CourseForum newsForum = (CourseForum) JSONDecoder.getObject(
-		new CourseForumDescriptior(), newsForumJsonObject);
-	return new SiteInfo(name, frontPageId, newsForum, url);
+	return new SiteInfo(name, frontPageId, null, url);
     }
 
 }

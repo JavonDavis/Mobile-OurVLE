@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mits.mobile.ourvle.Classes.DataLayer.Authentication.Session;
 
@@ -7,13 +7,12 @@ import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.Forum.CourseForum
 
 /**
  * @author Aston Hamilton
- * 
  */
 public class SiteInfo {
     private final String name;
 
     private final int frontPageId;
-    private final CourseForum newsForum;
+    private CourseForum newsForum;
 
     private final String url;
 
@@ -24,41 +23,44 @@ public class SiteInfo {
      * @param url
      */
     public SiteInfo(final String name, final int frontPageId,
-	    final CourseForum newsForum,
-	    final String url) {
-	super();
-	this.name = name;
-	this.frontPageId = frontPageId;
-	this.newsForum = newsForum;
-	this.url = url;
+                    final CourseForum newsForum,
+                    final String url) {
+        super();
+        this.name = name;
+        this.frontPageId = frontPageId;
+        this.newsForum = newsForum;
+        this.url = url;
     }
 
     /**
      * @return the name
      */
     public String getName() {
-	return name;
+        return name;
     }
 
     /**
      * @return the frontPageId
      */
     public int getFrontPageId() {
-	return frontPageId;
+        return frontPageId;
     }
 
     /**
      * @return the newsForum
      */
     public CourseForum getNewsForum() {
-	return newsForum;
+        return newsForum;
     }
 
     /**
      * @return the url
      */
     public String getUrl() {
-	return url;
+        return url;
     }
 
+    public void setNewsForum(final CourseForum pNewsForum) {
+        newsForum = pNewsForum;
+    }
 }

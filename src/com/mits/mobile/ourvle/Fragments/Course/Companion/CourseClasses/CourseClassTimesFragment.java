@@ -340,8 +340,9 @@ public class CourseClassTimesFragment extends ListFragmentBase
 	public void onResponseReceived(final Bundle data) {
 	    final Uri uri = data
 		    .getParcelable(AddCourseClassDialogFragment.Response.IntertedUri);
+
 	    Toast.makeText(getApplicationContext(),
-		    "Class time added\n" + uri.toString(), Toast.LENGTH_SHORT)
+		    "Class time added", Toast.LENGTH_SHORT)
 		    .show();
 	}
     };

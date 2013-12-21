@@ -19,59 +19,59 @@ import com.mits.mobile.ourvle.Fragments.LoginFragment.DefaultLoginResponse;
  * The Class MainActivity.
  */
 public class LoginMainActivity extends ActivityBase implements
-	LoginFragment.Listener {
+        LoginFragment.Listener {
     /**
      * Called when the activity is first created.
-     * 
+     *
      * @param savedInstanceState
-     *            the saved instance state
+     * the saved instance state
      */
 
     private DefaultLoginResponse mDefaultResponse;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_login_main);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login_main);
 
-	setTitle(R.string.title_login);
+        setTitle(R.string.title_login);
 
-	EntitySyncronizer.setupEntitySyncronizer(
-		getApplicationContext(),
-		SharedContract.SYNCRONIZATION_PERMISSION,
-		0, 5 * 60 * 1000);
+        EntitySyncronizer.setupEntitySyncronizer(
+                getApplicationContext(),
+                SharedContract.SYNCRONIZATION_PERMISSION,
+                0, 5 * 60 * 1000);
 
-	final LoginFragment fragment = LoginFragment.newInstance();
+        final LoginFragment fragment = LoginFragment.newInstance();
 
-	final android.support.v4.app.FragmentTransaction transaction =
-		getSupportFragmentManager().beginTransaction();
+        final android.support.v4.app.FragmentTransaction transaction =
+                getSupportFragmentManager().beginTransaction();
 
-	// Replace whatever is in the fragment_container view with this
-	// fragment,
-	transaction.replace(R.id.fragment, fragment);
+        // Replace whatever is in the fragment_container view with this
+        // fragment,
+        transaction.replace(R.id.fragment, fragment);
 
-	// Commit the transaction
-	transaction.commit();
+        // Commit the transaction
+        transaction.commit();
 
-	mDefaultResponse = fragment.new DefaultLoginResponse();
+        mDefaultResponse = fragment.new DefaultLoginResponse();
 
     }
 
     @Override
     public void onLoginAuthenticationSuccess(final UserSession session,
-	    final ResponseObject response) {
-	final Intent intent = new Intent(LoginMainActivity.this,
-		CourseListActivity.class);
+                                             final ResponseObject response) {
+        final Intent intent = new Intent(LoginMainActivity.this,
+                                         CourseListActivity.class);
 
-	intent.putExtra(ParcelKeys.USER_SESSION,
-		new UserSessionParcel(session));
+        intent.putExtra(ParcelKeys.USER_SESSION,
+                        new UserSessionParcel(session));
 
-	startActivity(intent);
+        startActivity(intent);
     }
 
     @Override
     public void onLoginAuthenticationFailed() {
-	mDefaultResponse.onLoginAuthenticationFailed();
+        mDefaultResponse.onLoginAuthenticationFailed();
     }
 
 }

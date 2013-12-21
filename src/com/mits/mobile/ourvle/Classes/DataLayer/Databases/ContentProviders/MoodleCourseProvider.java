@@ -18,10 +18,8 @@ import org.sourceforge.ah.android.utilities.Communication.JSONFactory.JSONDecode
 import org.sourceforge.ah.android.utilities.Communication.JSONFactory.JSONEncoder;
 import org.sourceforge.ah.android.utilities.Widgets.ContentProviders.SimpleContentProvider;
 
+import java.util.Arrays;
 import java.util.List;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
-
 /**
  * @author Aston Hamilton
  */
@@ -72,9 +70,8 @@ public class MoodleCourseProvider extends SimpleContentProvider {
                         .put(MoodleCourseContract.Columns.COURSE_MANAGERS,
                              MoodleCourseProvider
                                      .getSerializedCourseManagers(
-                                             Arrays
-                                                     .asList(((ExtendedMoodleCourse) course)
-                                                                     .getManagers())));
+                                             Arrays.asList(((ExtendedMoodleCourse) course)
+                                                                   .getManagers())));
             values[i] = newValues;
         }
 

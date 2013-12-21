@@ -141,8 +141,14 @@ public class ForumDiscussionProvider extends SimpleContentProvider {
     }
 
     public static String getSerializedParent(final DiscussionParent parent) {
+        String courseId = "";
+
+        if (parent.getModule() != null) {
+            courseId = parent.getModule().getCourseId();
+        }
+
         final JsonElement serializedParent = JSONEncoder
-                .getEncodedObjectElement(new DiscussionParentDescriptor(),
+                .getEncodedObjectElement(new DiscussionParentDescriptor(courseId),
                                          parent);
 
         return serializedParent.toString();
@@ -150,21 +156,21 @@ public class ForumDiscussionProvider extends SimpleContentProvider {
 
     public static DiscussionParent getDeserializedParent(
             final String serializedParent) {
-        return JSONDecoder.getObject(new DiscussionParentDescriptor(),
+        return JSONDecoder.getObject(new DiscussionParentDescriptor(null),
                                      serializedParent);
     }
 
     public static ForumDiscussion getDeserializedDiscussion(
             final String serializedDiscussion) {
 
-        return JSONDecoder.getObject(new FullForumDiscussionDescriptior(),
+        return JSONDecoder.getObject(new FullForumDiscussionDescriptior(null),
                                      serializedDiscussion);
     }
 
     public static String getSerializedDiscussion(
             final ForumDiscussion discussion) {
         return JSONEncoder
-                .getEncodedObject(new FullForumDiscussionDescriptior(),
+                .getEncodedObject(new FullForumDiscussionDescriptior(null),
                                   discussion);
     }
 }

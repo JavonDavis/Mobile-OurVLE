@@ -28,10 +28,11 @@ public class CourseModuleParcel extends SimpleParcableWrapper<CourseModule> {
     @Override
     protected CourseModule getObjectFromStream(final Parcel in) {
 	final long id = in.readLong();
+	final String pCourseId = in.readString();
 	final String label = in.readString();
 	final String name = in.readString();
 
-	return new CourseModule(id, label, name);
+	return new CourseModule(id, pCourseId, label, name);
     }
 
     @Override
@@ -39,6 +40,7 @@ public class CourseModuleParcel extends SimpleParcableWrapper<CourseModule> {
 	    final CourseModule wrappedObject,
 	    final Parcel parcel) {
 	parcel.writeLong(wrappedObject.getId().longValue());
+	parcel.writeString(wrappedObject.getCourseId());
 	parcel.writeString(wrappedObject.getLabel());
 	parcel.writeString(wrappedObject.getName());
     }

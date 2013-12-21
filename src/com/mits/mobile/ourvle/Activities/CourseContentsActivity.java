@@ -41,7 +41,8 @@ import com.mits.mobile.ourvle.Fragments.Shared.UnderDevelopementFragment;
 /**
  * @author Aston Hamilton
  */
-public class CourseContentsActivity extends ActivityBase implements CourseContentsFragment.Listener, CourseParticipantsFragment.Listener {
+public class CourseContentsActivity extends ActivityBase
+        implements CourseContentsFragment.Listener, CourseParticipantsFragment.Listener {
     private UserSession mUserSession;
     private MoodleCourse mCourse;
 
@@ -98,30 +99,40 @@ public class CourseContentsActivity extends ActivityBase implements CourseConten
         // actionBar.setDisplayShowTitleEnabled(false);
         Tab tab;
 
-        tab = actionBar.newTab().setText("Events").setIcon(R.drawable.event_icon).setTabListener(new SimpleViewPagerTabListener(mPager));
+        /*
+        tab = actionBar.newTab().setText("Events").setIcon(R.drawable.event_icon).setTabListener(
+                new SimpleViewPagerTabListener(mPager));
+        actionBar.addTab(tab);
+*/
+        tab = actionBar.newTab().setText("Classes").setIcon(R.drawable.ic_time).setTabListener(
+                new SimpleViewPagerTabListener(mPager));
         actionBar.addTab(tab);
 
-        tab = actionBar.newTab().setText("Classes").setIcon(R.drawable.ic_time).setTabListener(new SimpleViewPagerTabListener(mPager));
+        tab = actionBar.newTab().setText("Users").setIcon(R.drawable.ic_group).setTabListener(
+                new SimpleViewPagerTabListener(mPager));
         actionBar.addTab(tab);
 
-        tab = actionBar.newTab().setText("Users").setIcon(R.drawable.ic_group).setTabListener(new SimpleViewPagerTabListener(mPager));
+        tab = actionBar.newTab().setText("Resource").setIcon(R.drawable.collection_icon)
+                       .setTabListener(new SimpleViewPagerTabListener(mPager));
         actionBar.addTab(tab);
 
-        tab = actionBar.newTab().setText("Resource").setIcon(R.drawable.collection_icon).setTabListener(new SimpleViewPagerTabListener(mPager));
-        actionBar.addTab(tab);
-
-        tab = actionBar.newTab().setText("Overview").setIcon(R.drawable.overview_icon).setTabListener(new SimpleViewPagerTabListener(mPager));
+        tab = actionBar.newTab().setText("Overview").setIcon(R.drawable.overview_icon)
+                       .setTabListener(new SimpleViewPagerTabListener(mPager));
         actionBar.addTab(tab, true);
 
-        tab = actionBar.newTab().setText("Notes").setIcon(R.drawable.notes_icon).setTabListener(new SimpleViewPagerTabListener(mPager));
+        tab = actionBar.newTab().setText("Notes").setIcon(R.drawable.notes_icon).setTabListener(
+                new SimpleViewPagerTabListener(mPager));
         actionBar.addTab(tab);
 
-        tab = actionBar.newTab().setText("Pictures").setIcon(R.drawable.picture_icon).setTabListener(new SimpleViewPagerTabListener(mPager));
+        /*
+        tab = actionBar.newTab().setText("Pictures").setIcon(R.drawable.picture_icon)
+                       .setTabListener(new SimpleViewPagerTabListener(mPager));
         actionBar.addTab(tab);
 
-        tab = actionBar.newTab().setText("Video").setIcon(R.drawable.video_icon).setTabListener(new SimpleViewPagerTabListener(mPager));
+        tab = actionBar.newTab().setText("Video").setIcon(R.drawable.video_icon).setTabListener(
+                new SimpleViewPagerTabListener(mPager));
         actionBar.addTab(tab);
-
+*/
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
     }
@@ -129,7 +140,8 @@ public class CourseContentsActivity extends ActivityBase implements CourseConten
     @Override
     public void onCourseModuleSelected(final CourseModule module) {
         if ("forum".equals(module.getName())) {
-            final Intent intent = new Intent(CourseContentsActivity.this, ForumDiscussionListActivity.class);
+            final Intent intent = new Intent(CourseContentsActivity.this,
+                                             ForumDiscussionListActivity.class);
 
             intent.putExtra(ParcelKeys.USER_SESSION, new UserSessionParcel(mUserSession));
 
@@ -138,7 +150,8 @@ public class CourseContentsActivity extends ActivityBase implements CourseConten
             startActivity(intent);
 
         } else
-            Toast.makeText(this, "Only the viewing of forums is ready ATM", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Only the viewing of forums is ready ATM", Toast.LENGTH_SHORT)
+                 .show();
 
     }
 
@@ -164,14 +177,15 @@ public class CourseContentsActivity extends ActivityBase implements CourseConten
         }
 
         @Override
-        public void setPrimaryItem(final ViewGroup container, final int position, final Object object) {
+        public void setPrimaryItem(final ViewGroup container, final int position,
+                                   final Object object) {
             mPrimaryItem = object;
             super.setPrimaryItem(container, position, object);
         }
 
         @Override
         public int getCount() {
-            return 8;
+            return 5;
 
         }
 
@@ -179,20 +193,21 @@ public class CourseContentsActivity extends ActivityBase implements CourseConten
         public Fragment getItem(final int position) {
             Fragment f;
             switch (position) {
-                case 1:
-                    mCourseClassTimesProxiedFragment = CourseClassTimesFragment.newInstance(mCourse);
+                case 0:
+                    mCourseClassTimesProxiedFragment = CourseClassTimesFragment.newInstance(
+                            mCourse);
                     f = mCourseClassTimesProxiedFragment;
                     break;
-                case 2:
+                case 1:
                     f = CourseParticipantsFragment.newInstance(mUserSession, mCourse);
                     break;
-                case 3:
+                case 2:
                     f = CourseContentsFragment.newInstance(mUserSession, mCourse);
                     break;
-                case 4:
+                case 3:
                     f = CourseOverviewFragment.newInstance(mUserSession, mCourse);
                     break;
-                case 5:
+                case 4:
                     f = CourseNotesFragment.newInstance(mCourse);
                     break;
                 case 6:

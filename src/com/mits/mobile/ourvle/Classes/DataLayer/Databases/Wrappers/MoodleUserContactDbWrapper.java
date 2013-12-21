@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mits.mobile.ourvle.Classes.DataLayer.Databases.Wrappers;
 
@@ -22,68 +22,67 @@ import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Users.MoodleUser;
 
 /**
  * @author Aston Hamilton
- * 
  */
 public class MoodleUserContactDbWrapper extends SQLiteDatabaseWrapper {
 
     private final Context mContext;
 
     public MoodleUserContactDbWrapper(final Context context) {
-	super(new MoodleUserContactOpenHelper(context));
-	mContext = context;
+        super(new MoodleUserContactOpenHelper(context));
+        mContext = context;
     }
 
     public PhoneContact getMoodleUserContact(final MoodleUser user) {
-	final SQLiteDatabase db = getWrappedDatabase();
-	final String query = QB.SELECT(
-		Arrays.asList(Schema.Column.USER_ID,
-			Schema.Column.CONTACT_URI),
-		Schema.USER_CONTACTS_TABLE,
-		QB.EQ(Schema.Column.USER_ID,
-			user.getId().toString()));
+        final SQLiteDatabase db = getWrappedDatabase();
+        final String query = QB.SELECT(
+                Arrays.asList(Schema.Column.USER_ID,
+                              Schema.Column.CONTACT_URI),
+                Schema.USER_CONTACTS_TABLE,
+                QB.EQ(Schema.Column.USER_ID,
+                      user.getId().toString()));
 
-	final Cursor c = db.rawQuery(query, new String[] {});
+        final Cursor c = db.rawQuery(query, new String[]{});
 
-	if (c.getCount() == 0)
-	    return null;
+        if (c.getCount() == 0)
+            return null;
 
-	c.moveToFirst();
+        c.moveToFirst();
 
-	final Uri contactUri = Uri.parse(c.getString(1));
+        final Uri contactUri = Uri.parse(c.getString(1));
 
-	if (ContactsUtil.contactExists(mContext, contactUri))
-	    return new PhoneContact(mContext, contactUri);
-	else
-	    db.delete(Schema.USER_CONTACTS_TABLE,
-		    QB.EQ(Schema.Column.USER_ID, c.getString(0)), null);
-	return null;
+        if (ContactsUtil.contactExists(mContext, contactUri))
+            return new PhoneContact(mContext, contactUri);
+        else
+            db.delete(Schema.USER_CONTACTS_TABLE,
+                      QB.EQ(Schema.Column.USER_ID, c.getString(0)), null);
+        return null;
     }
 
     public void saveContact(final MoodleUser user, final PhoneContact contact) {
-	final SQLiteDatabase db = getWrappedDatabase();
+        final SQLiteDatabase db = getWrappedDatabase();
 
-	final String query = QB.SELECT(
-		Arrays.asList(Schema.Column.USER_ID),
-		Schema.USER_CONTACTS_TABLE,
-		QB.EQ(Schema.Column.USER_ID,
-			user.getId().toString()));
+        final String query = QB.SELECT(
+                Arrays.asList(Schema.Column.USER_ID),
+                Schema.USER_CONTACTS_TABLE,
+                QB.EQ(Schema.Column.USER_ID,
+                      user.getId().toString()));
 
-	final Cursor c = db.rawQuery(query, new String[] {});
+        final Cursor c = db.rawQuery(query, new String[]{});
 
-	final ContentValues values = new ContentValues();
-	values.put(Schema.Column.USER_ID,
-		user.getId().toString());
-	values.put(Schema.Column.CONTACT_URI,
-		contact.getUri().toString());
+        final ContentValues values = new ContentValues();
+        values.put(Schema.Column.USER_ID,
+                   user.getId().toString());
+        values.put(Schema.Column.CONTACT_URI,
+                   contact.getUri().toString());
 
-	if (c.getCount() == 0)
-	    db.insert(Schema.USER_CONTACTS_TABLE, null,
-		    values);
-	else
-	    db.update(Schema.USER_CONTACTS_TABLE,
-		    values,
-		    QB.EQ(Schema.Column.USER_ID,
-			    user.getId().toString()),
-		    null);
+        if (c.getCount() == 0)
+            db.insert(Schema.USER_CONTACTS_TABLE, null,
+                      values);
+        else
+            db.update(Schema.USER_CONTACTS_TABLE,
+                      values,
+                      QB.EQ(Schema.Column.USER_ID,
+                            user.getId().toString()),
+                      null);
     }
 }

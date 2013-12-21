@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mits.mobile.ourvle.Classes.TransportLayer.JSONDescriptors.Moodle.Courses;
 
@@ -14,13 +14,14 @@ import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Users.CourseManager;
 import com.mits.mobile.ourvle.Classes.TransportLayer.JSONDescriptors.Moodle.Users.CourseManagerDescriptor;
 
 // TODO: Auto-generated Javadoc
+
 /**
  * The Class UserSessionDescriptior.
- * 
+ *
  * @author Aston Hamilton
  */
 public class ExtendedMoodleCourseDescriptior extends
-	JSONObjectDescriptor<ExtendedMoodleCourse> {
+        JSONObjectDescriptor<ExtendedMoodleCourse> {
 
     /*
      * (non-Javadoc)
@@ -30,7 +31,7 @@ public class ExtendedMoodleCourseDescriptior extends
      */
     @Override
     public JsonElement getJsonElement(final ExtendedMoodleCourse object) {
-	return null;
+        return null;
     }
 
     /*
@@ -41,26 +42,26 @@ public class ExtendedMoodleCourseDescriptior extends
      */
     @Override
     public ExtendedMoodleCourse getObjectFromJson(final JsonElement json) {
-	final JsonObject jsonObject = (JsonObject) json;
+        final JsonObject jsonObject = (JsonObject) json;
 
-	final long courseId = jsonObject.get("id").getAsLong();
-	final String fullName = jsonObject.get("name").getAsString();
+        final long courseId = jsonObject.get("id").getAsLong();
+        final String fullName = jsonObject.get("fullname").getAsString();
 
-	final JsonArray courseManagers = jsonObject.get("managers")
-		.getAsJsonArray();
+        // TODO - Official API Doesn't return the managers so this feature wll need to be removed in the rebuild.
+        final JsonArray courseManagers = new JsonArray();
 
-	final CourseManager[] managerList = new CourseManager[courseManagers
-		.size()];
+        final CourseManager[] managerList = new CourseManager[courseManagers
+                .size()];
 
-	for (int i = 0; i < courseManagers.size(); i++) {
+        for (int i = 0; i < courseManagers.size(); i++) {
 
-	    final CourseManager manager = JSONDecoder
-		    .getObject(new CourseManagerDescriptor(),
-			    courseManagers.get(i));
+            final CourseManager manager = JSONDecoder
+                    .getObject(new CourseManagerDescriptor(),
+                               courseManagers.get(i));
 
-	    managerList[i] = manager;
-	}
+            managerList[i] = manager;
+        }
 
-	return new ExtendedMoodleCourse(courseId, fullName, managerList);
+        return new ExtendedMoodleCourse(courseId, fullName, managerList);
     }
 }

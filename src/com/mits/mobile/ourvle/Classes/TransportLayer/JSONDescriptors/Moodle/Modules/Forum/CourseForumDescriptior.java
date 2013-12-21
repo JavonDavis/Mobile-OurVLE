@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mits.mobile.ourvle.Classes.TransportLayer.JSONDescriptors.Moodle.Modules.Forum;
 
@@ -12,40 +12,41 @@ import com.google.gson.JsonObject;
 import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.Forum.CourseForum;
 
 // TODO: Auto-generated Javadoc
+
 /**
  * The Class UserSessionDescriptior.
- * 
+ *
  * @author Aston Hamilton
  */
 public class CourseForumDescriptior extends
-	JSONObjectDescriptor<CourseForum> {
+        JSONObjectDescriptor<CourseForum> {
 
     @Override
     public JsonElement getJsonElement(final CourseForum object) {
-	final JsonObject obj = new JsonObject();
+        final JsonObject obj = new JsonObject();
 
-	obj.addProperty("id", object.getForumid());
-	obj.addProperty("name", object.getName());
-	obj.addProperty("intro", object.getIntro());
-	obj.addProperty("modified",
-		DateFormatter.getISODateString(object.getLastModified()));
+        obj.addProperty("id", object.getForumid());
+        obj.addProperty("name", object.getName());
+        obj.addProperty("intro", object.getIntro());
+        obj.addProperty("timemodified",
+                        DateFormatter.getUnixSecondsFromDateTime(object.getLastModified()));
 
-	return obj;
+        return obj;
     }
 
     @Override
     public CourseForum getObjectFromJson(final JsonElement json) {
-	final JsonObject jsonObject = (JsonObject) json;
+        final JsonObject jsonObject = (JsonObject) json;
 
-	final long id = jsonObject.get("id").getAsLong();
-	final String name = jsonObject.get("name").getAsString();
-	final String intro = jsonObject.get("intro").getAsString();
+        final long id = jsonObject.get("id").getAsLong();
+        final String name = jsonObject.get("name").getAsString();
+        final String intro = jsonObject.get("intro").getAsString();
 
-	final String lastModifiedDateTimeString = jsonObject.get("modified")
-		.getAsString();
+        final String lastModifiedDateTimeString = jsonObject.get("timemodified")
+                                                            .getAsString();
 
-	final DateTime lastModified = DateFormatter
-		.getDateTimeFromISOString(lastModifiedDateTimeString);
-	return new CourseForum(id, name, intro, lastModified);
+        final DateTime lastModified = DateFormatter
+                .getDateTimeFromUnixSeconds(Long.parseLong(lastModifiedDateTimeString));
+        return new CourseForum(id, name, intro, lastModified);
     }
 }

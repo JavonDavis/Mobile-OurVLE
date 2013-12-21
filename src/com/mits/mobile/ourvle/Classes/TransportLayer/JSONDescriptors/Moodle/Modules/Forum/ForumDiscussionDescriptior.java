@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mits.mobile.ourvle.Classes.TransportLayer.JSONDescriptors.Moodle.Modules.Forum;
 
@@ -17,52 +17,64 @@ import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Users.MoodleUser;
 import com.mits.mobile.ourvle.Classes.TransportLayer.JSONDescriptors.Moodle.Users.MoodleUserDescriptor;
 
 // TODO: Auto-generated Javadoc
+
 /**
  * The Class UserSessionDescriptior.
- * 
+ *
  * @author Aston Hamilton
  */
 public class ForumDiscussionDescriptior extends
-	JSONObjectDescriptor<ForumDiscussion> {
+        JSONObjectDescriptor<ForumDiscussion> {
 
     private final DiscussionParent parent;
 
     public ForumDiscussionDescriptior(final DiscussionParent parent) {
-	this.parent = parent;
+        this.parent = parent;
     }
 
     @Override
     public JsonElement getJsonElement(final ForumDiscussion object) {
 
-	final JsonObject encodedDiscussion = new JsonObject();
-	encodedDiscussion.addProperty("id", object.getId());
-	encodedDiscussion.addProperty("name", object.getName());
-	encodedDiscussion.addProperty(
-		"creator",
-		JSONEncoder.getEncodedObject(new MoodleUserDescriptor(),
-			object.getCreator()));
-	encodedDiscussion.addProperty("modified",
-		DateFormatter.getISODateString(object.getLastModified()));
+        final JsonObject encodedDiscussion = new JsonObject();
+        encodedDiscussion.addProperty("id", object.getId());
+        encodedDiscussion.addProperty("name", object.getName());
+        encodedDiscussion.addProperty(
+                "creator",
+                JSONEncoder.getEncodedObject(new MoodleUserDescriptor(),
+                                             object.getCreator()));
+        encodedDiscussion.addProperty("modified",
+                                      DateFormatter.getISODateString(object.getLastModified()));
 
-	return encodedDiscussion;
+        return encodedDiscussion;
     }
 
     @Override
     public ForumDiscussion getObjectFromJson(final JsonElement json) {
-	final JsonObject jsonObject = (JsonObject) json;
+        final JsonObject jsonObject = (JsonObject) json;
 
-	final long id = jsonObject.get("id").getAsLong();
-	final String name = jsonObject.get("name").getAsString();
-	final JsonObject creatorJsonObjject = jsonObject.get("creator")
-		.getAsJsonObject();
+        final long id = jsonObject.get("id").getAsLong();
+        final String name = jsonObject.get("name").getAsString();
 
-	final MoodleUser creator = JSONDecoder.getObject(
-		new MoodleUserDescriptor(), creatorJsonObjject);
-	final String lastModifiedDateTimeString = jsonObject.get("modified")
-		.getAsString();
+        final DateTime lastModified = DateFormatter
+                .getDateTimeFromUnixSeconds(jsonObject.get("timemodified")
+                                                      .getAsLong());
 
-	final DateTime lastModified = DateFormatter
-		.getDateTimeFromISOString(lastModifiedDateTimeString);
-	return new ForumDiscussion(id, name, creator, lastModified, parent);
+        final String creatorId = jsonObject.get("userid").getAsString();
+        final String[] creatorFullNameParts = jsonObject.get("firstuserfullname").getAsString().split(" ");
+
+        final String creatorPictureURL = jsonObject.get("firstuserpicture").getAsString();
+
+        final String creatorFirstname = creatorFullNameParts[0];
+        final String creatorLastname;
+
+        if (creatorFullNameParts.length > 1) {
+            creatorLastname = creatorFullNameParts[1];
+        } else {
+            creatorLastname = "";
+        }
+
+        final MoodleUser creator = new MoodleUser(creatorId, creatorFirstname, creatorLastname, creatorPictureURL);
+
+        return new ForumDiscussion(id, name, creator, lastModified, parent);
     }
 }

@@ -11,7 +11,7 @@ public interface APIEndpoints {
     public static interface Shared {
 	// host to point android to my local host
 	/** The Constant API_HOST. */
-	final public static String API_HOST = ""; // need to point it to ourvle 2
+	final public static String API_HOST = "http://192.168.0.103:8090/moodle/"; // need to point it to ourvle 2
 	// "http://192.168.0.103/moodle/";
 	// Used when you need android
 	// to talk to the localhost from the my wifi

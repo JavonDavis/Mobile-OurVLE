@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mits.mobile.ourvle.Classes.TransportLayer.JSONDescriptors.Moodle.Courses;
 
@@ -17,28 +17,33 @@ import com.mits.mobile.ourvle.Classes.TransportLayer.JSONDescriptors.Moodle.Modu
 
 /**
  * @author Aston Hamilton
- * 
  */
 public class CourseSectionDescriptor extends
-	JSONObjectDescriptor<CourseSection> {
+        JSONObjectDescriptor<CourseSection> {
+
+    final String mCourseId;
+
+    public CourseSectionDescriptor(final String pCourseId) {
+        mCourseId = pCourseId;
+    }
 
     @Override
     public JsonElement getJsonElement(final CourseSection object) {
-	return null;
+        return null;
     }
 
     @Override
     public CourseSection getObjectFromJson(final JsonElement json) {
-	final JsonObject courseSectionJson = (JsonObject) json;
+        final JsonObject courseSectionJson = (JsonObject) json;
 
-	final String sectionName = courseSectionJson.get("name").getAsString();
+        final String sectionName = courseSectionJson.get("name").getAsString();
 
-	final JsonArray modulesJson = courseSectionJson.get("modules")
-		.getAsJsonArray();
+        final JsonArray modulesJson = courseSectionJson.get("modules")
+                                                       .getAsJsonArray();
 
-	final List<CourseModule> modules = JSONDecoder.getObjectList(
-		new CourseModuleDescriptor(), modulesJson);
+        final List<CourseModule> modules = JSONDecoder.getObjectList(
+                new CourseModuleDescriptor(mCourseId), modulesJson);
 
-	return new CourseSection(sectionName, modules);
+        return new CourseSection(sectionName, modules);
     }
 }
