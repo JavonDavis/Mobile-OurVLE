@@ -3,6 +3,7 @@
  */
 package com.mits.mobile.ourvle.Classes.TransportLayer.JSONDescriptors.Moodle.Courses;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.sourceforge.ah.android.utilities.Communication.JSONFactory.JSONDecoder;
@@ -44,6 +45,12 @@ public class CourseSectionDescriptor extends
         final List<CourseModule> modules = JSONDecoder.getObjectList(
                 new CourseModuleDescriptor(mCourseId), modulesJson);
 
-        return new CourseSection(sectionName, modules);
+        final ArrayList<CourseModule> filteredModules = new ArrayList<CourseModule>(modules.size());
+        for (CourseModule m : modules) {
+            if ("resource".equalsIgnoreCase(m.getName())) {
+                filteredModules.add(m);
+            }
+        }
+        return new CourseSection(sectionName, filteredModules);
     }
 }

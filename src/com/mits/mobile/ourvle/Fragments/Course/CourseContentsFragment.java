@@ -152,8 +152,9 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
                 mCourseModuleListAdapter.clearPartitions();
 
                 for (final CourseSection section : courseSectionList)
-                    mCourseModuleListAdapter
-                            .addPartition(section, section.getModuleList());
+                    if (section.getModuleList().size() > 0)
+                        mCourseModuleListAdapter
+                                .addPartition(section, section.getModuleList());
 
                 mCourseModuleListAdapter.notifyDataSetChanged();
                 break;

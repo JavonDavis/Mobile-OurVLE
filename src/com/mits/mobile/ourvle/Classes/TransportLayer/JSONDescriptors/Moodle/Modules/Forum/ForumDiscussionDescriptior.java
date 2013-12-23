@@ -38,12 +38,13 @@ public class ForumDiscussionDescriptior extends
         final JsonObject encodedDiscussion = new JsonObject();
         encodedDiscussion.addProperty("id", object.getId());
         encodedDiscussion.addProperty("name", object.getName());
-        encodedDiscussion.addProperty(
-                "creator",
-                JSONEncoder.getEncodedObject(new MoodleUserDescriptor(),
-                                             object.getCreator()));
+
         encodedDiscussion.addProperty("modified",
-                                      DateFormatter.getISODateString(object.getLastModified()));
+                                      DateFormatter.getUnixSecondsFromDateTime(
+                                              object.getLastModified()));
+        encodedDiscussion.addProperty("userid", object.getCreator().getId());
+        encodedDiscussion.addProperty("firstuserfullname", object.getCreator().getFullName());
+        encodedDiscussion.addProperty("firstuserpicture", object.getCreator().getPictureUrl());
 
         return encodedDiscussion;
     }
@@ -56,7 +57,7 @@ public class ForumDiscussionDescriptior extends
         final String name = jsonObject.get("name").getAsString();
 
         final DateTime lastModified = DateFormatter
-                .getDateTimeFromUnixSeconds(jsonObject.get("timemodified")
+                .getDateTimeFromUnixSeconds(jsonObject.get("modified")
                                                       .getAsLong());
 
         final String creatorId = jsonObject.get("userid").getAsString();

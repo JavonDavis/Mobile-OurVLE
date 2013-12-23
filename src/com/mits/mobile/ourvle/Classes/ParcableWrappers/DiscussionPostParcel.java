@@ -30,6 +30,7 @@ public class DiscussionPostParcel extends SimpleParcableWrapper<DiscussionPost> 
     @Override
     protected DiscussionPost getObjectFromStream(final Parcel in) {
 	final long id = in.readLong();
+	final String pDiscussionId = in.readString();
 	final String subject = in.readString();
 	final String message = in.readString();
 	final long parentId = in.readLong();
@@ -44,7 +45,7 @@ public class DiscussionPostParcel extends SimpleParcableWrapper<DiscussionPost> 
 	final DateTime lastModifiedDateTime = DateFormatter
 		.getDateTimeFromISOString(lastModifiedDateTimeString);
 
-	return new DiscussionPost(id, subject, message, parentId,
+	return new DiscussionPost(id, subject, message, pDiscussionId, parentId,
 		createdDateTime, lastModifiedDateTime,
 		hasAttachment, posterParcel.getWrappedObejct());
     }
@@ -56,6 +57,7 @@ public class DiscussionPostParcel extends SimpleParcableWrapper<DiscussionPost> 
 	// Safer to explicitly cast to long and extract the primitive since
 	// parcel don't play nice with autowrapped long's
 	parcel.writeLong(((Long) wrappedObject.getId()).longValue());
+	parcel.writeString(wrappedObject.getDiscussionId());
 	parcel.writeString(wrappedObject.getSubject());
 	parcel.writeString(wrappedObject.getMessage());
 	parcel.writeLong(((Long) wrappedObject.getParentId()).longValue());

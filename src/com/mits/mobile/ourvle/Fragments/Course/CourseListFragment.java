@@ -6,6 +6,9 @@ package com.mits.mobile.ourvle.Fragments.Course;
 import java.util.List;
 import java.util.Locale;
 
+import org.joda.time.DateTime;
+import org.sourceforge.ah.android.utilities.Communication.EntitySyncroniser.ContentProviders.EntityManagerContract;
+import org.sourceforge.ah.android.utilities.Communication.EntitySyncroniser.EntitySyncronizer;
 import org.sourceforge.ah.android.utilities.Plugins.EntitySyncronizerPlugin;
 
 import android.annotation.SuppressLint;
@@ -54,6 +57,7 @@ public class CourseListFragment extends AuthenticatedListFragment implements
 
         mAdapter = new MoodleCourseAdapter(getParentActivity(), null,
                                            CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+
 
         final EntitySyncronizerPlugin plugin = new EntitySyncronizerPlugin(
                 new MoodleCourseSyncronizationManager());

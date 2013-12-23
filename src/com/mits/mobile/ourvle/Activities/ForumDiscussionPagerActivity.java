@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mits.mobile.ourvle.Activities;
 
@@ -23,78 +23,77 @@ import com.mits.mobile.ourvle.Fragments.Forum.ForumDiscussionPagerFragment;
 
 /**
  * @author Aston Hamilton
- * 
  */
 public class ForumDiscussionPagerActivity extends ActivityBase {
     private UserSession mUserSession;
 
     private final FragmentResponseListerner mOnDiscussionSelected = new FragmentResponseListerner() {
 
-	@Override
-	public void onResponseReceived(final Context context, final Bundle data) {
-	    final ForumDiscussion discussion = ((ForumDiscussionParcel) data
-		    .getParcelable(ForumDiscussionPagerFragment.ResponseArgs.Discussion))
-		    .getWrappedObejct();
+        @Override
+        public void onResponseReceived(final Context context, final Bundle data) {
+            final ForumDiscussion discussion = ((ForumDiscussionParcel) data
+                    .getParcelable(ForumDiscussionPagerFragment.ResponseArgs.Discussion))
+                    .getWrappedObejct();
 
-	    setTitle(discussion.getName());
+            setTitle(discussion.getName());
 
-	}
+        }
     };
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_forum_discussion_pager);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_forum_discussion_pager);
 
-	final Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
 
-	mUserSession = ((UserSessionParcel) extras
-		.get(ParcelKeys.USER_SESSION)).getWrappedObejct();
+        mUserSession = ((UserSessionParcel) extras
+                .get(ParcelKeys.USER_SESSION)).getWrappedObejct();
 
-	final long currentDiscussion = extras
-		.getLong(ParcelKeys.FORUM_DISCUSSION_ID);
+        final long currentDiscussion = extras
+                .getLong(ParcelKeys.FORUM_DISCUSSION_ID);
 
-	final DiscussionParent parent = ((DiscussionParentParcel) extras
-		.getParcelable(ParcelKeys.PARENT)).getWrappedObejct();
+        final DiscussionParent parent = ((DiscussionParentParcel) extras
+                .getParcelable(ParcelKeys.PARENT)).getWrappedObejct();
 
-	final String activityTitle = "Discussion";
+        final String activityTitle = "Discussion";
 
-	setTitle(activityTitle);
+        setTitle(activityTitle);
 
-	final ForumDiscussionPagerFragment fragment = ForumDiscussionPagerFragment
-		.newInstance(
-			mUserSession,
-			currentDiscussion,
-			parent);
+        final ForumDiscussionPagerFragment fragment = ForumDiscussionPagerFragment
+                .newInstance(
+                        mUserSession,
+                        currentDiscussion,
+                        parent);
 
-	final FragmentTransaction transaction = getSupportFragmentManager()
-		.beginTransaction();
+        final FragmentTransaction transaction = getSupportFragmentManager()
+                .beginTransaction();
 
-	// Replace whatever is in the fragment_container view with this
-	// fragment,
-	transaction.replace(R.id.fragment, fragment);
+        // Replace whatever is in the fragment_container view with this
+        // fragment,
+        transaction.replace(R.id.fragment, fragment);
 
-	// Commit the transaction
-	transaction.commit();
+        // Commit the transaction
+        transaction.commit();
 
     }
 
     @Override
     protected void onResume() {
 
-	FragmentResponseManager.registerReceiver(this,
-		ForumDiscussionPagerFragment.Responses.onDiscussionSelected,
-		mOnDiscussionSelected);
+        FragmentResponseManager.registerReceiver(this,
+                                                 ForumDiscussionPagerFragment.Responses.onDiscussionSelected,
+                                                 mOnDiscussionSelected);
 
-	super.onResume();
+        super.onResume();
     }
 
     @Override
     protected void onPause() {
 
-	FragmentResponseManager.unregisterReceiver(this,
-		mOnDiscussionSelected);
+        FragmentResponseManager.unregisterReceiver(this,
+                                                   mOnDiscussionSelected);
 
-	super.onPause();
+        super.onPause();
     }
 }

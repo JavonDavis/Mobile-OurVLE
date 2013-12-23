@@ -20,9 +20,12 @@ import android.widget.TextView;
 
 import com.mits.mobile.ourvle.Classes.DataLayer.Authentication.Session.UserSession;
 import com.mits.mobile.ourvle.Classes.DataLayer.Databases.ContentProviderContracts.ForumDiscussionPostContract;
+import com.mits.mobile.ourvle.Classes.DataLayer.Databases.ContentProviders.ForumDiscussionPostProvider;
 import com.mits.mobile.ourvle.Classes.DataLayer.Databases.ContentProviders.ForumDiscussionProvider;
 import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.Forum.DiscussionContext;
+import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.Forum.DiscussionPost;
 import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.Forum.ForumDiscussion;
+import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Users.MoodleUser;
 import com.mits.mobile.ourvle.Classes.DataLayer.SyncEntities.ForumDiscussionPostSyncronizationManager;
 import com.mits.mobile.ourvle.Classes.ParcableWrappers.ForumDiscussionParcel;
 import com.mits.mobile.ourvle.Classes.SharedConstants;
@@ -31,6 +34,9 @@ import com.mits.mobile.ourvle.Fragments.Components.AuthenticatedListFragment;
 import com.mits.mobile.ourvle.Fragments.Components.ForumDiscussionPostListFragment.EntityWrappers.ExtendedDiscussionPostWrapper;
 import com.mits.mobile.ourvle.R;
 
+import org.joda.time.DateTime;
+import org.sourceforge.ah.android.utilities.Communication.EntitySyncroniser.ContentProviders.EntityManagerContract;
+import org.sourceforge.ah.android.utilities.Communication.EntitySyncroniser.EntitySyncronizer;
 import org.sourceforge.ah.android.utilities.Converters.PixelConverter;
 import org.sourceforge.ah.android.utilities.Formatters.DateFormatter;
 import org.sourceforge.ah.android.utilities.Plugins.EntitySyncronizerPlugin;
@@ -68,6 +74,16 @@ public class ForumDiscussionPostListFragment extends AuthenticatedListFragment
         mDiscussion = ((ForumDiscussionParcel) getFragmentArguments().getParcelable(
                 ParcelKeys.FORUM_DISCUSSION)).getWrappedObejct();
 
+
+        mDiscussionContext = new DiscussionContext(false);
+        // TODO - Remove Stub (Change status ti inprogress)
+        EntitySyncronizer.updateEntityManagerSyncronizationState(
+                getApplicationContext(),
+                "com.mits.mobile.ourvle.Classes.DataLayer.SyncEntities.ForumDiscussionPostSyncronizationManager",
+                EntityManagerContract.SyncDirection.PULL,
+                EntityManagerContract.Status.SYNCRONIZED,
+                new DateTime());
+
         final EntitySyncronizerPlugin plugin = new EntitySyncronizerPlugin(
                 new ForumDiscussionPostSyncronizationManager(),
                 ForumDiscussionProvider.getSerializedDiscussion(mDiscussion));
@@ -101,11 +117,13 @@ public class ForumDiscussionPostListFragment extends AuthenticatedListFragment
                                     new String[]{
                                             ForumDiscussionPostContract.Columns._ID,
                                             ForumDiscussionPostContract.Columns.POST_TITLE,
+                                            ForumDiscussionPostContract.Columns.DISCUSSION_ID,
                                             ForumDiscussionPostContract.Columns.POST_TEXT,
                                             ForumDiscussionPostContract.Columns.CREATED,
                                             ForumDiscussionPostContract.Columns.INDENTATION,
                                             ForumDiscussionPostContract.Columns.POSTER,
-                                            ForumDiscussionPostContract.Columns.MODIFIED
+                                            ForumDiscussionPostContract.Columns.MODIFIED,
+                                            ForumDiscussionPostContract.Columns.PARENT
                                     }, selection, selectionArgs, null);
         }
         return null;
@@ -128,7 +146,24 @@ public class ForumDiscussionPostListFragment extends AuthenticatedListFragment
     /* ============================= Helper Methods ======================= */
     public static class ExtendedDiscssionPostCursorWrapper {
         public static ExtendedDiscussionPostWrapper getExtendedPost(final Cursor c) {
-            return null;
+            long postId = c.getLong(0);
+            String title = c.getString(1);
+            String discussionId = c.getString(2);
+            String postText = c.getString(3);
+            DateTime created = DateFormatter.getDateTimeFromISOString(c.getString(4));
+            int indentationFactor = c.getInt(5);
+            MoodleUser poster = ForumDiscussionPostProvider.getDeserializePoster(c.getString(6));
+            DateTime modified = DateFormatter.getDateTimeFromISOString(c.getString(7));
+            long parent = c.getLong(8);
+
+            ExtendedDiscussionPostWrapper p = new ExtendedDiscussionPostWrapper(
+                    new DiscussionPost(
+                            postId, title, postText, discussionId,
+                            parent, created, modified, false, poster));
+
+            p.setIndentationFactor(indentationFactor);
+
+            return p;
         }
     }
 
@@ -192,8 +227,9 @@ public class ForumDiscussionPostListFragment extends AuthenticatedListFragment
         @Override
         public View newView(final Context arg0, final Cursor arg1, final ViewGroup arg2) {
             final View view = ((LayoutInflater) arg0.getSystemService(
-                    Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.list_item_discussion_post_list,
-                                                              arg2, false);
+                    Context.LAYOUT_INFLATER_SERVICE)).inflate(
+                    R.layout.list_item_discussion_post_list,
+                    arg2, false);
             assert view != null;
 
             final ViewHolder viewHolder = new ViewHolder();

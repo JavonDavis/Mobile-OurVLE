@@ -19,6 +19,10 @@ import org.sourceforge.ah.android.utilities.Communication.Response.ResponseObjec
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
+import com.mits.mobile.ourvle.Classes.DataLayer.Android.ApplicationPrivateStore;
 import com.mits.mobile.ourvle.Classes.DataLayer.Authentication.Session.UserSession;
 import com.mits.mobile.ourvle.Classes.DataLayer.Databases.ContentProviders.ForumDiscussionProvider;
 import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.Forum.CourseForum;
@@ -62,19 +66,65 @@ public class ForumDiscussionSyncronizationManager extends
                                 new GetForumDiscussions(parent.getForum(),
                                                         lastUserSession));
         else {
-            response = CommuncationModule
-                    .senRequest(context,
-                                new GetCourseDiscussions(parent.getModule().getCourseId(),
-                                                        lastUserSession));
+            JsonObject forumModuleMap = null;
 
-            if (response.getStatus() == 200) {
+            final String forumModuleMapEncoded = ApplicationPrivateStore.get(context,
+                                                                             "forum-module-map");
 
-                List<CourseForum> forums = JSONDecoder.getObjectList(new CourseForumDescriptior(), response.getResponseText());
+            try {
+                forumModuleMap = new JsonParser().parse(forumModuleMapEncoded).getAsJsonObject();
+            } catch (JsonParseException e) {
+                // Do nothing if invalid JSON
+
+                forumModuleMap = new JsonObject();
+                Log.d(getClass().toString(), "Forum Module map not JSON: " + forumModuleMapEncoded,
+                      e);
+            } catch (ClassCastException e) {
+                // Do nothing if not JSON Object
+
+                forumModuleMap = new JsonObject();
+                Log.d(getClass().toString(),
+                      "Forum Module map not JSON Object: " + forumModuleMapEncoded, e);
+            } catch (IllegalStateException e) {
+                // Do nothing if not JSON Object
+
+                forumModuleMap = new JsonObject();
+                Log.d(getClass().toString(),
+                      "Forum Module map not JSON Object: " + forumModuleMapEncoded, e);
+            }
+
+            if (!forumModuleMap.has(parent.getModule().getId().toString())) {
 
                 response = CommuncationModule
                         .senRequest(context,
-                                    new GetForumDiscussions(parent.getModule(),
-                                                            lastUserSession));
+                                    new GetCourseDiscussions(parent.getModule().getCourseId(),
+                                                             lastUserSession));
+
+
+                if (response.getStatus() == 200) {
+                    final List<CourseForum> forums = JSONDecoder.getObjectList(
+                            new CourseForumDescriptior(), response.getResponseText());
+
+                    forumModuleMap = new JsonObject();
+                    for (final CourseForum forum : forums) {
+                        forumModuleMap.addProperty(forum.getModuleId(),
+                                                   forum.getForumid().toString());
+                    }
+                    ApplicationPrivateStore.put(context, "forum-module-map",
+                                                forumModuleMap.toString());
+                }
+            }
+
+            if (forumModuleMap.has(parent.getModule().getId().toString())) {
+                response = CommuncationModule
+                        .senRequest(context,
+                                    new GetForumDiscussions(
+                                            forumModuleMap
+                                                    .get(parent.getModule().getId().toString())
+                                                    .getAsString(),
+                                            lastUserSession));
+            } else {
+                response = new ResponseError("Forum Module Id Not Found.");
             }
 
         }

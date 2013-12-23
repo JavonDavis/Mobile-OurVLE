@@ -4,10 +4,17 @@
 package com.mits.mobile.ourvle.Activities;
 
 import org.sourceforge.ah.android.utilities.Widgets.Activities.ActivityBase;
+import org.sourceforge.ah.android.utilities.Widgets.Fragments.FragmentResponseListerner;
+import org.sourceforge.ah.android.utilities.Widgets.Fragments.FragmentResponseManager;
 import org.sourceforge.ah.android.utilities.Widgets.Listeners.SimpleViewPagerTabListener;
 
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -19,6 +26,12 @@ import android.widget.Toast;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 
+import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.Forum.DiscussionParent;
+import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.Forum.ForumDiscussion;
+import com.mits.mobile.ourvle.Classes.ParcableWrappers.CourseForumParcel;
+import com.mits.mobile.ourvle.Classes.ParcableWrappers.DiscussionParentParcel;
+import com.mits.mobile.ourvle.Classes.ParcableWrappers.ForumDiscussionParcel;
+import com.mits.mobile.ourvle.Fragments.Forum.ForumDiscussionListFragment;
 import com.mits.mobile.ourvle.R;
 import com.mits.mobile.ourvle.Classes.SharedConstants.ParcelKeys;
 import com.mits.mobile.ourvle.Classes.DataLayer.Authentication.Session.UserSession;
@@ -50,6 +63,7 @@ public class CourseContentsActivity extends ActivityBase
     private CourseContentsPagerAdapter mPagerAdapter;
 
     private CourseClassTimesFragment mCourseClassTimesProxiedFragment;
+    private FragmentResponseListerner mOnDiscussionSeclectedReceiver;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -67,6 +81,61 @@ public class CourseContentsActivity extends ActivityBase
         setupViewPager();
         addTabNavigation();
 
+    }
+
+    @Override
+    protected void onResume() {
+        if (mOnDiscussionSeclectedReceiver == null)
+            mOnDiscussionSeclectedReceiver = new FragmentResponseListerner() {
+                @Override
+                public void onResponseReceived(final Context context, final Bundle data) {
+
+                    final ForumDiscussion discussion = ((ForumDiscussionParcel) data
+                            .getParcelable(ForumDiscussionListFragment.ResponseArgs.Discussion))
+                            .getWrappedObejct();
+
+                    final Intent intent = new Intent(CourseContentsActivity.this,
+                                                     ForumDiscussionPagerActivity.class);
+
+                    intent.putExtra(ParcelKeys.USER_SESSION,
+                                    new UserSessionParcel(mUserSession));
+
+                    intent.putExtra(ParcelKeys.FORUM_DISCUSSION_ID,
+                                    discussion.getId());
+
+                    intent.putExtra(ParcelKeys.PARENT,
+                                    new CourseForumParcel(mUserSession.getContext()
+                                                                      .getSiteInfo()
+                                                                      .getNewsForum()));
+
+                    intent.putExtra(ParcelKeys.PARENT,
+                                    new DiscussionParentParcel(
+                                            new DiscussionParent(
+                                                    mUserSession.getContext()
+                                                                .getSiteInfo()
+                                                                .getNewsForum())));
+
+                    intent.putExtra(ParcelKeys.FORUM_DISCUSSION_ID,
+                                    discussion.getId());
+
+                    startActivity(intent);
+                }
+            };
+
+        FragmentResponseManager.registerReceiver(getApplicationContext(),
+                                                 ForumDiscussionListFragment.Responses.onDiscussionSelected,
+                                                 mOnDiscussionSeclectedReceiver);
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        if (mOnDiscussionSeclectedReceiver != null)
+            FragmentResponseManager.registerReceiver(getApplicationContext(),
+                                                     ForumDiscussionListFragment.Responses.onDiscussionSelected,
+                                                     mOnDiscussionSeclectedReceiver);
+        super.onPause();
     }
 
     private void setupViewPager() {
@@ -149,6 +218,21 @@ public class CourseContentsActivity extends ActivityBase
 
             startActivity(intent);
 
+        } else if ("resource".equalsIgnoreCase(module.getName())) {
+            String url = module.getFileUrl();
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+            request.setDescription("Course file download");
+            request.setTitle(module.getLabel());
+// in order for this if to run, you must use the android 3.2 to compile your app
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                request.allowScanningByMediaScanner();
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            }
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, module.getFileName());
+
+// get download service and enqueue file
+            DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            manager.enqueue(request);
         } else
             Toast.makeText(this, "Only the viewing of forums is ready ATM", Toast.LENGTH_SHORT)
                  .show();
@@ -224,14 +308,4 @@ public class CourseContentsActivity extends ActivityBase
         }
 
     }
-
-    // @Override
-    // public void onClassAdditionCancelled() {
-    // mCourseClassTimesProxiedFragment.onClassAdditionCancelled();
-    // }
-    //
-    // @Override
-    // public void onClassAdded(final Uri uri) {
-    // mCourseClassTimesProxiedFragment.onClassAdded(uri);
-    // }
 }

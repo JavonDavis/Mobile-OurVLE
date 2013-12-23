@@ -33,32 +33,31 @@ public class DiscussionPostDescriptior extends
 	final JsonObject jsonObject = (JsonObject) json;
 
 	final long id = jsonObject.get("id").getAsLong();
+	final String pDiscussionId = jsonObject.get("discussion").getAsString();
 	final String subject = jsonObject.get("subject").getAsString();
 	final String message = jsonObject.get("message").getAsString();
 	final long parent = jsonObject.get("parent").getAsLong();
 
-	final JsonObject posterJsonObjject = jsonObject.get("poster")
-		.getAsJsonObject();
 
+    jsonObject.addProperty("userpictureurl", "");
 	final MoodleUser poster = JSONDecoder.getObject(
-		new MoodleUserDescriptor(), posterJsonObjject);
+		new MoodleUserDescriptor(), jsonObject);
 
 	final String createddDateTimeString = jsonObject.get("created")
 		.getAsString();
 
 	final DateTime createdDate = DateFormatter
-		.getDateTimeFromISOString(createddDateTimeString);
+		.getDateTimeFromUnixSeconds(Long.parseLong(createddDateTimeString));
 
 	final String lastModifiedDateTimeString = jsonObject.get("modified")
 		.getAsString();
 
 	final DateTime lastModified = DateFormatter
-		.getDateTimeFromISOString(lastModifiedDateTimeString);
+		.getDateTimeFromUnixSeconds(Long.parseLong(lastModifiedDateTimeString));
 
-	final boolean hasAttachment = jsonObject.get("has_attachment")
-		.getAsInt() == 1;
+	final boolean hasAttachment = false;
 
-	return new DiscussionPost(id, subject, message, parent, createdDate,
+	return new DiscussionPost(id, subject, message, pDiscussionId, parent, createdDate,
 		lastModified, hasAttachment, poster);
     }
 }

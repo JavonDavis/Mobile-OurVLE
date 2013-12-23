@@ -63,13 +63,15 @@ public class ForumDiscussionPostProvider extends SimpleContentProvider {
             final DiscussionPost post = ePost.getPost();
             final ContentValues newValues = new ContentValues();
             newValues.put(ForumDiscussionPostContract.Columns.POST_ID, post.getId());
-            newValues.put(ForumDiscussionPostContract.Columns.DISCUSSION_ID, post.getParentId());
+            newValues.put(ForumDiscussionPostContract.Columns.DISCUSSION_ID, post.getDiscussionId());
             newValues.put(ForumDiscussionPostContract.Columns.CREATED, DateFormatter.getISODateString(
                     post.getDateCreaded()));
             newValues.put(ForumDiscussionPostContract.Columns.POST_TITLE, post.getSubject());
+            newValues.put(ForumDiscussionPostContract.Columns.POST_TEXT, post.getMessage());
             newValues.put(ForumDiscussionPostContract.Columns.INDENTATION, ePost.getIndentationFactor());
             newValues.put(ForumDiscussionPostContract.Columns.MODIFIED, DateFormatter.getISODateString(post.getDateLastModified()));
             newValues.put(ForumDiscussionPostContract.Columns.POSTER, ForumDiscussionPostProvider.getSerializedPoster(post.getPoster()));
+            newValues.put(ForumDiscussionPostContract.Columns.PARENT, post.getParentId());
 
             values[i] = newValues;
         }

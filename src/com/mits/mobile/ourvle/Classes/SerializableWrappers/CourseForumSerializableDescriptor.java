@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mits.mobile.ourvle.Classes.SerializableWrappers;
 
@@ -13,34 +13,36 @@ import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.Forum.CourseForum
 
 /**
  * @author Aston Hamilton
- * 
  */
 public class CourseForumSerializableDescriptor extends
-	ObjectSerializerDescriptor<CourseForum> {
+        ObjectSerializerDescriptor<CourseForum> {
 
     @Override
     public JsonElement serialzeObject(final CourseForum unserializedObj) {
-	final JsonObject serializedForum = new JsonObject();
-	serializedForum.addProperty("id", unserializedObj.getForumid());
-	serializedForum.addProperty("name", unserializedObj.getName());
-	serializedForum.addProperty("intro", unserializedObj.getIntro());
-	serializedForum.addProperty("modified",
-		DateFormatter.getISODateString(unserializedObj
-			.getLastModified()));
-	return serializedForum;
+        final JsonObject serializedForum = new JsonObject();
+        serializedForum.addProperty("id", unserializedObj.getForumid());
+        serializedForum.addProperty("name", unserializedObj.getName());
+        serializedForum.addProperty("intro", unserializedObj.getIntro());
+        serializedForum.addProperty("modified",
+                                    DateFormatter.getISODateString(unserializedObj
+                                                                           .getLastModified()));
+        serializedForum.addProperty("cmid", unserializedObj.getModuleId());
+
+        return serializedForum;
     }
 
     @Override
     public CourseForum deserialzeObject(final JsonElement serializedObject) {
-	final JsonObject serializedObjectObj = (JsonObject) serializedObject;
-	final Long forumId = serializedObjectObj.get("id").getAsLong();
-	final String name = serializedObjectObj.get("name").getAsString();
-	final String intro = serializedObjectObj.get("intro").getAsString();
-	final String lastModifiedString = serializedObjectObj.get("modified")
-		.getAsString();
+        final JsonObject serializedObjectObj = (JsonObject) serializedObject;
+        final Long forumId = serializedObjectObj.get("id").getAsLong();
+        final String name = serializedObjectObj.get("name").getAsString();
+        final String intro = serializedObjectObj.get("intro").getAsString();
+        final String lastModifiedString = serializedObjectObj.get("modified")
+                                                             .getAsString();
 
-	final DateTime lastModified = DateFormatter
-		.getDateTimeFromISOString(lastModifiedString);
-	return new CourseForum(forumId, name, intro, lastModified);
+        final String pModuleId = serializedObjectObj.get("cmid").getAsString();
+        final DateTime lastModified = DateFormatter
+                .getDateTimeFromISOString(lastModifiedString);
+        return new CourseForum(forumId, pModuleId, name, intro, lastModified);
     }
 }

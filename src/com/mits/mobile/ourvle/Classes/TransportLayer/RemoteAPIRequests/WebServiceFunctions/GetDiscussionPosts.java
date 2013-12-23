@@ -14,7 +14,7 @@ public class GetDiscussionPosts extends RemoteWebServiceFunction {
 
     public GetDiscussionPosts(final ForumDiscussion discussion,
 	    final SessionKeyStore userSession) {
-	super("mobile_mdl_get_discussion_posts", userSession,
+	super("mbl_moodle_get_forum_discussions", userSession,
 		"discussionid", discussion.getId().toString());
     }
 

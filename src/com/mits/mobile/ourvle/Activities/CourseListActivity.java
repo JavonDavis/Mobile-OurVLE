@@ -144,7 +144,7 @@ public class CourseListActivity extends ActivityBase {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     }
 
-    public class OnCourseSelectedReceiver extends
+    private class OnCourseSelectedReceiver extends
             FragmentResponseListerner {
 
         @Override
@@ -168,7 +168,7 @@ public class CourseListActivity extends ActivityBase {
 
     }
 
-    public class OnDiscussionSelectedReceiver extends
+    private class OnDiscussionSelectedReceiver extends
             FragmentResponseListerner {
 
         @Override

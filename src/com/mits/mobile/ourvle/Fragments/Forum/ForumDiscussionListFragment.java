@@ -105,7 +105,7 @@ public class ForumDiscussionListFragment extends AuthenticatedListFragment
                                                         CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER,
                                                         mParent);
 
-
+/*
         // TODO - Remove Stub (Change status ti inprogress)
         EntitySyncronizer.updateEntityManagerSyncronizationState(
                 getApplicationContext(),
@@ -113,7 +113,7 @@ public class ForumDiscussionListFragment extends AuthenticatedListFragment
                 EntityManagerContract.SyncDirection.PULL,
                 EntityManagerContract.Status.SYNCRONIZED,
                 new DateTime());
-
+*/
         final EntitySyncronizerPlugin plugin = new EntitySyncronizerPlugin(
                 new ForumDiscussionSyncronizationManager(),
                 ForumDiscussionProvider.getSerializedParent(mParent));
@@ -143,6 +143,8 @@ public class ForumDiscussionListFragment extends AuthenticatedListFragment
         final Bundle b = new Bundle();
         b.putParcelable(ResponseArgs.Discussion, new ForumDiscussionParcel(discussion));
         sendResponse(Responses.onDiscussionSelected, b);
+
+        super.onListItemClick(l, v, position, id);
     }
 
     @Override
@@ -282,7 +284,7 @@ public class ForumDiscussionListFragment extends AuthenticatedListFragment
 
     /* ========================== Interfaces ======================= */
     public static interface Responses {
-        public String onDiscussionSelected = "";
+        public String onDiscussionSelected = "com.mits.mobile.ourvle.Fragments.Forum.ForumDiscussionListFragment.onDiscussionSelected";
     }
 
     public static interface ResponseArgs {

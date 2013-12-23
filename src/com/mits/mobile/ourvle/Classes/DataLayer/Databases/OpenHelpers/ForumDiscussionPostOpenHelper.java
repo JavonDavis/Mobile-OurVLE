@@ -19,7 +19,7 @@ public class ForumDiscussionPostOpenHelper extends SQLiteOpenHelper {
 
     public static final String DB_FILE_NAME = "forum_discussion_posts.db";
     public static final String TABLE_NAME = "forum_discussion_posts";
-    public static final int VERSION = 1;
+    public static final int VERSION = 4;
 
     private static final String DATABASE_TABLE_CREATE =
             QB.CREATE_TABLE(
@@ -32,6 +32,7 @@ public class ForumDiscussionPostOpenHelper extends SQLiteOpenHelper {
                     QB.TEXT(ForumDiscussionPostContract.Columns.POST_TITLE),
                     QB.TEXT(ForumDiscussionPostContract.Columns.POST_TEXT),
                     QB.TEXT(ForumDiscussionPostContract.Columns.POSTER),
+                    QB.TEXT(ForumDiscussionPostContract.Columns.PARENT),
                     QB.TEXT(ForumDiscussionPostContract.Columns.MODIFIED),
                     QB.TEXT(ForumDiscussionPostContract.Columns.CREATED));
 

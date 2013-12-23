@@ -23,6 +23,7 @@ public interface ForumDiscussionPostContract {
         static final String POST_ID = "post_id";
         static final String DISCUSSION_ID = "discussion_id";
         static final String POSTER = "poster";
+        static final String PARENT = "parent";
         static final String POST_TEXT = "post_text";
         static final String CREATED = "created";
         static final String MODIFIED = "last_modified";

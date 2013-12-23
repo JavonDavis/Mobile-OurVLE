@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.mits.mobile.ourvle.Activities;
 
@@ -22,45 +22,44 @@ import com.mits.mobile.ourvle.Fragments.Course.Companion.Notes.ViewCourseNoteFra
 
 /**
  * @author Aston Hamilton
- * 
  */
 public class AddCourseNoteActivity extends ActivityBase
-	implements ConfirmDeleteDialog.Listener,
-	ViewCourseNoteFragment.Listener {
+        implements ConfirmDeleteDialog.Listener,
+        ViewCourseNoteFragment.Listener {
     private MoodleCourse mCourse;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_simple_fragment);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_simple_fragment);
 
-	final Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
 
-	mCourse = ((MoodleCourseParcel) extras
-		.get(ParcelKeys.MOODLE_COURSE)).getWrappedObejct();
+        mCourse = ((MoodleCourseParcel) extras
+                .get(ParcelKeys.MOODLE_COURSE)).getWrappedObejct();
 
-	setTitle(DateFormatter.getLongDateTime(new DateTime()));
+        setTitle(DateFormatter.getLongDateTime(new DateTime()));
 
-	final AddCourseNoteFragment fragment = AddCourseNoteFragment
-		.newInstance(mCourse);
+        final AddCourseNoteFragment fragment = AddCourseNoteFragment
+                .newInstance(mCourse);
 
-	final FragmentTransaction transaction = getSupportFragmentManager()
-		.beginTransaction();
+        final FragmentTransaction transaction = getSupportFragmentManager()
+                .beginTransaction();
 
-	// Replace whatever is in the fragment_container view with this
-	// fragment,
-	transaction.replace(R.id.fragment, fragment);
+        // Replace whatever is in the fragment_container view with this
+        // fragment,
+        transaction.replace(R.id.fragment, fragment);
 
-	// Commit the transaction
-	transaction.commit();
+        // Commit the transaction
+        transaction.commit();
     }
 
     @Override
     public void onNoteSaved(final CourseNote courseNote) {
-	Toast.makeText(getApplicationContext(), "Note saved", Toast.LENGTH_LONG)
-		.show();
+        Toast.makeText(getApplicationContext(), "Note saved", Toast.LENGTH_LONG)
+             .show();
 
-	finish();
+        finish();
     }
 
     /*
@@ -69,16 +68,16 @@ public class AddCourseNoteActivity extends ActivityBase
      */
     @Override
     public void onNoteDeleted(final CourseNote courseNote) {
-	throw new IllegalStateException("Cannot delete new note.");
+        throw new IllegalStateException("Cannot delete new note.");
     }
 
     @Override
     public void onPositiveClicked() {
-	throw new IllegalStateException("Cannot delete new note.");
+        throw new IllegalStateException("Cannot delete new note.");
     }
 
     @Override
     public void onNegativeClicked() {
-	throw new IllegalStateException("Cannot delete new note.");
+        throw new IllegalStateException("Cannot delete new note.");
     }
 }

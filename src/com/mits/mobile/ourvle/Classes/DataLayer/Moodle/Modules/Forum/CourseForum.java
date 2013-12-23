@@ -17,15 +17,17 @@ public class CourseForum {
 
     /**
      * @param forumid
+     * @param pModuleId
      * @param name
      * @param intro
      * @param lastModified
      */
-    public CourseForum(final Long forumid, final String name,
+    public CourseForum(final Long forumid, final String pModuleId, final String name,
                        final String intro,
                        final DateTime lastModified) {
         super();
         this.forumid = forumid;
+        moduleId = pModuleId;
         this.name = name;
         this.intro = intro;
         this.lastModified = lastModified;
@@ -36,6 +38,10 @@ public class CourseForum {
      */
     public Long getForumid() {
         return forumid;
+    }
+
+    public String getModuleId() {
+        return moduleId;
     }
 
     /**

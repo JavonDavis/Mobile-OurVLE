@@ -28,19 +28,21 @@ public class CourseForumParcel extends SimpleParcableWrapper<CourseForum> {
     @Override
     protected CourseForum getObjectFromStream(final Parcel in) {
         final Long forumId = in.readLong();
+        final String pModuleId = in.readString();
         final String name = in.readString();
         final String intro = in.readString();
         final String lastModifiedString = in.readString();
 
         final DateTime lastModified = DateFormatter
                 .getDateTimeFromISOString(lastModifiedString);
-        return new CourseForum(forumId, name, intro, lastModified);
+        return new CourseForum(forumId, pModuleId, name, intro, lastModified);
     }
 
     @Override
     protected void writeObjectToParcel(final CourseForum wrappedObject,
                                        final Parcel parcel) {
         parcel.writeLong(wrappedObject.getForumid().longValue());
+        parcel.writeString(wrappedObject.getModuleId());
         parcel.writeString(wrappedObject.getName());
         parcel.writeString(wrappedObject.getIntro());
         parcel.writeString(DateFormatter.getISODateString(wrappedObject

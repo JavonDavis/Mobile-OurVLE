@@ -37,7 +37,8 @@ import org.sourceforge.ah.android.utilities.Formatters.DateFormatter;
 /**
  * @author Aston Hamilton
  */
-public class ForumDiscussionPagerFragment extends AuthenticatedFragment implements LoaderCallbacks<Cursor> {
+public class ForumDiscussionPagerFragment extends AuthenticatedFragment
+        implements LoaderCallbacks<Cursor> {
 
     private DiscussionParent mParent;
     private long mCurrentDiscussionId = -1L;
@@ -47,7 +48,9 @@ public class ForumDiscussionPagerFragment extends AuthenticatedFragment implemen
 
     private boolean sFirstLoad = true;
 
-    public static ForumDiscussionPagerFragment newInstance(final UserSession session, final long currentDiscussionId, final DiscussionParent parent) {
+    public static ForumDiscussionPagerFragment newInstance(final UserSession session,
+                                                           final long currentDiscussionId,
+                                                           final DiscussionParent parent) {
         final ForumDiscussionPagerFragment f = new ForumDiscussionPagerFragment();
 
         f.setUserSession(session);
@@ -61,13 +64,17 @@ public class ForumDiscussionPagerFragment extends AuthenticatedFragment implemen
 
         mCurrentDiscussionId = currentDiscussion;
         if (mDiscussionPagerAdapter != null && mPager != null) {
-            final int position = mDiscussionPagerAdapter.getDiscussionPositionById(currentDiscussion);
-            mPager.setCurrentItem(position, true);
+            final int position = mDiscussionPagerAdapter.getDiscussionPositionById(
+                    currentDiscussion);
+            if (position > -1) {
+                mPager.setCurrentItem(position, true);
 
-            final ForumDiscussion discussion = mDiscussionPagerAdapter.getDiscussion(position);
-            final Bundle data = new Bundle();
-            data.putParcelable(ResponseArgs.Discussion, new ForumDiscussionParcel(discussion));
-            sendResponse(Responses.onDiscussionSelected, data);
+                final ForumDiscussion discussion = mDiscussionPagerAdapter.getDiscussion(position);
+
+                final Bundle data = new Bundle();
+                data.putParcelable(ResponseArgs.Discussion, new ForumDiscussionParcel(discussion));
+                sendResponse(Responses.onDiscussionSelected, data);
+            }
         }
     }
 
@@ -83,15 +90,18 @@ public class ForumDiscussionPagerFragment extends AuthenticatedFragment implemen
         super.onCreate(savedInstanceState);
         mCurrentDiscussionId = getFragmentArguments().getLong(ParcelKeys.FORUM_DISCUSSION_ID);
 
-        mParent = ((DiscussionParentParcel) getFragmentArguments().getParcelable(ParcelKeys.PARENT)).getWrappedObejct();
+        mParent = ((DiscussionParentParcel) getFragmentArguments().getParcelable(ParcelKeys.PARENT))
+                .getWrappedObejct();
 
-        mDiscussionPagerAdapter = new DiscussionPager(getFragmentManager(), getUserSession(), mParent, null);
+        mDiscussionPagerAdapter = new DiscussionPager(getFragmentManager(), getUserSession(),
+                                                      mParent, null);
 
         getLoaderManager().initLoader(Loaders.Discussions, null, this);
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_discussion_pager, container, false);
 
         mPager = (ViewPager) v.findViewById(R.id.pager);
@@ -139,7 +149,16 @@ public class ForumDiscussionPagerFragment extends AuthenticatedFragment implemen
             } else
                 throw new IllegalArgumentException("Discussion parent not forum or module.");
 
-            return new CursorLoader(getParentActivity(), ForumDiscussionContract.CONTENT_URI, new String[]{ForumDiscussionContract.Columns._ID, ForumDiscussionContract.Columns.DISCUSSION_ID, ForumDiscussionContract.Columns.DISCUSSION_NAME, ForumDiscussionContract.Columns.CREATOR, ForumDiscussionContract.Columns.MODIFIED, ForumDiscussionContract.Columns.LAST_POST_ID, ForumDiscussionContract.Columns.LAST_POST_TEXT}, selection, selectionArgs, null);
+            return new CursorLoader(getParentActivity(), ForumDiscussionContract.CONTENT_URI,
+                                    new String[]{
+                                            ForumDiscussionContract.Columns._ID,
+                                            ForumDiscussionContract.Columns.DISCUSSION_ID,
+                                            ForumDiscussionContract.Columns.DISCUSSION_NAME,
+                                            ForumDiscussionContract.Columns.CREATOR,
+                                            ForumDiscussionContract.Columns.MODIFIED,
+                                            ForumDiscussionContract.Columns.LAST_POST_ID,
+                                            ForumDiscussionContract.Columns.LAST_POST_TEXT
+                                    }, selection, selectionArgs, null);
         }
 
         return null;
@@ -172,10 +191,12 @@ public class ForumDiscussionPagerFragment extends AuthenticatedFragment implemen
 
         private final SparseArray<ForumDiscussion> mDiscussionCache = new SparseArray<ForumDiscussion>();
 
-        public DiscussionPager(final FragmentManager fm, final UserSession userSession, final DiscussionParent parent, final Cursor cursor) {
+        public DiscussionPager(final FragmentManager fm, final UserSession userSession,
+                               final DiscussionParent parent, final Cursor cursor) {
             super(fm);
             mParent = parent;
             mUserSession = userSession;
+            mCursor = cursor;
         }
 
         @Override
@@ -188,7 +209,8 @@ public class ForumDiscussionPagerFragment extends AuthenticatedFragment implemen
         @Override
         public Fragment getItem(final int position) {
             final ForumDiscussion discussion = getDiscussion(position);
-            final Fragment f = ForumDiscussionPostListFragment.newInstance(mUserSession, discussion);
+            final Fragment f = ForumDiscussionPostListFragment.newInstance(mUserSession,
+                                                                           discussion);
 
             return f;
         }
@@ -260,8 +282,16 @@ public class ForumDiscussionPagerFragment extends AuthenticatedFragment implemen
             return c.getString(6);
         }
 
-        public static ExtendedForumDiscussion getDiscussion(final Cursor c, final DiscussionParent parent) {
-            return new ExtendedForumDiscussion(ForumDiscussionCursorWrapper.getDiscussionId(c), ForumDiscussionCursorWrapper.getDiscussionName(c), ForumDiscussionCursorWrapper.getDiscussionCreator(c), ForumDiscussionCursorWrapper.getDiscussionModified(c), ForumDiscussionCursorWrapper.getLastPostId(c), ForumDiscussionCursorWrapper.getLastPostText(c), parent);
+        public static ExtendedForumDiscussion getDiscussion(final Cursor c,
+                                                            final DiscussionParent parent) {
+            return new ExtendedForumDiscussion(ForumDiscussionCursorWrapper.getDiscussionId(c),
+                                               ForumDiscussionCursorWrapper.getDiscussionName(c),
+                                               ForumDiscussionCursorWrapper.getDiscussionCreator(c),
+                                               ForumDiscussionCursorWrapper.getDiscussionModified(
+                                                       c),
+                                               ForumDiscussionCursorWrapper.getLastPostId(c),
+                                               ForumDiscussionCursorWrapper.getLastPostText(c),
+                                               parent);
         }
     }
 

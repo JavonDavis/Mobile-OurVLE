@@ -12,6 +12,9 @@ public class CourseModule {
     private final String label;
     private final String name;
 
+    private String fileUrl;
+    private String fileName;
+
     /**
      * @param id
      * @param courseId
@@ -51,4 +54,19 @@ public class CourseModule {
         return name;
     }
 
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(final String pFileUrl) {
+        fileUrl = pFileUrl;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(final String pFileName) {
+        fileName = pFileName;
+    }
 }

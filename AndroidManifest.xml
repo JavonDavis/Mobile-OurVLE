@@ -105,6 +105,11 @@
                 android:exported="false"
                 android:authorities="com.mits.mobile.ourvle.data.ForumDiscussionProvider"></provider>
 
+        <provider
+                android:name=".Classes.DataLayer.Databases.ContentProviders.ForumDiscussionPostProvider"
+                android:exported="false"
+                android:authorities="com.mits.mobile.ourvle.data.ForumDiscussionPostProvider"></provider>
+
         <receiver
                 android:exported="false"
                 android:name="org.sourceforge.ah.android.utilities.Communication.EntitySyncroniser.Services.AlarmReceiver"></receiver>

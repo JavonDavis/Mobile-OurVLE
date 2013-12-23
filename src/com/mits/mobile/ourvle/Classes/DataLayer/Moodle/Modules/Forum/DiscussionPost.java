@@ -18,6 +18,7 @@ public class DiscussionPost {
     private final long id;
     private final String subject;
     private final String message;
+    private final String discussionId;
     private final long parentId;
     private final DateTime dateCreaded;
     private final DateTime dateLastModified;
@@ -28,6 +29,7 @@ public class DiscussionPost {
      * @param id
      * @param subject
      * @param message
+     * @param pDiscussionId
      * @param parentId
      * @param dateCreaded
      * @param dateLastModified
@@ -35,14 +37,15 @@ public class DiscussionPost {
      * @param poster
      */
     public DiscussionPost(final long id, final String subject,
-	    final String message, final long parentId,
-	    final DateTime dateCreaded, final DateTime dateLastModified,
-	    final boolean hasAttachment, final MoodleUser poster) {
+                          final String message, final String pDiscussionId, final long parentId,
+                          final DateTime dateCreaded, final DateTime dateLastModified,
+                          final boolean hasAttachment, final MoodleUser poster) {
 	super();
 	this.id = id;
 	this.subject = subject;
 	this.message = message;
-	this.parentId = parentId;
+        discussionId = pDiscussionId;
+        this.parentId = parentId;
 	this.dateCreaded = dateCreaded;
 	this.dateLastModified = dateLastModified;
 	this.hasAttachment = hasAttachment;
@@ -54,6 +57,10 @@ public class DiscussionPost {
      */
     public long getId() {
 	return id;
+    }
+
+    public String getDiscussionId() {
+        return discussionId;
     }
 
     /**

@@ -5,6 +5,7 @@ package com.mits.mobile.ourvle.Classes.TransportLayer.JSONDescriptors.Moodle.Mod
 
 import org.sourceforge.ah.android.utilities.Communication.JSONFactory.JSONObjectDescriptor;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mits.mobile.ourvle.Classes.DataLayer.Moodle.Modules.CourseModule;
@@ -43,6 +44,15 @@ public class CourseModuleDescriptor extends
             mCourseId = moduleJson.get("courseid").getAsString();
         }
 
-        return new CourseModule(id, mCourseId, label, moduleName);
+        final CourseModule m = new CourseModule(id, mCourseId, label, moduleName);
+        if ("resource".equalsIgnoreCase(moduleName) && moduleJson.has("contents")) {
+            final JsonArray contentList = moduleJson.get("contents").getAsJsonArray();
+
+            final JsonObject content = contentList.get(0).getAsJsonObject();
+            m.setFileName(content.get("filename").getAsString());
+            m.setFileUrl(content.get("fileurl").getAsString());
+        }
+
+        return m;
     }
 }

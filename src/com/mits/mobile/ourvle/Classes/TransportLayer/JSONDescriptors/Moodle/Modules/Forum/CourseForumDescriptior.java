@@ -30,6 +30,7 @@ public class CourseForumDescriptior extends
         obj.addProperty("intro", object.getIntro());
         obj.addProperty("timemodified",
                         DateFormatter.getUnixSecondsFromDateTime(object.getLastModified()));
+        obj.addProperty("cmid", object.getModuleId());
 
         return obj;
     }
@@ -45,8 +46,10 @@ public class CourseForumDescriptior extends
         final String lastModifiedDateTimeString = jsonObject.get("timemodified")
                                                             .getAsString();
 
+        final String pModuleId  = jsonObject.get("cmid").getAsString();
+
         final DateTime lastModified = DateFormatter
                 .getDateTimeFromUnixSeconds(Long.parseLong(lastModifiedDateTimeString));
-        return new CourseForum(id, name, intro, lastModified);
+        return new CourseForum(id, pModuleId, name, intro, lastModified);
     }
 }
