@@ -4,13 +4,7 @@ This is an android client for OurVLE.
 ##Dependencies
 ###Android Utilities 
 
-<https://bitbucket.org/uwimona/android-utilities/overview>
-
 ####Java Jar Libs
-
-You can find these libs in the Java Jar Dependency Repository
-
-<https://bitbucket.org/uwimona/java-jar-dependencies>
 
 	Android Support Lib v4
 	GSON v2.2.4
