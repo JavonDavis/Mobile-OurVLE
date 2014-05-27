@@ -62,7 +62,7 @@ public class ForumDiscussionPostSyncronizationManager extends EntitySyncronizati
 
         final String discussionPostListJSON = response.getResponseText();
         final List<DiscussionPost> discussionPosts = JSONDecoder.getObjectList(
-                new DiscussionPostDescriptior(), discussionPostListJSON);
+                new DiscussionPostDescriptior(), discussionPostListJSON, "posts");
         final ExtendedDiscussionPostWrapper[] extendedPostList = helper_organisePostList(
                 discussionPosts);
 

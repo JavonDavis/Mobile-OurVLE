@@ -106,14 +106,18 @@ public class CourseContentsActivity extends ActivityBase
                     intent.putExtra(ParcelKeys.PARENT,
                                     new CourseForumParcel(mUserSession.getContext()
                                                                       .getSiteInfo()
-                                                                      .getNewsForum()));
+                                                                      .getNewsForum())
+                                   );
 
                     intent.putExtra(ParcelKeys.PARENT,
                                     new DiscussionParentParcel(
                                             new DiscussionParent(
                                                     mUserSession.getContext()
                                                                 .getSiteInfo()
-                                                                .getNewsForum())));
+                                                                .getNewsForum()
+                                            )
+                                    )
+                                   );
 
                     intent.putExtra(ParcelKeys.FORUM_DISCUSSION_ID,
                                     discussion.getId());
@@ -132,9 +136,8 @@ public class CourseContentsActivity extends ActivityBase
     @Override
     protected void onPause() {
         if (mOnDiscussionSeclectedReceiver != null)
-            FragmentResponseManager.registerReceiver(getApplicationContext(),
-                                                     ForumDiscussionListFragment.Responses.onDiscussionSelected,
-                                                     mOnDiscussionSeclectedReceiver);
+            FragmentResponseManager.unregisterReceiver(getApplicationContext(),
+                                                       mOnDiscussionSeclectedReceiver);
         super.onPause();
     }
 
@@ -226,15 +229,26 @@ public class CourseContentsActivity extends ActivityBase
 // in order for this if to run, you must use the android 3.2 to compile your app
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 request.allowScanningByMediaScanner();
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setNotificationVisibility(
+                        DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
             }
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, module.getFileName());
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,
+                                                      module.getFileName());
 
 // get download service and enqueue file
             DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
             manager.enqueue(request);
+        } else if ("page".equals(module.getName())) {
+            String url = module.getFileUrl();
+            if (!url.startsWith("http://") && !url.startsWith("https://"))
+                url = "http://" + url;
+
+            final Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(browserIntent);
+
         } else
-            Toast.makeText(this, "Only the viewing of forums is ready ATM", Toast.LENGTH_SHORT)
+            Toast.makeText(this, "Mobile access to this resource is not yet supported",
+                           Toast.LENGTH_SHORT)
                  .show();
 
     }

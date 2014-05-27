@@ -47,11 +47,9 @@ public class ForumDiscussionPagerActivity extends ActivityBase {
 
         final Bundle extras = getIntent().getExtras();
 
-        mUserSession = ((UserSessionParcel) extras
-                .get(ParcelKeys.USER_SESSION)).getWrappedObejct();
+        mUserSession = ((UserSessionParcel) extras.get(ParcelKeys.USER_SESSION)).getWrappedObejct();
 
-        final long currentDiscussion = extras
-                .getLong(ParcelKeys.FORUM_DISCUSSION_ID);
+        final long currentDiscussion = extras.getLong(ParcelKeys.FORUM_DISCUSSION_ID);
 
         final DiscussionParent parent = ((DiscussionParentParcel) extras
                 .getParcelable(ParcelKeys.PARENT)).getWrappedObejct();
@@ -61,10 +59,7 @@ public class ForumDiscussionPagerActivity extends ActivityBase {
         setTitle(activityTitle);
 
         final ForumDiscussionPagerFragment fragment = ForumDiscussionPagerFragment
-                .newInstance(
-                        mUserSession,
-                        currentDiscussion,
-                        parent);
+                .newInstance(mUserSession, currentDiscussion, parent);
 
         final FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction();
@@ -81,9 +76,10 @@ public class ForumDiscussionPagerActivity extends ActivityBase {
     @Override
     protected void onResume() {
 
-        FragmentResponseManager.registerReceiver(this,
-                                                 ForumDiscussionPagerFragment.Responses.onDiscussionSelected,
-                                                 mOnDiscussionSelected);
+        FragmentResponseManager
+                .registerReceiver(this,
+                                  ForumDiscussionPagerFragment.Responses.onDiscussionSelected,
+                                  mOnDiscussionSelected);
 
         super.onResume();
     }
@@ -91,8 +87,7 @@ public class ForumDiscussionPagerActivity extends ActivityBase {
     @Override
     protected void onPause() {
 
-        FragmentResponseManager.unregisterReceiver(this,
-                                                   mOnDiscussionSelected);
+        FragmentResponseManager.unregisterReceiver(this, mOnDiscussionSelected);
 
         super.onPause();
     }

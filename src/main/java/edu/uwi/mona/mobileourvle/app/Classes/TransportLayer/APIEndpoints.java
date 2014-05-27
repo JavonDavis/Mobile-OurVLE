@@ -13,7 +13,7 @@ public interface APIEndpoints {
         /**
          * The Constant API_HOST.
          */
-        final public static String API_HOST = "http://192.168.0.106:9040/moodle/"; // need to point it to ourvle 2
+        final public static String API_HOST = "http://ourvle.mona.uwi.edu/"; // need to point it to ourvle 2
         // "http://192.168.0.103/moodle/";
         // Used when you need android
         // to talk to the localhost from the my wifi

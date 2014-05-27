@@ -53,6 +53,10 @@ public class CourseModuleDescriptor extends
             m.setFileUrl(content.get("fileurl").getAsString());
         }
 
+        if ("page".equalsIgnoreCase(moduleName) && moduleJson.has("url")) {
+            m.setFileUrl(moduleJson.get("url").getAsString());
+        }
+
         return m;
     }
 }

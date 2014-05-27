@@ -47,9 +47,7 @@ public class CourseSectionDescriptor extends
 
         final ArrayList<CourseModule> filteredModules = new ArrayList<CourseModule>(modules.size());
         for (CourseModule m : modules) {
-            if ("resource".equalsIgnoreCase(m.getName())) {
-                filteredModules.add(m);
-            }
+            filteredModules.add(m);
         }
         return new CourseSection(sectionName, filteredModules);
     }

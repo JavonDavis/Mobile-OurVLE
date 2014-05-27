@@ -76,14 +76,15 @@ public class ForumDiscussionPostListFragment extends AuthenticatedListFragment
 
 
         mDiscussionContext = new DiscussionContext(false);
-        // TODO - Remove Stub (Change status ti inprogress)
+        /*
+        // TODO - Remove Stub (Change status to inprogress)
         EntitySyncronizer.updateEntityManagerSyncronizationState(
                 getApplicationContext(),
                 "edu.uwi.mona.mobileourvle.app.Classes.DataLayer.SyncEntities.ForumDiscussionPostSyncronizationManager",
                 EntityManagerContract.SyncDirection.PULL,
                 EntityManagerContract.Status.SYNCRONIZED,
                 new DateTime());
-
+*/
         final EntitySyncronizerPlugin plugin = new EntitySyncronizerPlugin(
                 new ForumDiscussionPostSyncronizationManager(),
                 ForumDiscussionProvider.getSerializedDiscussion(mDiscussion));

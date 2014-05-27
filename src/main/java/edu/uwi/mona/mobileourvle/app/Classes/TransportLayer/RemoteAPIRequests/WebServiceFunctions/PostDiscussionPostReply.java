@@ -8,7 +8,8 @@ import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.Disc
 
 /**
  * @author Aston Hamilton
- * 
+ *
+ * Abandaoned until natively supported by moodle
  */
 public class PostDiscussionPostReply extends RemoteWebServiceFunction {
     public PostDiscussionPostReply(final UserSession session,

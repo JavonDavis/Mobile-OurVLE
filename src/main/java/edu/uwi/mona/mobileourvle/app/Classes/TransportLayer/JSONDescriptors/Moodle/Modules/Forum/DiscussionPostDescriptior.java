@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package edu.uwi.mona.mobileourvle.app.Classes.TransportLayer.JSONDescriptors.Moodle.Modules.Forum;
 
@@ -10,54 +10,58 @@ import org.sourceforge.ah.android.utilities.Formatters.DateFormatter;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.DiscussionPost;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Users.MoodleUser;
 import edu.uwi.mona.mobileourvle.app.Classes.TransportLayer.JSONDescriptors.Moodle.Users.MoodleUserDescriptor;
 
 // TODO: Auto-generated Javadoc
+
 /**
  * The Class UserSessionDescriptior.
- * 
+ *
  * @author Aston Hamilton
  */
 public class DiscussionPostDescriptior extends
-	JSONObjectDescriptor<DiscussionPost> {
+        JSONObjectDescriptor<DiscussionPost> {
 
     @Override
     public JsonElement getJsonElement(final DiscussionPost object) {
-	return null;
+        return null;
     }
 
     @Override
     public DiscussionPost getObjectFromJson(final JsonElement json) {
-	final JsonObject jsonObject = (JsonObject) json;
+        final JsonObject jsonObject = (JsonObject) json;
 
-	final long id = jsonObject.get("id").getAsLong();
-	final String pDiscussionId = jsonObject.get("discussion").getAsString();
-	final String subject = jsonObject.get("subject").getAsString();
-	final String message = jsonObject.get("message").getAsString();
-	final long parent = jsonObject.get("parent").getAsLong();
+        final long id = jsonObject.get("id").getAsLong();
+        final String pDiscussionId = jsonObject.get("discussion").getAsString();
+        final String subject = jsonObject.get("subject").getAsString();
+        final String message = jsonObject.get("message").getAsString();
+        final String userfullname = jsonObject.get("userfullname").getAsString();
+        final long parent = jsonObject.get("parent").getAsLong();
 
 
-    jsonObject.addProperty("userpictureurl", "");
-	final MoodleUser poster = JSONDecoder.getObject(
-		new MoodleUserDescriptor(), jsonObject);
+        // The only thing we get back here is the user's full name
+        // When the api gives us more, we'll fill it in here so for now we'll stub
+        // out the unknown fields
+        final MoodleUser poster = new MoodleUser("1", userfullname, "", "");
 
-	final String createddDateTimeString = jsonObject.get("created")
-		.getAsString();
+        final String createddDateTimeString = jsonObject.get("created")
+                                                        .getAsString();
 
-	final DateTime createdDate = DateFormatter
-		.getDateTimeFromUnixSeconds(Long.parseLong(createddDateTimeString));
+        final DateTime createdDate = DateFormatter
+                .getDateTimeFromUnixSeconds(Long.parseLong(createddDateTimeString));
 
-	final String lastModifiedDateTimeString = jsonObject.get("modified")
-		.getAsString();
+        final String lastModifiedDateTimeString = jsonObject.get("modified")
+                                                            .getAsString();
 
-	final DateTime lastModified = DateFormatter
-		.getDateTimeFromUnixSeconds(Long.parseLong(lastModifiedDateTimeString));
+        final DateTime lastModified = DateFormatter
+                .getDateTimeFromUnixSeconds(Long.parseLong(lastModifiedDateTimeString));
 
-	final boolean hasAttachment = false;
+        final boolean hasAttachment = false;
 
-	return new DiscussionPost(id, subject, message, pDiscussionId, parent, createdDate,
-		lastModified, hasAttachment, poster);
+        return new DiscussionPost(id, subject, message, pDiscussionId, parent, createdDate,
+                                  lastModified, hasAttachment, poster);
     }
 }

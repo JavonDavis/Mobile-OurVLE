@@ -13,7 +13,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
+import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.DiscussionParent;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.ForumDiscussion;
+import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.DiscussionParentParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.ForumDiscussionParcel;
 import edu.uwi.mona.mobileourvle.app.R;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants.ParcelKeys;
@@ -91,6 +93,31 @@ public class ForumDiscussionListActivity extends ActivityBase {
                 @Override
                 public void onResponseReceived(final Context context, final Bundle data) {
 
+                    final ForumDiscussion discussion = ((ForumDiscussionParcel) data
+                            .getParcelable(ForumDiscussionListFragment.ResponseArgs.Discussion))
+                            .getWrappedObejct();
+
+                    final Intent intent = new Intent(ForumDiscussionListActivity.this,
+                                                     ForumDiscussionPagerActivity.class);
+
+                    intent.putExtra(ParcelKeys.USER_SESSION,
+                                    new UserSessionParcel(mUserSession));
+
+                    intent.putExtra(ParcelKeys.FORUM_DISCUSSION_ID,
+                                    discussion.getId());
+
+                    intent.putExtra(ParcelKeys.PARENT,
+                                    new CourseForumParcel(mUserSession.getContext()
+                                                                      .getSiteInfo()
+                                                                      .getNewsForum()));
+
+                    intent.putExtra(ParcelKeys.PARENT,
+                                    new DiscussionParentParcel(discussion.getParent()));
+
+                    intent.putExtra(ParcelKeys.FORUM_DISCUSSION_ID,
+                                    discussion.getId());
+
+                    startActivity(intent);
                 }
             };
 
@@ -103,38 +130,9 @@ public class ForumDiscussionListActivity extends ActivityBase {
 
     @Override
     protected void onPause() {
-        if (mOnDiscussionSeclectedReceiver == null)
+        if (mOnDiscussionSeclectedReceiver != null)
             FragmentResponseManager.unregisterReceiver(getApplicationContext(),
                                                        mOnDiscussionSeclectedReceiver);
         super.onPause();
-    }
-
-    public void onDiscussionSelected(final ExtendedForumDiscussion discussion) {
-        /*
-        final Intent intent = new Intent(ForumDiscussionListActivity.this,
-                                         ForumDiscussionPagerActivity.class);
-
-        intent.putExtra(ParcelKeys.USER_SESSION,
-                        new UserSessionParcel(mUserSession));
-
-        final ForumDiscussionListFragment f = (ForumDiscussionListFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.fragment);
-
-        final ForumDiscussion[] discussionList = f.getDiscussionList();
-        final ForumDiscussionParcel[] discussionListParcel = new
-                ForumDiscussionParcel[discussionList.length];
-        for (int i = 0; i <
-                        discussionList.length; i++)
-            discussionListParcel[i] = new
-                    ForumDiscussionParcel(discussionList[i]);
-        intent.putExtra(ParcelKeys.FORUM_DISCUSSION_LIST,
-                        discussionListParcel);
-
-        intent.putExtra(ParcelKeys.FORUM_DISCUSSION_ID, discussion.getId());
-
-        startActivity(intent);
-
-        */
-
     }
 }

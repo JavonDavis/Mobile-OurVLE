@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package edu.uwi.mona.mobileourvle.app.Activities;
 
@@ -20,7 +20,6 @@ import edu.uwi.mona.mobileourvle.app.Fragments.MoodleUser.ViewProfileFragment;
 
 /**
  * @author Aston Hamilton
- * 
  */
 public class ViewUserProfileActivity extends ActivityBase {
 
@@ -30,38 +29,38 @@ public class ViewUserProfileActivity extends ActivityBase {
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_view_user_profile);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_user_profile);
 
-	final Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
 
-	mUserSession = ((UserSessionParcel) extras
-		.get(ParcelKeys.USER_SESSION)).getWrappedObejct();
+        mUserSession = ((UserSessionParcel) extras
+                .get(ParcelKeys.USER_SESSION)).getWrappedObejct();
 
-	mUser = ((MoodleUserParcel) extras
-		.get(ParcelKeys.MOODLE_USER)).getWrappedObejct();
-	// set the action bar title
+        mUser = ((MoodleUserParcel) extras
+                .get(ParcelKeys.MOODLE_USER)).getWrappedObejct();
+        // set the action bar title
 
-	if (extras.containsKey(ParcelKeys.MOODLE_COURSE))
-	    mCourse = ((MoodleCourseParcel) extras
-		    .get(ParcelKeys.MOODLE_COURSE)).getWrappedObejct();
-	else
-	    mCourse = null;
+        if (extras.containsKey(ParcelKeys.MOODLE_COURSE))
+            mCourse = ((MoodleCourseParcel) extras
+                    .get(ParcelKeys.MOODLE_COURSE)).getWrappedObejct();
+        else
+            mCourse = null;
 
-	setTitle(mUser.getFullName());
+        setTitle(mUser.getFullName());
 
-	final ViewProfileFragment fragment = ViewProfileFragment
-		.newInstance(mUserSession, mUser, mCourse);
+        final ViewProfileFragment fragment = ViewProfileFragment
+                .newInstance(mUserSession, mUser, mCourse);
 
-	final FragmentTransaction transaction = getSupportFragmentManager()
-		.beginTransaction();
+        final FragmentTransaction transaction = getSupportFragmentManager()
+                .beginTransaction();
 
-	// Replace whatever is in the fragment_container view with this
-	// fragment,
-	transaction.replace(R.id.fragment, fragment);
+        // Replace whatever is in the fragment_container view with this
+        // fragment,
+        transaction.replace(R.id.fragment, fragment);
 
-	// Commit the transaction
-	transaction.commit();
+        // Commit the transaction
+        transaction.commit();
 
     }
 

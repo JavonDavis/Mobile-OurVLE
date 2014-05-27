@@ -85,10 +85,13 @@ public class CourseListActivity extends ActivityBase {
 
     @Override
     protected void onPause() {
-        FragmentResponseManager.unregisterReceiver(getApplicationContext(),
-                                                   mOnCourseSeclectedReceiver);
-        FragmentResponseManager.unregisterReceiver(getApplicationContext(),
-                                                   mOnDiscussionSeclectedReceiver);
+        if (mOnCourseSeclectedReceiver != null)
+            FragmentResponseManager.unregisterReceiver(getApplicationContext(),
+                                                       mOnCourseSeclectedReceiver);
+
+        if (mOnDiscussionSeclectedReceiver != null)
+            FragmentResponseManager.unregisterReceiver(getApplicationContext(),
+                                                       mOnDiscussionSeclectedReceiver);
         super.onPause();
     }
 
@@ -187,17 +190,22 @@ public class CourseListActivity extends ActivityBase {
             intent.putExtra(ParcelKeys.FORUM_DISCUSSION_ID,
                             discussion.getId());
 
+
             intent.putExtra(ParcelKeys.PARENT,
                             new CourseForumParcel(mUserSession.getContext()
                                                               .getSiteInfo()
-                                                              .getNewsForum()));
+                                                              .getNewsForum())
+                           );
 
             intent.putExtra(ParcelKeys.PARENT,
                             new DiscussionParentParcel(
                                     new DiscussionParent(
                                             mUserSession.getContext()
                                                         .getSiteInfo()
-                                                        .getNewsForum())));
+                                                        .getNewsForum()
+                                    )
+                            )
+                           );
 
             intent.putExtra(ParcelKeys.FORUM_DISCUSSION_ID,
                             discussion.getId());
@@ -233,7 +241,8 @@ public class CourseListActivity extends ActivityBase {
                         f = ForumDiscussionListFragment
                                 .newInstance(mUserSession,
                                              mUserSession.getContext().getSiteInfo()
-                                                         .getNewsForum());
+                                                         .getNewsForum()
+                                            );
                     }
                     break;
                 case 1:
