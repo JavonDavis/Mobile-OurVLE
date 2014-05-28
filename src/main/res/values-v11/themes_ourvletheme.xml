@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="OurVLETheme" parent="@style/_OurVLETheme"/>
+
+  <style name="_OurVLETheme" parent="Theme.Ourvletheme">
+
+    <item name="android:editTextBackground">@drawable/ourvletheme_edit_text_holo_light</item>
+
+    <item name="android:textColorHighlight">#99ff4444</item>
+    <item name="android:textSelectHandleLeft">@drawable/ourvletheme_text_select_handle_left</item>
+    <item name="android:textSelectHandleRight">@drawable/ourvletheme_text_select_handle_right</item>
+    <item name="android:textSelectHandle">@drawable/ourvletheme_text_select_handle_middle</item>
+
+    <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewOurVLETheme</item>
+
+    <item name="android:listChoiceIndicatorMultiple">@drawable/ourvletheme_btn_check_holo_light</item>
+
+    <item name="android:listChoiceIndicatorSingle">@drawable/ourvletheme_btn_radio_holo_light</item>
+
+    <item name="android:buttonStyle">@style/ButtonOurVLETheme</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonOurVLETheme</item>
+
+    <item name="android:dropDownSpinnerStyle">@style/SpinnerOurVLETheme</item>
+
+    <item name="android:progressBarStyleHorizontal">@style/ProgressBarOurVLETheme</item>
+
+    <item name="android:seekBarStyle">@style/SeekBarOurVLETheme</item>
+
+    <item name="android:ratingBarStyle">@style/RatingBarOurVLETheme</item>
+
+    <item name="android:ratingBarStyleIndicator">@style/RatingBarBigOurVLETheme</item>
+
+    <item name="android:ratingBarStyleSmall">@style/RatingBarSmallOurVLETheme</item>
+
+    <item name="android:buttonStyleToggle">@style/ToggleOurVLETheme</item>
+
+    <item name="android:listChoiceBackgroundIndicator">@drawable/ourvletheme_list_selector_holo_light</item>
+
+    <item name="android:activatedBackgroundIndicator">@drawable/ourvletheme_activated_background_holo_light</item>
+
+    <item name="android:fastScrollThumbDrawable">@drawable/ourvletheme_fastscroll_thumb_holo</item>
+
+  </style>
+
+</resources>

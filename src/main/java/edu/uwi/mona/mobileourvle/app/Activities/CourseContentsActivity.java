@@ -222,8 +222,11 @@ public class CourseContentsActivity extends ActivityBase
             startActivity(intent);
 
         } else if ("resource".equalsIgnoreCase(module.getName())) {
-            String url = module.getFileUrl();
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+            Toast.makeText(getApplicationContext(), "Downloading File: " + module.getLabel(),
+                           Toast.LENGTH_LONG).show();
+            final String url = module.getFileUrl() + "&token=" + mUserSession.getSessionKey();
+            final DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+
             request.setDescription("Course file download");
             request.setTitle(module.getLabel());
 // in order for this if to run, you must use the android 3.2 to compile your app
@@ -236,9 +239,11 @@ public class CourseContentsActivity extends ActivityBase
                                                       module.getFileName());
 
 // get download service and enqueue file
-            DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            final DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
             manager.enqueue(request);
         } else if ("page".equals(module.getName())) {
+            Toast.makeText(getApplicationContext(), "Opening Page: " + module.getLabel(),
+                           Toast.LENGTH_LONG).show();
             String url = module.getFileUrl();
             if (!url.startsWith("http://") && !url.startsWith("https://"))
                 url = "http://" + url;
@@ -247,7 +252,7 @@ public class CourseContentsActivity extends ActivityBase
             startActivity(browserIntent);
 
         } else
-            Toast.makeText(this, "Mobile access to this resource is not yet supported",
+            Toast.makeText(this, "Mobile access to this content is not yet supported",
                            Toast.LENGTH_SHORT)
                  .show();
 

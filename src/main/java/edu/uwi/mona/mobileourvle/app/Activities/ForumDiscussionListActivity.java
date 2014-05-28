@@ -17,6 +17,7 @@ import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.Disc
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.ForumDiscussion;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.DiscussionParentParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.ForumDiscussionParcel;
+import edu.uwi.mona.mobileourvle.app.Fragments.Forum.ForumDiscussionPostListFragment;
 import edu.uwi.mona.mobileourvle.app.R;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants.ParcelKeys;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Authentication.Session.UserSession;
@@ -98,6 +99,17 @@ public class ForumDiscussionListActivity extends ActivityBase {
                             .getWrappedObejct();
 
                     final Intent intent = new Intent(ForumDiscussionListActivity.this,
+                                                     ForumDiscussionPostListActivity.class);
+
+                    intent.putExtra(ParcelKeys.USER_SESSION,
+                                    new UserSessionParcel(mUserSession));
+
+                    intent.putExtra(ParcelKeys.FORUM_DISCUSSION,
+                                    new ForumDiscussionParcel(discussion));
+
+                    startActivity(intent);
+                    /*
+                    final Intent intent = new Intent(ForumDiscussionListActivity.this,
                                                      ForumDiscussionPagerActivity.class);
 
                     intent.putExtra(ParcelKeys.USER_SESSION,
@@ -118,6 +130,7 @@ public class ForumDiscussionListActivity extends ActivityBase {
                                     discussion.getId());
 
                     startActivity(intent);
+                    */
                 }
             };
 

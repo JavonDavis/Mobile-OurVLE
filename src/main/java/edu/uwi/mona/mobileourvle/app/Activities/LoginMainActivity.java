@@ -66,6 +66,7 @@ public class LoginMainActivity extends ActivityBase implements
         intent.putExtra(ParcelKeys.USER_SESSION,
                         new UserSessionParcel(session));
 
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 

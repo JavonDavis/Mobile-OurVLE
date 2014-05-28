@@ -181,34 +181,15 @@ public class CourseListActivity extends ActivityBase {
                     .getParcelable(ForumDiscussionListFragment.ResponseArgs.Discussion))
                     .getWrappedObejct();
 
+
             final Intent intent = new Intent(CourseListActivity.this,
-                                             ForumDiscussionPagerActivity.class);
+                                             ForumDiscussionPostListActivity.class);
 
             intent.putExtra(ParcelKeys.USER_SESSION,
                             new UserSessionParcel(mUserSession));
 
-            intent.putExtra(ParcelKeys.FORUM_DISCUSSION_ID,
-                            discussion.getId());
-
-
-            intent.putExtra(ParcelKeys.PARENT,
-                            new CourseForumParcel(mUserSession.getContext()
-                                                              .getSiteInfo()
-                                                              .getNewsForum())
-                           );
-
-            intent.putExtra(ParcelKeys.PARENT,
-                            new DiscussionParentParcel(
-                                    new DiscussionParent(
-                                            mUserSession.getContext()
-                                                        .getSiteInfo()
-                                                        .getNewsForum()
-                                    )
-                            )
-                           );
-
-            intent.putExtra(ParcelKeys.FORUM_DISCUSSION_ID,
-                            discussion.getId());
+            intent.putExtra(ParcelKeys.FORUM_DISCUSSION,
+                            new ForumDiscussionParcel(discussion));
 
             startActivity(intent);
         }

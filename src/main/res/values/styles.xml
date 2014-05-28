@@ -17,6 +17,11 @@
         <item name="android:paddingTop">15dp</item>
     </style>
 
+    <style name="PaddedListFragmentZeroTopPadding">
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+    </style>
+
 
     <style name="TextAppearance.EditEvent_Spinner" parent="android:style/Widget.Holo.Light.Spinner">
         <item name="android:textSize">18sp</item>

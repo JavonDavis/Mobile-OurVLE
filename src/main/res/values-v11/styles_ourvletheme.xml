@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="AutoCompleteTextViewOurVLETheme" parent="android:Widget.Holo.Light.AutoCompleteTextView">
+      <item name="android:dropDownSelector">@drawable/ourvletheme_list_selector_holo_light</item>
+	    <item name="android:background">@drawable/ourvletheme_edit_text_holo_light</item>
+  </style>
+
+  <style name="ButtonOurVLETheme" parent="android:Widget.Holo.Light.Button">
+	  <item name="android:background">@drawable/ourvletheme_btn_default_holo_light</item>
+  </style>
+
+  <style name="ImageButtonOurVLETheme" parent="android:Widget.Holo.Light.ImageButton">
+	  <item name="android:background">@drawable/ourvletheme_btn_default_holo_light</item>
+  </style>
+
+  <style name="SpinnerOurVLETheme" parent="android:Widget.Holo.Light.Spinner">
+      <item name="android:background">@drawable/ourvletheme_spinner_background_holo_light</item>
+      <item name="android:dropDownSelector">@drawable/ourvletheme_list_selector_holo_light</item>
+  </style>
+
+  <style name="ProgressBarOurVLETheme" parent="android:Widget.Holo.Light.ProgressBar.Horizontal">
+      <item name="android:progressDrawable">@drawable/ourvletheme_progress_horizontal_holo_light</item>
+      <item name="android:indeterminateDrawable">@drawable/ourvletheme_progress_indeterminate_horizontal_holo_light</item>
+  </style>
+
+  <style name="SeekBarOurVLETheme" parent="android:Widget.Holo.Light.SeekBar">
+      <item name="android:progressDrawable">@drawable/ourvletheme_scrubber_progress_horizontal_holo_light</item>
+      <item name="android:indeterminateDrawable">@drawable/ourvletheme_scrubber_progress_horizontal_holo_light</item>
+      <item name="android:thumb">@drawable/ourvletheme_scrubber_control_selector_holo_light</item>
+  </style>
+
+  <style name="RatingBarOurVLETheme" parent="android:Widget.Holo.Light.RatingBar">
+      <item name="android:progressDrawable">@drawable/ourvletheme_ratingbar_full_holo_light</item>
+      <item name="android:indeterminateDrawable">@drawable/ourvletheme_ratingbar_full_holo_light</item>
+  </style>
+
+  <style name="RatingBarBigOurVLETheme" parent="android:Widget.Holo.Light.RatingBar.Indicator">
+      <item name="android:progressDrawable">@drawable/ourvletheme_ratingbar_holo_light</item>
+      <item name="android:indeterminateDrawable">@drawable/ourvletheme_ratingbar_holo_light</item>
+  </style>
+
+  <style name="RatingBarSmallOurVLETheme" parent="android:Widget.Holo.Light.RatingBar.Small">
+      <item name="android:progressDrawable">@drawable/ourvletheme_ratingbar_small_holo_light</item>
+      <item name="android:indeterminateDrawable">@drawable/ourvletheme_ratingbar_small_holo_light</item>
+  </style>
+
+  <style name="ToggleOurVLETheme" parent="android:Widget.Holo.Light.Button.Toggle">
+      <item name="android:background">@drawable/ourvletheme_btn_toggle_holo_light</item>
+  </style>
+
+</resources>

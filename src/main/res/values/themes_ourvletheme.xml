@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="OurVLETheme" parent="@style/_OurVLETheme"/>
+
+  <style name="_OurVLETheme" parent="Theme.Ourvletheme">
+
+    <item name="android:editTextStyle">@style/EditTextOurVLETheme</item>
+
+    <item name="android:textColorHighlight">#99ff4444</item>
+
+    <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewOurVLETheme</item>
+
+    <item name="android:checkboxStyle">@style/CheckBoxOurVLETheme</item>
+
+    <item name="android:radioButtonStyle">@style/RadioButtonOurVLETheme</item>
+
+    <item name="android:buttonStyle">@style/ButtonOurVLETheme</item>
+
+    <item name="android:imageButtonStyle">@style/ImageButtonOurVLETheme</item>
+
+    <item name="android:spinnerStyle">@style/SpinnerOurVLETheme</item>
+
+    <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemOurVLETheme</item>
+
+    <item name="android:progressBarStyleHorizontal">@style/ProgressBarOurVLETheme</item>
+
+    <item name="android:seekBarStyle">@style/SeekBarOurVLETheme</item>
+
+    <item name="android:ratingBarStyle">@style/RatingBarOurVLETheme</item>
+
+    <item name="android:ratingBarStyleIndicator">@style/RatingBarBigOurVLETheme</item>
+
+    <item name="android:ratingBarStyleSmall">@style/RatingBarSmallOurVLETheme</item>
+
+    <item name="android:buttonStyleToggle">@style/ToggleOurVLETheme</item>
+
+    <item name="android:listViewStyle">@style/ListViewOurVLETheme</item>
+
+    <item name="android:listViewWhiteStyle">@style/ListViewOurVLETheme.White</item>
+
+    <item name="android:spinnerItemStyle">@style/SpinnerItemOurVLETheme</item>
+
+  </style>
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!-- File created by the Android Action Bar Style Generator
+
+         Copyright (C) 2011 The Android Open Source Project
+         Copyright (C) 2012 readyState Software Ltd
+
+         Licensed under the Apache License, Version 2.0 (the "License");
+         you may not use this file except in compliance with the License.
+         You may obtain a copy of the License at
+
+              http://www.apache.org/licenses/LICENSE-2.0
+
+         Unless required by applicable law or agreed to in writing, software
+         distributed under the License is distributed on an "AS IS" BASIS,
+         WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         See the License for the specific language governing permissions and
+         limitations under the License.
+    -->
+
+
+        <style name="Theme.Ourvletheme" parent="@style/Theme.AppCompat.Light">
+            <item name="actionBarItemBackground">@drawable/selectable_background_ourvletheme</item>
+            <item name="popupMenuStyle">@style/PopupMenu.Ourvletheme</item>
+            <item name="dropDownListViewStyle">@style/DropDownListView.Ourvletheme</item>
+            <item name="actionBarTabStyle">@style/ActionBarTabStyle.Ourvletheme</item>
+            <item name="actionBarTabTextStyle">@style/TabTextOurVLETheme</item>
+            <item name="actionDropDownStyle">@style/DropDownNav.Ourvletheme</item>
+            <item name="actionBarStyle">@style/ActionBar.Solid.Ourvletheme</item>
+            <item name="actionModeBackground">@drawable/cab_background_top_ourvletheme</item>
+            <item name="actionModeSplitBackground">@drawable/cab_background_bottom_ourvletheme</item>
+            <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Ourvletheme</item>
+
+
+        </style>
+
+        <style name="ActionBar.Solid.Ourvletheme" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+            <item name="background">@drawable/ab_solid_ourvletheme</item>
+            <item name="backgroundStacked">@drawable/ab_stacked_solid_ourvletheme</item>
+            <item name="backgroundSplit">@drawable/ab_bottom_solid_ourvletheme</item>
+            <item name="progressBarStyle">@style/ProgressBar.Ourvletheme</item>
+            <item name="android:titleTextStyle">@style/ActionbarTitleTextOurVLETheme</item>
+        </style>
+
+        <style name="ActionBar.Transparent.Ourvletheme" parent="@style/Widget.AppCompat.Light.ActionBar">
+            <item name="background">@drawable/ab_transparent_ourvletheme</item>
+            <item name="progressBarStyle">@style/ProgressBar.Ourvletheme</item>
+        </style>
+
+        <style name="PopupMenu.Ourvletheme" parent="@style/Widget.AppCompat.Light.PopupMenu">
+            <item name="android:popupBackground">@drawable/menu_dropdown_panel_ourvletheme</item>
+        </style>
+
+        <style name="DropDownListView.Ourvletheme" parent="@style/Widget.AppCompat.Light.ListView.DropDown">
+            <item name="android:listSelector">@drawable/selectable_background_ourvletheme</item>
+        </style>
+
+        <style name="ActionBarTabStyle.Ourvletheme" parent="@style/Widget.AppCompat.Light.ActionBar.TabView">
+            <item name="android:background">@drawable/tab_indicator_ab_ourvletheme</item>
+        </style>
+
+        <style name="DropDownNav.Ourvletheme" parent="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
+            <item name="android:background">@drawable/spinner_background_ab_ourvletheme</item>
+            <item name="android:popupBackground">@drawable/menu_dropdown_panel_ourvletheme</item>
+            <item name="android:dropDownSelector">@drawable/selectable_background_ourvletheme</item>
+        </style>
+
+        <style name="ProgressBar.Ourvletheme" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+            <item name="android:progressDrawable">@drawable/progress_horizontal_ourvletheme</item>
+        </style>
+
+        <style name="ActionButton.CloseMode.Ourvletheme" parent="@style/Widget.AppCompat.Light.ActionButton.CloseMode">
+            <item name="android:background">@drawable/btn_cab_done_ourvletheme</item>
+        </style>
+
+        <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+        <style name="Theme.Ourvletheme.Widget" parent="@style/Theme.AppCompat">
+            <item name="popupMenuStyle">@style/PopupMenu.Ourvletheme</item>
+            <item name="dropDownListViewStyle">@style/DropDownListView.Ourvletheme</item>
+        </style>
+
+</resources>

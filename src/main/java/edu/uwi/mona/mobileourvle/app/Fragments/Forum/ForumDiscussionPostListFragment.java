@@ -132,8 +132,10 @@ public class ForumDiscussionPostListFragment extends AuthenticatedListFragment
 
     @Override
     public void onLoadFinished(final Loader<Cursor> arg0, final Cursor arg1) {
-        if (arg0.getId() == Loaders.DiscussionPosts)
+        if (arg0.getId() == Loaders.DiscussionPosts) {
             mListAdapter.swapCursor(arg1);
+            mListAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
