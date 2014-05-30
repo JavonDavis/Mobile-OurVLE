@@ -3,6 +3,7 @@
  */
 package edu.uwi.mona.mobileourvle.app.Fragments.Course;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.sourceforge.ah.android.utilities.Communication.CommuncationModule;
@@ -17,7 +18,12 @@ import org.sourceforge.ah.android.utilities.Widgets.Adapters.PinnedHeaderListAda
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -45,7 +51,9 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
 
     private MoodleCourse mCourse;
 
-    private PinnedHeaderListAdapter<CourseSection, CourseModule> mCourseModuleListAdapter;
+    private static PinnedHeaderListAdapter<CourseSection, CourseModule> mCourseModuleListAdapter;
+
+    private static List<CourseSection> courseContents;
 
     private Listener mListener;
 
@@ -54,6 +62,8 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
     private Activity mActivity;
 
     private String mEmptyListString;
+
+    private Menu menu;
 
     public static CourseContentsFragment newInstance(
             final UserSession session,
@@ -70,6 +80,26 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
         getFragmentArguments().putParcelable(ParcelKeys.MOODLE_COURSE,
                                              new MoodleCourseParcel(course));
         mCourse = course;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menuA, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menuA, inflater);
+        menu=menuA;
+        addSearchOption();
+    }
+
+    public void addSearchOption()
+    {
+        //add search button to menu
+        MenuItem item = menu.add("Search");
+
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        SearchView searchView = new SearchView(getActivity());
+
+        searchView.setOnQueryTextListener(new SearchListener());
+        item.setActionView(searchView);
     }
 
     @Override
@@ -144,14 +174,19 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
         setEmptyText(mEmptyListString);
         switch (requestId) {
             case Requests.GET_COURSE_CONTENTS:
-                mCommunicatioModulePlugin.turnOffLoadingIcon();
-                final List<CourseSection> courseSectionList = JSONDecoder
-                        .getObjectList(new CourseSectionDescriptor(mCourse.getId().toString()),
-                                       response.getResponseText());
+                    mCommunicatioModulePlugin.turnOffLoadingIcon();
+
+                    final List<CourseSection> courseSectionList = JSONDecoder
+                            .getObjectList(new CourseSectionDescriptor(mCourse.getId().toString()),
+                                    response.getResponseText());
+
+
+                    courseContents = courseSectionList;
+
 
                 mCourseModuleListAdapter.clearPartitions();
 
-                for (final CourseSection section : courseSectionList)
+                for (final CourseSection section : courseContents)
                     if (section.getModuleList().size() > 0)
                         mCourseModuleListAdapter
                                 .addPartition(section, section.getModuleList());
@@ -163,6 +198,7 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
 
     private void loadCourseContents() {
         mCommunicatioModulePlugin.turnOnLoadingIcon();
+
         setEmptyText("Loading contents....");
         CommuncationModule.sendAsyncRequest(
                 mActivity,
@@ -173,6 +209,7 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
 
     @Override
     public void onCommunicationMenuItemTriggered() {
+        addSearchOption();
         loadCourseContents();
     }
 
@@ -183,12 +220,54 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
     }
 
     /* ======================== Private CLasses ====================== */
+    private static class SearchListener implements SearchView.OnQueryTextListener {
+
+        @Override
+        public boolean onQueryTextChange(String query)
+        {
+            //list to hold filtered courses
+            List<CourseSection> filteredContents = new ArrayList<CourseSection>();
+
+
+            for(final CourseSection courseSection: courseContents)
+            {
+                List<CourseModule> filteredModules = new ArrayList<CourseModule>();
+                List<CourseModule> moduleList = new ArrayList<CourseModule>(courseSection.getModuleList());
+
+                for(CourseModule courseModule: moduleList)
+                    if(courseModule.getLabel().toLowerCase().contains(query.toLowerCase()))
+                        filteredModules.add(courseModule);
+
+                filteredContents.add(new CourseSection(courseSection.getName(),filteredModules));
+            }
+
+            mCourseModuleListAdapter.clearPartitions();
+
+            for (CourseSection section : filteredContents)
+                if (section.getModuleList().size() > 0)
+                    mCourseModuleListAdapter
+                            .addPartition(section, section.getModuleList());
+            
+            mCourseModuleListAdapter.notifyDataSetChanged();
+
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextSubmit(String s) {
+
+            return false;
+        }
+
+
+    }
     private static class CourseModuleListAdapter extends
             PinnedHeaderListAdapter<CourseSection, CourseModule> {
 
         public CourseModuleListAdapter(final Context context) {
+
             super(context, R.layout.list_header_simple_pinned,
-                  R.layout.list_item_course_module_list);
+                    R.layout.list_item_course_module_list);
         }
 
         class RowViewHolder implements SimpleViewHolder {
@@ -211,8 +290,8 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
         protected void bindRowView(
                 final CourseModule rowData,
                 final SimpleViewHolder rowViewHolder) {
-
             final RowViewHolder h = (RowViewHolder) rowViewHolder;
+
             h.icon.setImageResource(CourseModuleFactory
                                             .getSystemIconResource(rowData));
 
