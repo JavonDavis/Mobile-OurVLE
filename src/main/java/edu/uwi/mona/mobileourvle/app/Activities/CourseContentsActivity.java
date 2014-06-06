@@ -3,13 +3,16 @@
  */
 package edu.uwi.mona.mobileourvle.app.Activities;
 
+import org.sourceforge.ah.android.utilities.Dialog.DialogManager;
 import org.sourceforge.ah.android.utilities.Widgets.Activities.ActivityBase;
 import org.sourceforge.ah.android.utilities.Widgets.Fragments.FragmentResponseListerner;
 import org.sourceforge.ah.android.utilities.Widgets.Fragments.FragmentResponseManager;
 import org.sourceforge.ah.android.utilities.Widgets.Listeners.SimpleViewPagerTabListener;
 
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -31,6 +34,7 @@ import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.Foru
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.CourseForumParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.DiscussionParentParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.ForumDiscussionParcel;
+import edu.uwi.mona.mobileourvle.app.Classes.TransportLayer.RemoteAPIRequests.RemoteAPIRequest;
 import edu.uwi.mona.mobileourvle.app.Fragments.Forum.ForumDiscussionListFragment;
 import edu.uwi.mona.mobileourvle.app.R;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants.ParcelKeys;
@@ -241,20 +245,26 @@ public class CourseContentsActivity extends ActivityBase
 // get download service and enqueue file
             final DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
             manager.enqueue(request);
-        } else if ("page".equals(module.getName())) {
-            Toast.makeText(getApplicationContext(), "Opening Page: " + module.getLabel(),
-                           Toast.LENGTH_LONG).show();
-            String url = module.getFileUrl();
-            if (!url.startsWith("http://") && !url.startsWith("https://"))
-                url = "http://" + url;
+        } else {
 
-            final Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(browserIntent);
-
-        } else
-            Toast.makeText(this, "Mobile access to this content is not yet supported",
-                           Toast.LENGTH_SHORT)
-                 .show();
+            new AlertDialog.Builder(this)
+                    .setTitle("File not supported")
+                    .setMessage("Do you want to redirected to the browser where you can open this file ?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            String url = mUserSession.getContext().getSiteInfo().getUrl()+"/view.php?id="+module.getCourseId();
+                            final Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            startActivity(browserIntent);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
 
     }
 

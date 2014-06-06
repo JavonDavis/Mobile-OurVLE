@@ -11,7 +11,6 @@ import org.sourceforge.ah.android.utilities.Dialog.DialogManager;
 import org.sourceforge.ah.android.utilities.Plugins.DefaultCommunicationModulePlugin;
 import org.sourceforge.ah.android.utilities.Plugins.BaseClass.PluggableFragment;
 import org.sourceforge.ah.android.utilities.Widgets.Fragments.DialogFragmentBase;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -71,6 +70,8 @@ public class LoginFragment extends PluggableFragment implements
             mListener = new DefaultLoginResponse();
         }
     }
+
+
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {

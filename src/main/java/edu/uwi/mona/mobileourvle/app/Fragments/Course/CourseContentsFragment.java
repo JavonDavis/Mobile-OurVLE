@@ -247,7 +247,7 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
                 if (section.getModuleList().size() > 0)
                     mCourseModuleListAdapter
                             .addPartition(section, section.getModuleList());
-            
+
             mCourseModuleListAdapter.notifyDataSetChanged();
 
             return false;

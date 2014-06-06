@@ -3,10 +3,8 @@ package edu.uwi.mona.mobileourvle.app.Activities;
 import org.sourceforge.ah.android.utilities.Communication.EntitySyncroniser.EntitySyncronizer;
 import org.sourceforge.ah.android.utilities.Communication.Response.ResponseObject;
 import org.sourceforge.ah.android.utilities.Widgets.Activities.ActivityBase;
-
 import android.content.Intent;
 import android.os.Bundle;
-
 import edu.uwi.mona.mobileourvle.app.R;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants.ParcelKeys;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants.SharedContract;
