@@ -252,7 +252,7 @@ public class CourseContentsActivity extends ActivityBase
                     .setMessage("Do you want to redirected to the browser where you can open this file ?")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            String url = mUserSession.getContext().getSiteInfo().getUrl()+"/view.php?id="+module.getCourseId();
+                            String url = mUserSession.getContext().getSiteInfo().getUrl()+"/course/view.php?id="+module.getCourseId();
                             final Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                             startActivity(browserIntent);
                         }
