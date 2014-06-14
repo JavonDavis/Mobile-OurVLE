@@ -233,7 +233,7 @@ public class CourseContentsActivity extends ActivityBase
 
             request.setDescription("Course file download");
             request.setTitle(module.getLabel());
-// in order for this if to run, you must use the android 3.2 to compile your app
+            // in order for this if to run, you must use the android 3.2 to compile your app
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 request.allowScanningByMediaScanner();
                 request.setNotificationVisibility(
@@ -242,18 +242,22 @@ public class CourseContentsActivity extends ActivityBase
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,
                                                       module.getFileName());
 
-// get download service and enqueue file
-            final DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            // get download service and enqueue file
+            final DownloadManager manager = (DownloadManager) getSystemService(
+                    Context.DOWNLOAD_SERVICE);
             manager.enqueue(request);
-        } else {
+        } else if (module.getFileUrl() != null) {
 
             new AlertDialog.Builder(this)
-                    .setTitle("File not supported")
-                    .setMessage("Do you want to redirected to the browser where you can open this file ?")
+                    .setTitle("Not Supported")
+                    .setMessage(
+                            "Access to this type of content is not yet supported by OurVLE Mobile. " +
+                            "\n\nDo you want to open it in a browser?")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            String url = mUserSession.getContext().getSiteInfo().getUrl()+"/course/view.php?id="+module.getCourseId();
-                            final Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            final String url = module.getFileUrl();
+                            final Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                    url));
                             startActivity(browserIntent);
                         }
                     })
@@ -264,6 +268,12 @@ public class CourseContentsActivity extends ActivityBase
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
+        } else //noinspection StatementWithEmptyBody
+            if ("label".equalsIgnoreCase(module.getName())) {
+            // do nothing
+        } else {
+            Toast.makeText(getApplicationContext(),
+                           "This resource is not yet supported by OurVLE Mobile", Toast.LENGTH_SHORT).show();
         }
 
     }

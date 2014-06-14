@@ -292,10 +292,14 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
                 final SimpleViewHolder rowViewHolder) {
             final RowViewHolder h = (RowViewHolder) rowViewHolder;
 
-            h.icon.setImageResource(CourseModuleFactory
-                                            .getSystemIconResource(rowData));
-
-            h.firstLine.setText(rowData.getLabel());
+            if (CourseModuleFactory.getSystemIconResource(rowData) == null) {
+                h.icon.setVisibility(View.GONE);
+                h.firstLine.setText(":: " + rowData.getLabel().trim());
+            } else {
+                h.icon.setVisibility(View.VISIBLE);
+                h.icon.setImageResource(CourseModuleFactory.getSystemIconResource(rowData));
+                h.firstLine.setText(rowData.getLabel().trim());
+            }
         }
     }
 

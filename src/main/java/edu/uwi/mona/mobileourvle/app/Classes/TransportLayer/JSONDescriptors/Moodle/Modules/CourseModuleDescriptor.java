@@ -51,9 +51,7 @@ public class CourseModuleDescriptor extends
             final JsonObject content = contentList.get(0).getAsJsonObject();
             m.setFileName(content.get("filename").getAsString());
             m.setFileUrl(content.get("fileurl").getAsString());
-        }
-
-        if ("page".equalsIgnoreCase(moduleName) && moduleJson.has("url")) {
+        } else if (moduleJson.has("url")) {
             m.setFileUrl(moduleJson.get("url").getAsString());
         }
 
