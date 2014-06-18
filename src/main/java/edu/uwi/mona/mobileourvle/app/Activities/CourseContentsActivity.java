@@ -8,9 +8,9 @@ import org.sourceforge.ah.android.utilities.Widgets.Activities.ActivityBase;
 import org.sourceforge.ah.android.utilities.Widgets.Fragments.FragmentResponseListerner;
 import org.sourceforge.ah.android.utilities.Widgets.Fragments.FragmentResponseManager;
 import org.sourceforge.ah.android.utilities.Widgets.Listeners.SimpleViewPagerTabListener;
-
 import android.app.AlertDialog;
 import android.app.DownloadManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,12 +23,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
-
+import java.io.File;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.DiscussionParent;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.ForumDiscussion;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.CourseForumParcel;
@@ -99,40 +99,40 @@ public class CourseContentsActivity extends ActivityBase
                             .getWrappedObejct();
 
                     final Intent intent = new Intent(CourseContentsActivity.this,
-                                                     ForumDiscussionPagerActivity.class);
+                            ForumDiscussionPagerActivity.class);
 
                     intent.putExtra(ParcelKeys.USER_SESSION,
-                                    new UserSessionParcel(mUserSession));
+                            new UserSessionParcel(mUserSession));
 
                     intent.putExtra(ParcelKeys.FORUM_DISCUSSION_ID,
-                                    discussion.getId());
+                            discussion.getId());
 
                     intent.putExtra(ParcelKeys.PARENT,
-                                    new CourseForumParcel(mUserSession.getContext()
-                                                                      .getSiteInfo()
-                                                                      .getNewsForum())
-                                   );
+                            new CourseForumParcel(mUserSession.getContext()
+                                    .getSiteInfo()
+                                    .getNewsForum())
+                    );
 
                     intent.putExtra(ParcelKeys.PARENT,
-                                    new DiscussionParentParcel(
-                                            new DiscussionParent(
-                                                    mUserSession.getContext()
-                                                                .getSiteInfo()
-                                                                .getNewsForum()
-                                            )
+                            new DiscussionParentParcel(
+                                    new DiscussionParent(
+                                            mUserSession.getContext()
+                                                    .getSiteInfo()
+                                                    .getNewsForum()
                                     )
-                                   );
+                            )
+                    );
 
                     intent.putExtra(ParcelKeys.FORUM_DISCUSSION_ID,
-                                    discussion.getId());
+                            discussion.getId());
 
                     startActivity(intent);
                 }
             };
 
         FragmentResponseManager.registerReceiver(getApplicationContext(),
-                                                 ForumDiscussionListFragment.Responses.onDiscussionSelected,
-                                                 mOnDiscussionSeclectedReceiver);
+                ForumDiscussionListFragment.Responses.onDiscussionSelected,
+                mOnDiscussionSeclectedReceiver);
 
         super.onResume();
     }
@@ -141,7 +141,7 @@ public class CourseContentsActivity extends ActivityBase
     protected void onPause() {
         if (mOnDiscussionSeclectedReceiver != null)
             FragmentResponseManager.unregisterReceiver(getApplicationContext(),
-                                                       mOnDiscussionSeclectedReceiver);
+                    mOnDiscussionSeclectedReceiver);
         super.onPause();
     }
 
@@ -189,11 +189,11 @@ public class CourseContentsActivity extends ActivityBase
         actionBar.addTab(tab);
 
         tab = actionBar.newTab().setText("Resource").setIcon(R.drawable.collection_icon)
-                       .setTabListener(new SimpleViewPagerTabListener(mPager));
+                .setTabListener(new SimpleViewPagerTabListener(mPager));
         actionBar.addTab(tab);
 
         tab = actionBar.newTab().setText("Overview").setIcon(R.drawable.overview_icon)
-                       .setTabListener(new SimpleViewPagerTabListener(mPager));
+                .setTabListener(new SimpleViewPagerTabListener(mPager));
         actionBar.addTab(tab, true);
 
         tab = actionBar.newTab().setText("Notes").setIcon(R.drawable.notes_icon).setTabListener(
@@ -217,7 +217,7 @@ public class CourseContentsActivity extends ActivityBase
     public void onCourseModuleSelected(final CourseModule module) {
         if ("forum".equals(module.getName())) {
             final Intent intent = new Intent(CourseContentsActivity.this,
-                                             ForumDiscussionListActivity.class);
+                    ForumDiscussionListActivity.class);
 
             intent.putExtra(ParcelKeys.USER_SESSION, new UserSessionParcel(mUserSession));
 
@@ -226,33 +226,65 @@ public class CourseContentsActivity extends ActivityBase
             startActivity(intent);
 
         } else if ("resource".equalsIgnoreCase(module.getName())) {
-            Toast.makeText(getApplicationContext(), "Downloading File: " + module.getLabel(),
-                           Toast.LENGTH_LONG).show();
-            final String url = module.getFileUrl() + "&token=" + mUserSession.getSessionKey();
-            final DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
 
-            request.setDescription("Course file download");
-            request.setTitle(module.getLabel());
-            // in order for this if to run, you must use the android 3.2 to compile your app
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                request.allowScanningByMediaScanner();
-                request.setNotificationVisibility(
-                        DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            String folderLocation = "/OurVLE/courses/"+mCourse.getName().trim()+"-"+mCourse.getId()+"/files/"; // sub-folder definition
+
+            File location = new File(Environment.getExternalStorageDirectory(), folderLocation);
+
+            if (!location.exists()) {
+                location.mkdirs();  // makes the subfolder
             }
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,
-                                                      module.getFileName());
 
-            // get download service and enqueue file
-            final DownloadManager manager = (DownloadManager) getSystemService(
-                    Context.DOWNLOAD_SERVICE);
-            manager.enqueue(request);
+            String fileLocation = location+"/"+module.getFileName();
+            File courseFile = new File(fileLocation);
+
+            if(!courseFile.exists()) // checks if the file is not already present
+            {
+                Toast.makeText(getApplicationContext(), "Downloading File: " + module.getLabel(),
+                        Toast.LENGTH_LONG).show();
+                final String url = module.getFileUrl() + "&token=" + mUserSession.getSessionKey();
+                final DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+
+                request.setDescription("Course file download");
+                request.setTitle(module.getLabel());
+                // in order for this if to run, you must use the android 3.2 to compile your app
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    request.allowScanningByMediaScanner();
+                    request.setNotificationVisibility(
+                            DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                }
+                request.setDestinationInExternalPublicDir(folderLocation,
+                        module.getFileName());
+
+                // get download service and enqueue file
+                final DownloadManager manager = (DownloadManager) getSystemService(
+                        Context.DOWNLOAD_SERVICE);
+                manager.enqueue(request);
+            }
+            else // open the file that is already present
+            {
+                Uri path = Uri.fromFile(courseFile);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(path);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                try
+                {
+                    startActivity(intent);
+                }
+                catch (ActivityNotFoundException e)
+                {
+                    Toast.makeText(getApplicationContext(), "no application available to view this file",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
         } else if (module.getFileUrl() != null) {
 
             new AlertDialog.Builder(this)
                     .setTitle("Not Supported")
                     .setMessage(
                             "Access to this type of content is not yet supported by OurVLE Mobile. " +
-                            "\n\nDo you want to open it in a browser?")
+                                    "\n\nDo you want to open it in a browser?")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             final String url = module.getFileUrl();
@@ -270,11 +302,11 @@ public class CourseContentsActivity extends ActivityBase
                     .show();
         } else //noinspection StatementWithEmptyBody
             if ("label".equalsIgnoreCase(module.getName())) {
-            // do nothing
-        } else {
-            Toast.makeText(getApplicationContext(),
-                           "This resource is not yet supported by OurVLE Mobile", Toast.LENGTH_SHORT).show();
-        }
+                // do nothing
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "This resource is not yet supported by OurVLE Mobile", Toast.LENGTH_SHORT).show();
+            }
 
     }
 
