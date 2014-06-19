@@ -12,6 +12,7 @@ import org.sourceforge.ah.android.utilities.Plugins.DefaultCommunicationModulePl
 import org.sourceforge.ah.android.utilities.Plugins.BaseClass.PluggableFragment;
 import org.sourceforge.ah.android.utilities.Widgets.Fragments.DialogFragmentBase;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -44,6 +47,8 @@ public class LoginFragment extends PluggableFragment implements
     private EditText mUsernameTextbox;
     private EditText mPasswordTextBox;
     private Button mLoginButton;
+    private SharedPreferences preferences;
+    private CheckBox mRememberBox;
 
     private Listener mListener;
 
@@ -89,6 +94,8 @@ public class LoginFragment extends PluggableFragment implements
         final View fragmentView = inflater.inflate(
                 R.layout.fragment_login_main, container, false);
 
+        preferences = getActivity().getPreferences(getActivity().MODE_PRIVATE);
+
         mLoginButton = (Button) fragmentView.findViewById(R.id.login_btn);
 
         mUsernameTextbox = (EditText) fragmentView
@@ -96,6 +103,15 @@ public class LoginFragment extends PluggableFragment implements
 
         mPasswordTextBox = (EditText) fragmentView
                 .findViewById(R.id.password_field);
+        mRememberBox = (CheckBox) fragmentView
+                .findViewById(R.id.remember_box);
+
+        mUsernameTextbox.setText(preferences.getString("UserName",""));
+
+        if(!mUsernameTextbox.getText().toString().isEmpty())
+            mRememberBox.setChecked(true);
+
+        mRememberBox.setOnCheckedChangeListener(new CheckListener());
 
         // Attach Login button
         mLoginButton.setOnClickListener(new LoginButtonListener());
@@ -210,6 +226,33 @@ public class LoginFragment extends PluggableFragment implements
     }
 
     /* ====================== Private classes ============== */
+
+    private class CheckListener implements CompoundButton.OnCheckedChangeListener
+    {
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView,boolean isChecked)
+        {
+            if(isChecked)
+            {
+                String user_name = mUsernameTextbox.getText().toString();
+                if(!user_name.isEmpty())
+                {
+                    SharedPreferences.Editor editor = preferences.edit(); //instanciates the editor
+                    editor.putString("UserName", user_name);
+                    editor.commit();
+                }
+            }
+            else
+            {
+                SharedPreferences.Editor editor = preferences.edit(); //instanciates the editor
+                editor.putString("UserName", "");
+                editor.commit();
+            }
+        }
+
+    }
+
     public class DefaultLoginResponse implements Listener {
         @Override
         public void onLoginAuthenticationSuccess(final UserSession session,

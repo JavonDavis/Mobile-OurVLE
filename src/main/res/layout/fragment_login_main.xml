@@ -48,4 +48,10 @@
         android:layout_marginTop="10dp"
         android:text="@string/button_login" />
 
+    <CheckBox
+        android:id="@+id/remember_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/remember" />
+
 </LinearLayout>
