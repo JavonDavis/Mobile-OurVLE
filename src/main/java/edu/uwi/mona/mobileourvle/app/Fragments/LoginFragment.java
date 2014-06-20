@@ -26,6 +26,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+
+import edu.uwi.mona.mobileourvle.app.Activities.LoginMainActivity;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.CourseForum;
 import edu.uwi.mona.mobileourvle.app.Classes.TransportLayer.JSONDescriptors.Moodle.Modules.Forum.CourseForumDescriptior;
 import edu.uwi.mona.mobileourvle.app.Classes.TransportLayer.RemoteAPIRequests.WebServiceFunctions.GetCourseDiscussions;
@@ -49,6 +51,7 @@ public class LoginFragment extends PluggableFragment implements
     private Button mLoginButton;
     private SharedPreferences preferences;
     private CheckBox mRememberBox;
+    private CheckBox mSaveBox;
 
     private Listener mListener;
 
@@ -106,6 +109,9 @@ public class LoginFragment extends PluggableFragment implements
         mRememberBox = (CheckBox) fragmentView
                 .findViewById(R.id.remember_box);
 
+        mSaveBox = (CheckBox) fragmentView
+                .findViewById(R.id.keep_login);
+
         mUsernameTextbox.setText(preferences.getString("UserName",""));
 
         if(!mUsernameTextbox.getText().toString().isEmpty())
@@ -114,7 +120,31 @@ public class LoginFragment extends PluggableFragment implements
         // Attach Login button
         mLoginButton.setOnClickListener(new LoginButtonListener());
 
+        if(!LoginMainActivity.statusSaved)
+        {
+            preferences.edit()
+                    .putString("Password", "")
+                    .commit();
+        }
+
+        if(loginWasSaved())
+        {
+            String user_name = preferences.getString("UserName","");
+            String password = preferences.getString("Password","");
+
+            CommuncationModule.sendAsyncRequest(
+                    mActivity,
+                    new LoginRemoteFunction(
+                            user_name, password),
+                    Requests.LOGIN, LoginFragment.this);
+        }
+
         return fragmentView;
+    }
+
+    public boolean loginWasSaved()
+    {
+        return (!preferences.getString("UserName","").isEmpty() && !preferences.getString("Password","").isEmpty());
     }
 
     @Override
@@ -232,22 +262,6 @@ public class LoginFragment extends PluggableFragment implements
             Toast.makeText(mActivity
                                    .getApplicationContext(),
                            "Login Successfull", Toast.LENGTH_SHORT).show();
-            if(mRememberBox.isChecked())
-            {
-                String user_name = mUsernameTextbox.getText().toString();
-                if(!user_name.isEmpty())
-                {
-                    SharedPreferences.Editor editor = preferences.edit(); //instanciates the editor
-                    editor.putString("UserName", user_name);
-                    editor.commit();
-                }
-            }
-            else
-            {
-                SharedPreferences.Editor editor = preferences.edit(); //instanciates the editor
-                editor.putString("UserName", "");
-                editor.commit();
-            }
 
         }
 

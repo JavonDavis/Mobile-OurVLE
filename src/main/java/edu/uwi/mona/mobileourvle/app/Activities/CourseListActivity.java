@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -29,6 +30,7 @@ import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.UserSessionParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants.ParcelKeys;
 import edu.uwi.mona.mobileourvle.app.Fragments.Course.CourseListFragment;
 import edu.uwi.mona.mobileourvle.app.Fragments.Forum.ForumDiscussionListFragment;
+import edu.uwi.mona.mobileourvle.app.Fragments.LoginFragment;
 import edu.uwi.mona.mobileourvle.app.Fragments.MoodleUser.ViewProfileFragment;
 import edu.uwi.mona.mobileourvle.app.R;
 
@@ -49,6 +51,7 @@ public class CourseListActivity extends ActivityBase {
 
     private FragmentResponseListerner mOnCourseSeclectedReceiver;
     private FragmentResponseListerner mOnDiscussionSeclectedReceiver;
+    private SharedPreferences preferences;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -201,20 +204,43 @@ public class CourseListActivity extends ActivityBase {
 
     @Override
     public void onBackPressed() {
-        Log.e("alre", "here");
-        new AlertDialog.Builder(this)
-                .setTitle("Logging out")
-                .setMessage(
-                        "Are you sure you want to log out of OurVLE")
-                .setCancelable(false)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        CourseListActivity.this.finish();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+        if(LoginMainActivity.statusSaved)
+        {
+            new AlertDialog.Builder(this)
+                    .setTitle("Prompt")
+                    .setMessage(
+                            "Do you want to log out of OurVLE?")
+                    .setCancelable(false)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            LoginMainActivity.statusSaved=false;
+                            CourseListActivity.this.finish();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            CourseListActivity.this.finish();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+        else
+        {
+            new AlertDialog.Builder(this)
+                    .setTitle("Logging out")
+                    .setMessage(
+                            "Are you sure you want to log out of OurVLE?")
+                    .setCancelable(false)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            CourseListActivity.this.finish();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
     }
 
     /* ===================== Private Classes =============== */

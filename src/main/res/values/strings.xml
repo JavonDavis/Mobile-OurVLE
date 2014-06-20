@@ -9,6 +9,7 @@
 
     <string name="button_login">Login</string>
     <string name="remember">Remember Me</string>
+    <string name="keep_login">Keep Me Logged In</string>
     
     <string name="title_item_detail">Item Detail</string>
     <string name="title_item_list">Items</string>
