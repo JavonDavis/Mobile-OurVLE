@@ -111,8 +111,6 @@ public class LoginFragment extends PluggableFragment implements
         if(!mUsernameTextbox.getText().toString().isEmpty())
             mRememberBox.setChecked(true);
 
-        mRememberBox.setOnCheckedChangeListener(new CheckListener());
-
         // Attach Login button
         mLoginButton.setOnClickListener(new LoginButtonListener());
 
@@ -227,13 +225,14 @@ public class LoginFragment extends PluggableFragment implements
 
     /* ====================== Private classes ============== */
 
-    private class CheckListener implements CompoundButton.OnCheckedChangeListener
-    {
-
+    public class DefaultLoginResponse implements Listener {
         @Override
-        public void onCheckedChanged(CompoundButton buttonView,boolean isChecked)
-        {
-            if(isChecked)
+        public void onLoginAuthenticationSuccess(final UserSession session,
+                                                 final ResponseObject response) {
+            Toast.makeText(mActivity
+                                   .getApplicationContext(),
+                           "Login Successfull", Toast.LENGTH_SHORT).show();
+            if(mRememberBox.isChecked())
             {
                 String user_name = mUsernameTextbox.getText().toString();
                 if(!user_name.isEmpty())
@@ -249,17 +248,6 @@ public class LoginFragment extends PluggableFragment implements
                 editor.putString("UserName", "");
                 editor.commit();
             }
-        }
-
-    }
-
-    public class DefaultLoginResponse implements Listener {
-        @Override
-        public void onLoginAuthenticationSuccess(final UserSession session,
-                                                 final ResponseObject response) {
-            Toast.makeText(mActivity
-                                   .getApplicationContext(),
-                           "Login Successfull", Toast.LENGTH_SHORT).show();
 
         }
 

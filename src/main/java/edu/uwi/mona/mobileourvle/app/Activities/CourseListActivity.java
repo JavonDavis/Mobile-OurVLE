@@ -5,7 +5,9 @@ package edu.uwi.mona.mobileourvle.app.Activities;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Authentication.Session.UserSession;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Courses.MoodleCourse;
@@ -194,6 +197,24 @@ public class CourseListActivity extends ActivityBase {
             startActivity(intent);
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.e("alre", "here");
+        new AlertDialog.Builder(this)
+                .setTitle("Logging out")
+                .setMessage(
+                        "Are you sure you want to log out of OurVLE")
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        CourseListActivity.this.finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     /* ===================== Private Classes =============== */
