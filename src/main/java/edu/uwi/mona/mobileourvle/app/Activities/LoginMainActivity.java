@@ -76,42 +76,38 @@ public class LoginMainActivity extends ActivityBase implements
                         new UserSessionParcel(session));
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        if(!statusSaved) {
+            preferences = getPreferences(MODE_PRIVATE);
 
-        preferences = getPreferences(MODE_PRIVATE);
+            mUsernameTextbox = (EditText) findViewById(R.id.id_number_field);
 
-        mUsernameTextbox = (EditText) findViewById(R.id.id_number_field);
+            mPasswordTextBox = (EditText) findViewById(R.id.password_field);
+            mRememberBox = (CheckBox) findViewById(R.id.remember_box);
 
-        mPasswordTextBox = (EditText) findViewById(R.id.password_field);
-        mRememberBox = (CheckBox) findViewById(R.id.remember_box);
+            mSaveBox = (CheckBox) findViewById(R.id.keep_login);
 
-        mSaveBox = (CheckBox) findViewById(R.id.keep_login);
+            if (mRememberBox.isChecked()) {
+                final String user_name = mUsernameTextbox.getText().toString();
+                preferences.edit()
+                        .putString("UserName", user_name)
+                        .commit();
+            } else
+                preferences.edit()
+                        .putString("UserName", "")
+                        .commit();
 
-        if(mRememberBox.isChecked())
-        {
-            final String user_name = mUsernameTextbox.getText().toString();
-            preferences.edit()
-                    .putString("UserName", user_name)
-                    .commit();
+            if (mSaveBox.isChecked()) {
+                final String user_name = mUsernameTextbox.getText().toString();
+                final String password = mPasswordTextBox.getText().toString();
+
+                preferences.edit()
+                        .putString("UserName", user_name)
+                        .putString("Password", password)
+                        .commit();
+
+                statusSaved = true;
+            }
         }
-        else
-            preferences.edit()
-                    .putString("UserName", "")
-                    .commit();
-
-        if(mSaveBox.isChecked())
-        {
-            Log.e("save","check");
-            final String user_name = mUsernameTextbox.getText().toString();
-            final String password = mPasswordTextBox.getText().toString();
-            Log.e("pass",password);
-            preferences.edit()
-                    .putString("UserName", user_name)
-                    .putString("Password", password)
-                    .commit();
-
-            statusSaved=true;
-        }
-
 
 
         startActivity(intent);

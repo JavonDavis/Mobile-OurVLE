@@ -93,6 +93,7 @@ public class LoginFragment extends PluggableFragment implements
     public View onCreateView(final LayoutInflater inflater,
                              final ViewGroup container,
                              final Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         final View fragmentView = inflater.inflate(
                 R.layout.fragment_login_main, container, false);
@@ -121,11 +122,9 @@ public class LoginFragment extends PluggableFragment implements
         mLoginButton.setOnClickListener(new LoginButtonListener());
 
         if(!LoginMainActivity.statusSaved)
-        {
             preferences.edit()
                     .putString("Password", "")
                     .commit();
-        }
 
         if(loginWasSaved())
         {
@@ -137,11 +136,16 @@ public class LoginFragment extends PluggableFragment implements
                     new LoginRemoteFunction(
                             user_name, password),
                     Requests.LOGIN, LoginFragment.this);
-        }
 
+            return null; // don't display the login page
+        }
         return fragmentView;
     }
 
+    /**
+     * method to check if the user had request to keep logged in
+     * @return
+     */
     public boolean loginWasSaved()
     {
         return (!preferences.getString("UserName","").isEmpty() && !preferences.getString("Password","").isEmpty());

@@ -67,7 +67,6 @@ public class CourseListActivity extends ActivityBase {
 
         setupViewPager();
         addTabNavigation();
-
     }
 
     @Override
@@ -174,7 +173,6 @@ public class CourseListActivity extends ActivityBase {
 
             startActivity(intent);
         }
-
     }
 
     private class OnDiscussionSelectedReceiver extends
@@ -186,7 +184,6 @@ public class CourseListActivity extends ActivityBase {
             final ForumDiscussion discussion = ((ForumDiscussionParcel) data
                     .getParcelable(ForumDiscussionListFragment.ResponseArgs.Discussion))
                     .getWrappedObejct();
-
 
             final Intent intent = new Intent(CourseListActivity.this,
                                              ForumDiscussionPostListActivity.class);
@@ -208,16 +205,15 @@ public class CourseListActivity extends ActivityBase {
         {
             new AlertDialog.Builder(this)
                     .setTitle("Prompt")
-                    .setMessage(
-                            "Do you want to log out of OurVLE?")
+                    .setMessage(R.string.log_out_saved_prompt)
                     .setCancelable(false)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             LoginMainActivity.statusSaved=false;
                             CourseListActivity.this.finish();
                         }
                     })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             CourseListActivity.this.finish();
                         }
@@ -228,11 +224,10 @@ public class CourseListActivity extends ActivityBase {
         else
         {
             new AlertDialog.Builder(this)
-                    .setTitle("Logging out")
-                    .setMessage(
-                            "Are you sure you want to log out of OurVLE?")
+                    .setTitle(R.string.log_out)
+                    .setMessage(R.string.log_out_prompt)
                     .setCancelable(false)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             CourseListActivity.this.finish();
                         }

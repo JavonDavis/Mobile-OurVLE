@@ -61,7 +61,6 @@ public class CourseListFragment extends AuthenticatedListFragment implements
         mAdapter = new MoodleCourseAdapter(getParentActivity(), null,
                                            CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
-
         final EntitySyncronizerPlugin plugin = new EntitySyncronizerPlugin(
                 new MoodleCourseSyncronizationManager());
 
