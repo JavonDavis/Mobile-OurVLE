@@ -16,6 +16,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -79,7 +81,9 @@ public class LoginFragment extends PluggableFragment implements
         }
     }
 
-
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
