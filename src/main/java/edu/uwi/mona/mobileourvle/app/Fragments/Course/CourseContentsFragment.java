@@ -83,9 +83,7 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menuA, MenuInflater inflater)
-    {
-        super.onCreateOptionsMenu(menuA, inflater);
+    public void onPrepareOptionsMenu(Menu menuA) {
         menu=menuA;
         addSearchOption();
     }

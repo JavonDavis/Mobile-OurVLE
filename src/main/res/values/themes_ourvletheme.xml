@@ -85,6 +85,7 @@
             <item name="backgroundSplit">@drawable/ab_bottom_solid_ourvletheme</item>
             <item name="progressBarStyle">@style/ProgressBar.Ourvletheme</item>
             <item name="android:titleTextStyle">@style/ActionbarTitleTextOurVLETheme</item>
+
         </style>
 
         <style name="ActionBar.Transparent.Ourvletheme" parent="@style/Widget.AppCompat.Light.ActionBar">

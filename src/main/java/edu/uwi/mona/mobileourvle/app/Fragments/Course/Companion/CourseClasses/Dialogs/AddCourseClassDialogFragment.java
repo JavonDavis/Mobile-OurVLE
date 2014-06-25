@@ -392,7 +392,7 @@ public class AddCourseClassDialogFragment extends DialogFragmentBase
                                                  R.layout.list_item_simple_item,
                                                  android.R.id.text1,
                                                  new String[]{
-                                                         "Sunday", "Monday", "Teusday",
+                                                         "Sunday", "Monday", "Tuesday",
                                                          "Wednesday", "Thursday", "Friday",
                                                          "Saturday"
                                                  }));

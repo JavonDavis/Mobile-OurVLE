@@ -16,7 +16,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Authentication.Session.UserSession;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Courses.MoodleCourse;
@@ -42,7 +47,7 @@ import org.sourceforge.ah.android.utilities.Widgets.Listeners.SimpleViewPagerTab
 /**
  * @author Aston Hamilton
  */
-public class CourseListActivity extends ActivityBase {
+public class CourseListActivity extends ActivityBase{
 
     private UserSession mUserSession;
 
@@ -201,19 +206,20 @@ public class CourseListActivity extends ActivityBase {
 
     @Override
     public void onBackPressed() {
+        /*
         if(LoginMainActivity.statusSaved)
         {
             new AlertDialog.Builder(this)
                     .setTitle("Prompt")
                     .setMessage(R.string.log_out_saved_prompt)
                     .setCancelable(false)
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.log_out_ourvle, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             LoginMainActivity.statusSaved=false;
                             CourseListActivity.this.finish();
                         }
                     })
-                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             CourseListActivity.this.finish();
                         }
@@ -236,7 +242,13 @@ public class CourseListActivity extends ActivityBase {
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         }
+        */
+        if(LoginMainActivity.statusSaved)
+        {
+            CourseListActivity.this.finish();
+        }
     }
+
 
     /* ===================== Private Classes =============== */
     private class MainPagePagerAdaper extends FragmentStatePagerAdapter {

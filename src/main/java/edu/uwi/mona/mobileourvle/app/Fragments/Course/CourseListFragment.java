@@ -23,11 +23,14 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import edu.uwi.mona.mobileourvle.app.Activities.LoginMainActivity;
 import edu.uwi.mona.mobileourvle.app.R;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Authentication.Session.UserSession;
@@ -71,6 +74,13 @@ public class CourseListFragment extends AuthenticatedListFragment implements
         setListAdapter(mAdapter);
 
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem logOut = menu.add("Log Out");
+        logOut.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        logOut.setOnMenuItemClickListener(new LogOutListener());
     }
 
     @Override
@@ -198,6 +208,8 @@ public class CourseListFragment extends AuthenticatedListFragment implements
             viewHolder.courseManagers.setText(managersBuilder.toString());
         }
 
+
+
         @Override
         public View newView(final Context context, final Cursor arg1,
                             final ViewGroup root) {
@@ -236,4 +248,25 @@ public class CourseListFragment extends AuthenticatedListFragment implements
         int LoadCourses = 0;
     }
 
+    /* =========================== Listener ========================= */
+    private class LogOutListener implements MenuItem.OnMenuItemClickListener {
+        @Override
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            LoginMainActivity.statusSaved=false;
+
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(R.string.log_out)
+                    .setMessage(R.string.log_out_prompt)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            getActivity().finish();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+            return true;
+        }
+    }
 }

@@ -117,6 +117,13 @@ public class LoginFragment extends PluggableFragment implements
         mSaveBox = (CheckBox) fragmentView
                 .findViewById(R.id.keep_login);
 
+        mSaveBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                mRememberBox.setEnabled(false);
+            }
+        });
+
         mUsernameTextbox.setText(preferences.getString("UserName",""));
 
         if(!mUsernameTextbox.getText().toString().isEmpty())
@@ -135,14 +142,20 @@ public class LoginFragment extends PluggableFragment implements
             String user_name = preferences.getString("UserName","");
             String password = preferences.getString("Password","");
 
+            showDialog(Dialogs.LOGIN_PROGRESS);
+            mCommunicationModulePlugin.turnOnLoadingIcon();
             CommuncationModule.sendAsyncRequest(
                     mActivity,
                     new LoginRemoteFunction(
                             user_name, password),
                     Requests.LOGIN, LoginFragment.this);
 
-            return null; // don't display the login page
+            final View tempView = inflater.inflate(
+                    R.layout.fragment_course_list, container, false);
+
+            return tempView;
         }
+
         return fragmentView;
     }
 
