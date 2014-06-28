@@ -25,9 +25,8 @@
         android:hint="@string/field_login_id_number"
         android:layout_marginTop="20dp"
         android:singleLine="true"
-        android:text="" >
-
-    </EditText>
+        android:text=""
+        android:inputType="number" />
 
 
     <EditText
@@ -49,15 +48,12 @@
         android:text="@string/button_login" />
 
     <CheckBox
-        android:id="@+id/remember_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/remember" />
-
-    <CheckBox
         android:id="@+id/keep_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:checked="true"
+        android:textColor="#FFF"
+        android:layout_marginTop="20dp"
         android:text="@string/keep_login" />
 
 </LinearLayout>

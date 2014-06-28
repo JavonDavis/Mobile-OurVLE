@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:paddingTop="50dp"
+    android:background="@drawable/ourvle_login_bg"
+    tools:context=".Fragments.LoginFragment" >
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="@string/text_image"
+        android:src="@drawable/ourvle_logo" />
+
+    <TextView
+            android:id="@+id/id_number"
+            android:layout_marginTop="40dp"
+            android:text="@string/field_login_id_number"
+            android:ems="10"
+            android:textSize="20sp"
+            android:textColor="#FFF"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+
+    <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"/>
+
+    <TextView
+            android:layout_marginTop="40dp"
+            android:text="Authenticating..."
+            android:ems="10"
+            android:textSize="20sp"
+            android:textColor="#BBB"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+</LinearLayout>

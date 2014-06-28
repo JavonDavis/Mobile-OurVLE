@@ -31,5 +31,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.+'
     compile 'joda-time:joda-time:2.3'
     compile 'org.mnode.ical4j:ical4j:1.0.5.2@jar'
+    compile 'com.madgag.spongycastle:core:1.50.0.0@jar'
     compile 'org.sourceforge.ah.android.utilities:android-utilities:1.0@aar'
 }

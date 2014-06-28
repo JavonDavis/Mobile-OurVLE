@@ -6,12 +6,15 @@ import org.sourceforge.ah.android.utilities.Communication.Interfaces.OnCommunica
 import org.sourceforge.ah.android.utilities.Communication.JSONFactory.JSONDecoder;
 import org.sourceforge.ah.android.utilities.Communication.Response.ResponseError;
 import org.sourceforge.ah.android.utilities.Communication.Response.ResponseObject;
+import org.sourceforge.ah.android.utilities.Cryptography.AESUtil;
 import org.sourceforge.ah.android.utilities.Dialog.DialogCreator;
 import org.sourceforge.ah.android.utilities.Dialog.DialogManager;
 import org.sourceforge.ah.android.utilities.Plugins.DefaultCommunicationModulePlugin;
 import org.sourceforge.ah.android.utilities.Plugins.BaseClass.PluggableFragment;
 import org.sourceforge.ah.android.utilities.Widgets.Fragments.DialogFragmentBase;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,12 +25,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.gson.JsonObject;
 
 import edu.uwi.mona.mobileourvle.app.Activities.LoginMainActivity;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.CourseForum;
@@ -50,10 +50,6 @@ public class LoginFragment extends PluggableFragment implements
 
     private EditText mUsernameTextbox;
     private EditText mPasswordTextBox;
-    private Button mLoginButton;
-    private SharedPreferences preferences;
-    private CheckBox mRememberBox;
-    private CheckBox mSaveBox;
 
     private Listener mListener;
 
@@ -61,19 +57,15 @@ public class LoginFragment extends PluggableFragment implements
 
     private DefaultCommunicationModulePlugin mCommunicationModulePlugin;
 
-    private Activity mActivity;
     private SessionContext mSessionContext;
 
     public static LoginFragment newInstance() {
-        final LoginFragment f = new LoginFragment();
-
-        return f;
+        return new LoginFragment();
     }
 
     @Override
     public void onAttach(final Activity activity) {
         super.onAttach(activity);
-        mActivity = activity;
         try {
             mListener = (Listener) activity;
         } catch (final ClassCastException e) {
@@ -98,74 +90,59 @@ public class LoginFragment extends PluggableFragment implements
                              final ViewGroup container,
                              final Bundle savedInstanceState) {
 
+        final SharedPreferences preferences = getApplicationContext().getSharedPreferences(
+                LoginMainActivity.SAVED_LOGIN_PREFERENCES_NAME, Context.MODE_PRIVATE);
+
+        final String savedEncryptionKey = preferences.getString(LoginMainActivity.ENCRYPTION_KEY, "");
+        final String savedUsername = preferences.getString(LoginMainActivity.USERNAME_KEY, "");
+        final String savedPassword = preferences.getString(LoginMainActivity.PASSWORD_KEY, "");
+
+        if (!savedEncryptionKey.isEmpty() && !savedUsername.isEmpty() && !savedPassword.isEmpty()) {
+            final String username = AESUtil.decryptAESString(savedEncryptionKey, savedUsername);
+
+            final View v = inflater.inflate(R.layout.fragment_auto_login_main, container, false);
+
+            final TextView idNumberView = (TextView) v.findViewById(R.id.id_number);
+
+            idNumberView.setText(username);
+            return v;
+        }
+
         // Inflate the layout for this fragment
-        final View fragmentView = inflater.inflate(
-                R.layout.fragment_login_main, container, false);
+        final View fragmentView = inflater.inflate(R.layout.fragment_login_main, container, false);
 
-        preferences = getActivity().getPreferences(getActivity().MODE_PRIVATE);
+        final Button loginButton = (Button) fragmentView.findViewById(R.id.login_btn);
 
-        mLoginButton = (Button) fragmentView.findViewById(R.id.login_btn);
-
-        mUsernameTextbox = (EditText) fragmentView
-                .findViewById(R.id.id_number_field);
-
-        mPasswordTextBox = (EditText) fragmentView
-                .findViewById(R.id.password_field);
-        mRememberBox = (CheckBox) fragmentView
-                .findViewById(R.id.remember_box);
-
-        mSaveBox = (CheckBox) fragmentView
-                .findViewById(R.id.keep_login);
-
-        mSaveBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mRememberBox.setEnabled(false);
-            }
-        });
-
-        mUsernameTextbox.setText(preferences.getString("UserName",""));
-
-        if(!mUsernameTextbox.getText().toString().isEmpty())
-            mRememberBox.setChecked(true);
+        mUsernameTextbox = (EditText) fragmentView.findViewById(R.id.id_number_field);
+        mPasswordTextBox = (EditText) fragmentView.findViewById(R.id.password_field);
 
         // Attach Login button
-        mLoginButton.setOnClickListener(new LoginButtonListener());
-
-        if(!LoginMainActivity.statusSaved)
-            preferences.edit()
-                    .putString("Password", "")
-                    .commit();
-
-        if(loginWasSaved())
-        {
-            String user_name = preferences.getString("UserName","");
-            String password = preferences.getString("Password","");
-
-            showDialog(Dialogs.LOGIN_PROGRESS);
-            mCommunicationModulePlugin.turnOnLoadingIcon();
-            CommuncationModule.sendAsyncRequest(
-                    mActivity,
-                    new LoginRemoteFunction(
-                            user_name, password),
-                    Requests.LOGIN, LoginFragment.this);
-
-            final View tempView = inflater.inflate(
-                    R.layout.fragment_course_list, container, false);
-
-            return tempView;
-        }
+        loginButton.setOnClickListener(new LoginButtonListener());
 
         return fragmentView;
     }
 
-    /**
-     * method to check if the user had request to keep logged in
-     * @return
-     */
-    public boolean loginWasSaved()
-    {
-        return (!preferences.getString("UserName","").isEmpty() && !preferences.getString("Password","").isEmpty());
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        final SharedPreferences preferences = getApplicationContext().getSharedPreferences(
+                LoginMainActivity.SAVED_LOGIN_PREFERENCES_NAME, Context.MODE_PRIVATE);
+
+        final String savedEncryptionKey = preferences.getString(LoginMainActivity.ENCRYPTION_KEY, "");
+        final String savedUsername = preferences.getString(LoginMainActivity.USERNAME_KEY, "");
+        final String savedPassword = preferences.getString(LoginMainActivity.PASSWORD_KEY, "");
+
+
+        if (!savedEncryptionKey.isEmpty() && !savedUsername.isEmpty() && !savedPassword.isEmpty()) {
+            final String username = AESUtil.decryptAESString(savedEncryptionKey, savedUsername);
+            final String password = AESUtil.decryptAESString(savedEncryptionKey, savedPassword);
+
+            mCommunicationModulePlugin.turnOnLoadingIcon();
+            CommuncationModule.sendAsyncRequest(
+                    getApplicationContext(), new LoginRemoteFunction(username, password),
+                    Requests.LOGIN, LoginFragment.this);
+        }
     }
 
     @Override
@@ -187,10 +164,11 @@ public class LoginFragment extends PluggableFragment implements
                                    response.getResponseText());
 
                 CommuncationModule.sendAsyncRequest(
-                        mActivity,
+                        getApplicationContext(),
                         new GetSessionContext(
                                 mUserSession),
-                        Requests.GET_CONTEXT, this);
+                        Requests.GET_CONTEXT, this
+                                                   );
                 break;
             case Requests.GET_CONTEXT:
                 mSessionContext = JSONDecoder
@@ -198,11 +176,12 @@ public class LoginFragment extends PluggableFragment implements
                                    response.getResponseText());
 
                 CommuncationModule.sendAsyncRequest(
-                        mActivity,
+                        getApplicationContext(),
                         new GetCourseDiscussions(
                                 String.valueOf(mSessionContext.getSiteInfo().getFrontPageId()),
                                 mUserSession),
-                        Requests.GET_SITE_NEWS_FORUM, this);
+                        Requests.GET_SITE_NEWS_FORUM, this
+                                                   );
                 break;
             case Requests.GET_SITE_NEWS_FORUM:
                 dismissDialog(Dialogs.LOGIN_PROGRESS);
@@ -258,19 +237,18 @@ public class LoginFragment extends PluggableFragment implements
     private class LoginButtonListener implements OnClickListener {
         @Override
         public void onClick(final View v) {
-            final String enteredUsername = mUsernameTextbox.getText()
-                                                           .toString();
-            final String enteredPassword = mPasswordTextBox.getText()
-                                                           .toString();
+            final String enteredUsername = mUsernameTextbox.getText().toString();
+            final String enteredPassword = mPasswordTextBox.getText().toString();
 
             showDialog(Dialogs.LOGIN_PROGRESS);
             mCommunicationModulePlugin.turnOnLoadingIcon();
 
             CommuncationModule.sendAsyncRequest(
-                    mActivity,
+                    getApplicationContext(),
                     new LoginRemoteFunction(
                             enteredUsername, enteredPassword),
-                    Requests.LOGIN, LoginFragment.this);
+                    Requests.LOGIN, LoginFragment.this
+                                               );
         }
     }
 
@@ -280,16 +258,15 @@ public class LoginFragment extends PluggableFragment implements
         @Override
         public void onLoginAuthenticationSuccess(final UserSession session,
                                                  final ResponseObject response) {
-            Toast.makeText(mActivity
-                                   .getApplicationContext(),
-                           "Login Successfull", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),
+                           "Login Successful", Toast.LENGTH_SHORT)
+                 .show();
 
         }
 
         @Override
         public void onLoginAuthenticationFailed() {
-            Toast.makeText(mActivity
-                                   .getApplicationContext(),
+            Toast.makeText(getApplicationContext(),
                            "Invalid Login. Please try again", Toast.LENGTH_SHORT)
                  .show();
         }

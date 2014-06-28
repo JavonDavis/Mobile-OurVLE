@@ -47,7 +47,7 @@ import org.sourceforge.ah.android.utilities.Widgets.Listeners.SimpleViewPagerTab
 /**
  * @author Aston Hamilton
  */
-public class CourseListActivity extends ActivityBase{
+public class CourseListActivity extends ActivityBase {
 
     private UserSession mUserSession;
 
@@ -206,47 +206,18 @@ public class CourseListActivity extends ActivityBase{
 
     @Override
     public void onBackPressed() {
-        /*
-        if(LoginMainActivity.statusSaved)
-        {
-            new AlertDialog.Builder(this)
-                    .setTitle("Prompt")
-                    .setMessage(R.string.log_out_saved_prompt)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.log_out_ourvle, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            LoginMainActivity.statusSaved=false;
-                            CourseListActivity.this.finish();
-                        }
-                    })
-                    .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            CourseListActivity.this.finish();
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
-        }
-        else
-        {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.log_out)
-                    .setMessage(R.string.log_out_prompt)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            CourseListActivity.this.finish();
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, null)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
-        }
-        */
-        if(LoginMainActivity.statusSaved)
-        {
-            CourseListActivity.this.finish();
-        }
+        new AlertDialog.Builder(this)
+                .setTitle("Exit")
+                .setMessage("Are you sure you want to exit the app?")
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        CourseListActivity.this.finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
 

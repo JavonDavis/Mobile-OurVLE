@@ -15,6 +15,8 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -30,6 +32,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import edu.uwi.mona.mobileourvle.app.Activities.CourseListActivity;
 import edu.uwi.mona.mobileourvle.app.Activities.LoginMainActivity;
 import edu.uwi.mona.mobileourvle.app.R;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants;
@@ -79,6 +82,7 @@ public class CourseListFragment extends AuthenticatedListFragment implements
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem logOut = menu.add("Log Out");
+//        logOut.setIcon(android.R.drawable.ic_lock_power_off);
         logOut.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         logOut.setOnMenuItemClickListener(new LogOutListener());
     }
@@ -115,7 +119,8 @@ public class CourseListFragment extends AuthenticatedListFragment implements
                                                 MoodleCourseContract.Columns.COURSE_NAME,
                                                 MoodleCourseContract.Columns.COURSE_MANAGERS
                                         },
-                                        null, null, null);
+                                        null, null, null
+                );
             default:
                 return null;
         }
@@ -193,7 +198,7 @@ public class CourseListFragment extends AuthenticatedListFragment implements
 
             boolean first = true;
             for (final CourseManager manager : managers) {
-                if (!first) {
+                if (first) {
                     first = false;
                     managersBuilder.append(", ");
                 }
@@ -207,7 +212,6 @@ public class CourseListFragment extends AuthenticatedListFragment implements
             viewHolder.courseTitle.setText(courseName);
             viewHolder.courseManagers.setText(managersBuilder.toString());
         }
-
 
 
         @Override
@@ -252,15 +256,30 @@ public class CourseListFragment extends AuthenticatedListFragment implements
     private class LogOutListener implements MenuItem.OnMenuItemClickListener {
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {
-            LoginMainActivity.statusSaved=false;
-
             new AlertDialog.Builder(getActivity())
                     .setTitle(R.string.log_out)
                     .setMessage(R.string.log_out_prompt)
                     .setCancelable(false)
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
+
+                            final SharedPreferences preferences =
+                                    getApplicationContext().getSharedPreferences(
+                                            LoginMainActivity.SAVED_LOGIN_PREFERENCES_NAME,
+                                            Context.MODE_PRIVATE);
+
+                            preferences.edit()
+                                       .putString(LoginMainActivity.ENCRYPTION_KEY, "")
+                                       .putString(LoginMainActivity.USERNAME_KEY, "")
+                                       .putString(LoginMainActivity.PASSWORD_KEY, "")
+                                       .commit();
+
+                            final Intent intent = new Intent(getActivity(), LoginMainActivity.class);
+
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
                             getActivity().finish();
+                            startActivity(intent);
                         }
                     })
                     .setNegativeButton(android.R.string.no, null)

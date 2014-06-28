@@ -2,14 +2,16 @@ package edu.uwi.mona.mobileourvle.app.Activities;
 
 import org.sourceforge.ah.android.utilities.Communication.EntitySyncroniser.EntitySyncronizer;
 import org.sourceforge.ah.android.utilities.Communication.Response.ResponseObject;
+import org.sourceforge.ah.android.utilities.Cryptography.AESUtil;
+import org.sourceforge.ah.android.utilities.Cryptography.CryptographyUtil;
 import org.sourceforge.ah.android.utilities.Widgets.Activities.ActivityBase;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import edu.uwi.mona.mobileourvle.app.R;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants.ParcelKeys;
@@ -24,20 +26,13 @@ import edu.uwi.mona.mobileourvle.app.Fragments.LoginFragment.DefaultLoginRespons
  */
 public class LoginMainActivity extends ActivityBase implements
         LoginFragment.Listener {
-    /**
-     * Called when the activity is first created.
-     *
-     * @param savedInstanceState
-     * the saved instance state
-     */
+
+    public final static String SAVED_LOGIN_PREFERENCES_NAME = "lma-al";
+    public final static String USERNAME_KEY = "lma-al-un";
+    public final static String PASSWORD_KEY = "lma-al-sk";
+    public final static String ENCRYPTION_KEY = "lma-al-ek";
 
     private DefaultLoginResponse mDefaultResponse;
-    private SharedPreferences preferences;
-    private EditText mUsernameTextbox;
-    private EditText mPasswordTextBox;
-    private CheckBox mRememberBox;
-    private CheckBox mSaveBox;
-    public static boolean statusSaved;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -70,44 +65,55 @@ public class LoginMainActivity extends ActivityBase implements
     @Override
     public void onLoginAuthenticationSuccess(final UserSession session,
                                              final ResponseObject response) {
-        final Intent intent = new Intent(LoginMainActivity.this,
-                                         CourseListActivity.class);
+        final Intent intent = new Intent(LoginMainActivity.this, CourseListActivity.class);
 
-        intent.putExtra(ParcelKeys.USER_SESSION,
-                        new UserSessionParcel(session));
+        intent.putExtra(ParcelKeys.USER_SESSION, new UserSessionParcel(session));
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        if(!statusSaved) {
-            preferences = getPreferences(MODE_PRIVATE);
 
-            mUsernameTextbox = (EditText) findViewById(R.id.id_number_field);
+        final EditText usernameTextbox = (EditText) findViewById(R.id.id_number_field);
 
-            mPasswordTextBox = (EditText) findViewById(R.id.password_field);
-            mRememberBox = (CheckBox) findViewById(R.id.remember_box);
+        if (usernameTextbox != null) { // MY flag to test if the auto login was being ran
+            final EditText passwordTextBox = (EditText) findViewById(R.id.password_field);
+            final CheckBox saveBox = (CheckBox) findViewById(R.id.keep_login);
 
-            mSaveBox = (CheckBox) findViewById(R.id.keep_login);
+            final SharedPreferences preferences = getSharedPreferences(
+                    SAVED_LOGIN_PREFERENCES_NAME, MODE_PRIVATE);
 
-            if (mRememberBox.isChecked()) {
-                final String user_name = mUsernameTextbox.getText().toString();
-                preferences.edit()
-                        .putString("UserName", user_name)
-                        .commit();
+            if (saveBox.isChecked()) {
+                final String privateEncryptionKey;
+
+                if (preferences.getString(ENCRYPTION_KEY, "").isEmpty()) {
+                    privateEncryptionKey = CryptographyUtil.generateSecureNonce();
+                } else {
+                    privateEncryptionKey = preferences.getString(ENCRYPTION_KEY, "");
+                }
+
+                final String userNameHash = AESUtil.encryptAESString(
+                        privateEncryptionKey, usernameTextbox.getText().toString());
+                final String passwordHash = AESUtil.encryptAESString(
+                        privateEncryptionKey, passwordTextBox.getText().toString());
+
+                // If the encryption fails for any reason a log is printed and an empty
+                // string is returned
+                if (!userNameHash.isEmpty() && !passwordHash.isEmpty()) {
+                    preferences.edit()
+                               .putString(ENCRYPTION_KEY, privateEncryptionKey)
+                               .putString(USERNAME_KEY, userNameHash)
+                               .putString(PASSWORD_KEY, passwordHash)
+                               .commit();
+
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                                   "Could not save credentials", Toast.LENGTH_SHORT)
+                         .show();
+                }
             } else
                 preferences.edit()
-                        .putString("UserName", "")
-                        .commit();
-
-            if (mSaveBox.isChecked()) {
-                final String user_name = mUsernameTextbox.getText().toString();
-                final String password = mPasswordTextBox.getText().toString();
-
-                preferences.edit()
-                        .putString("UserName", user_name)
-                        .putString("Password", password)
-                        .commit();
-
-                statusSaved = true;
-            }
+                           .putString(ENCRYPTION_KEY, "")
+                           .putString(USERNAME_KEY, "")
+                           .putString(PASSWORD_KEY, "")
+                           .commit();
         }
 
 
