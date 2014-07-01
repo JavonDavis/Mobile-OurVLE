@@ -200,7 +200,6 @@ public class CourseContentsActivity extends ActivityBase
                 new SimpleViewPagerTabListener(mPager));
         actionBar.addTab(tab);
 
-        /*
         tab = actionBar.newTab().setText("Pictures").setIcon(R.drawable.picture_icon)
                        .setTabListener(new SimpleViewPagerTabListener(mPager));
         actionBar.addTab(tab);
@@ -208,7 +207,7 @@ public class CourseContentsActivity extends ActivityBase
         tab = actionBar.newTab().setText("Video").setIcon(R.drawable.video_icon).setTabListener(
                 new SimpleViewPagerTabListener(mPager));
         actionBar.addTab(tab);
-*/
+
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
     }
@@ -340,7 +339,7 @@ public class CourseContentsActivity extends ActivityBase
 
         @Override
         public int getCount() {
-            return 5;
+            return 7;
 
         }
 
@@ -365,10 +364,10 @@ public class CourseContentsActivity extends ActivityBase
                 case 4:
                     f = CourseNotesFragment.newInstance(mCourse);
                     break;
-                case 6:
+                case 5:
                     f = CoursePhotosFragment.newInstance(mCourse);
                     break;
-                case 7:
+                case 6:
                     f = CourseVideoesFragment.newInstance(mCourse);
                     break;
                 default:

@@ -4,6 +4,7 @@
 package edu.uwi.mona.mobileourvle.app.Fragments.Forum;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -12,12 +13,16 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import edu.uwi.mona.mobileourvle.app.Activities.SendPostReplyActivity;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Authentication.Session.UserSession;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.ContentProviderContracts.ForumDiscussionPostContract;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.ContentProviders.ForumDiscussionPostProvider;
@@ -27,7 +32,9 @@ import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.Disc
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.ForumDiscussion;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Users.MoodleUser;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.SyncEntities.ForumDiscussionPostSyncronizationManager;
+import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.DiscussionPostParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.ForumDiscussionParcel;
+import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.UserSessionParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants.ParcelKeys;
 import edu.uwi.mona.mobileourvle.app.Fragments.Components.AuthenticatedListFragment;
@@ -100,6 +107,40 @@ public class ForumDiscussionPostListFragment extends AuthenticatedListFragment
         setListAdapter(mListAdapter);
 
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //MenuItem item = menu.add(R.string.reply_icon_title);
+
+        //item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        //item.setIcon(getActivity().getResources().getDrawable(R.drawable.reply_icon));
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        String title= getActivity().getResources().getString(R.string.reply_icon_title);
+
+        if(item.getTitle()==null)
+            return super.onOptionsItemSelected(item);
+
+        if (item.getTitle().toString().equals(title)) {
+            Intent intent = new Intent(getActivity(), SendPostReplyActivity.class);
+
+            intent.putExtra(ParcelKeys.USER_SESSION,new UserSessionParcel(getUserSession()));
+
+            final ExtendedDiscussionPostWrapper extendedPost = ExtendedDiscssionPostCursorWrapper
+                    .getExtendedPost(mListAdapter.getCursor());
+
+            intent.putExtra(ParcelKeys.DISCUSSION_POST, new DiscussionPostParcel(extendedPost.getPost()));
+
+
+            startActivity(intent);
+
+        }
+        return true;
     }
 
     @Override

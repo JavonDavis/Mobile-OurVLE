@@ -16,6 +16,8 @@
     <string name="log_out_ourvle">Log out</string>
     <string name="close">Close application</string>
     <string name="log_out_prompt">Are you sure you want to log out of OurVLE?</string>
+    <string name="send_icon_title">Send Reply</string>
+    <string name="reply_icon_title">Reply</string>
     
     <string name="title_item_detail">Item Detail</string>
     <string name="title_item_list">Items</string>

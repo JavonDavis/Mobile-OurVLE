@@ -12,6 +12,7 @@ import org.sourceforge.ah.android.utilities.Plugins.DefaultCommunicationModulePl
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,23 +83,27 @@ public class SendPostReplyFragment extends AuthenticatedFragment implements
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-	mDiscussionPost = ((DiscussionPostParcel) getFragmentArguments()
-		.getParcelable(ParcelKeys.DISCUSSION_POST))
-		.getWrappedObejct();
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
-	mCommunicationPlugin = new DefaultCommunicationModulePlugin();
-	registerPlugin(mCommunicationPlugin);
+        mDiscussionPost = ((DiscussionPostParcel) getFragmentArguments()
+            .getParcelable(ParcelKeys.DISCUSSION_POST))
+            .getWrappedObejct();
 
-	setHasOptionsMenu(true);
+        mCommunicationPlugin = new DefaultCommunicationModulePlugin();
+        registerPlugin(mCommunicationPlugin);
 
-	super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-	inflater.inflate(R.menu.send_post_reply, menu);
+        MenuItem item = menu.add(R.string.send_icon_title);
 
-	super.onCreateOptionsMenu(menu, inflater);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        item.setIcon(getActivity().getResources().getDrawable(android.R.drawable.ic_menu_send));
+
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     @Override
@@ -130,10 +135,13 @@ public class SendPostReplyFragment extends AuthenticatedFragment implements
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-	if (item.getItemId() == R.id.menu_send_reply)
-	    sendReply();
+        String title= getActivity().getResources().getString(R.string.send_icon_title);
+        Log.e(item.getTitle().toString(), title);
+        if (item.getTitle().toString().equals(title))
+            sendReply();
 
-	return super.onOptionsItemSelected(item);
+	    //return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
