@@ -82,9 +82,9 @@ public class CourseNotesFragment extends PluggableListFragment implements
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
 
-	inflater.inflate(R.menu.course_notes_fragment_menu, menu);
+        inflater.inflate(R.menu.add_item_menu, menu);
 
-	super.onCreateOptionsMenu(menu, inflater);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
