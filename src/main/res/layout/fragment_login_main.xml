@@ -22,11 +22,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="@string/field_login_id_number"
+        android:hint="@string/field_login_username"
         android:layout_marginTop="20dp"
         android:singleLine="true"
         android:text=""
-        android:inputType="number" />
+        android:inputType="text" />
 
 
     <EditText

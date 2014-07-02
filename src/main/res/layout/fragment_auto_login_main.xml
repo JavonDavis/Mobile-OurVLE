@@ -20,7 +20,7 @@
     <TextView
             android:id="@+id/id_number"
             android:layout_marginTop="40dp"
-            android:text="@string/field_login_id_number"
+            android:text="@string/field_login_username"
             android:ems="10"
             android:textSize="20sp"
             android:textColor="#FFF"
