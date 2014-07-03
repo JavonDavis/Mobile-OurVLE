@@ -278,7 +278,7 @@ public class CourseContentsActivity extends ActivityBase
                 }
             }
         } else if (module.getFileUrl() != null) {
-
+            /*
             new AlertDialog.Builder(this)
                     .setTitle("Not Supported")
                     .setMessage(
@@ -299,6 +299,12 @@ public class CourseContentsActivity extends ActivityBase
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
+                    */
+            final String url = module.getFileUrl();
+            final Intent webviewIntent = new Intent(this,CourseContentResourceActivity.class);
+            webviewIntent.putExtra("URL",url);
+
+            startActivity(webviewIntent);
         } else //noinspection StatementWithEmptyBody
             if ("label".equalsIgnoreCase(module.getName())) {
                 // do nothing
