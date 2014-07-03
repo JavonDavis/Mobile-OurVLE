@@ -12,7 +12,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:numColumns="auto_fit" >
+        android:paddingLeft="5dp"
+        android:numColumns="3" >
 
     </GridView>
 

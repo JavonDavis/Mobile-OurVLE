@@ -80,43 +80,43 @@
         </style>
 
         <style name="ActionBar.Solid.Ourvletheme" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
-            <item name="background">@drawable/ab_solid_ourvletheme</item>
-            <item name="backgroundStacked">@drawable/ab_stacked_solid_ourvletheme</item>
-            <item name="backgroundSplit">@drawable/ab_bottom_solid_ourvletheme</item>
+            <item name="android:background">@drawable/ab_solid_red_creme2</item>
+            <item name="backgroundStacked">@drawable/ab_stacked_solid_red_creme2</item>
+            <item name="backgroundSplit">@drawable/ab_bottom_solid_red_creme2</item>
             <item name="progressBarStyle">@style/ProgressBar.Ourvletheme</item>
             <item name="android:titleTextStyle">@style/ActionbarTitleTextOurVLETheme</item>
 
         </style>
 
         <style name="ActionBar.Transparent.Ourvletheme" parent="@style/Widget.AppCompat.Light.ActionBar">
-            <item name="background">@drawable/ab_transparent_ourvletheme</item>
+            <item name="background">@drawable/ab_transparent_red_creme2</item>
             <item name="progressBarStyle">@style/ProgressBar.Ourvletheme</item>
         </style>
 
         <style name="PopupMenu.Ourvletheme" parent="@style/Widget.AppCompat.Light.PopupMenu">
-            <item name="android:popupBackground">@drawable/menu_dropdown_panel_ourvletheme</item>
+            <item name="android:popupBackground">@drawable/menu_dropdown_panel_red_creme2</item>
         </style>
 
         <style name="DropDownListView.Ourvletheme" parent="@style/Widget.AppCompat.Light.ListView.DropDown">
-            <item name="android:listSelector">@drawable/selectable_background_ourvletheme</item>
+            <item name="android:listSelector">@drawable/selectable_background_red_creme2</item>
         </style>
 
         <style name="ActionBarTabStyle.Ourvletheme" parent="@style/Widget.AppCompat.Light.ActionBar.TabView">
-            <item name="android:background">@drawable/tab_indicator_ab_ourvletheme</item>
+            <item name="background">@drawable/tab_indicator_ab_red_creme2</item>
         </style>
 
         <style name="DropDownNav.Ourvletheme" parent="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
-            <item name="android:background">@drawable/spinner_background_ab_ourvletheme</item>
-            <item name="android:popupBackground">@drawable/menu_dropdown_panel_ourvletheme</item>
-            <item name="android:dropDownSelector">@drawable/selectable_background_ourvletheme</item>
+            <item name="android:background">@drawable/spinner_background_ab_red_creme2</item>
+            <item name="android:popupBackground">@drawable/menu_dropdown_panel_red_creme2</item>
+            <item name="android:dropDownSelector">@drawable/selectable_background_red_creme2</item>
         </style>
 
         <style name="ProgressBar.Ourvletheme" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
-            <item name="android:progressDrawable">@drawable/progress_horizontal_ourvletheme</item>
+            <item name="android:progressDrawable">@drawable/progress_horizontal_red_creme2</item>
         </style>
 
         <style name="ActionButton.CloseMode.Ourvletheme" parent="@style/Widget.AppCompat.Light.ActionButton.CloseMode">
-            <item name="android:background">@drawable/btn_cab_done_ourvletheme</item>
+            <item name="background">@drawable/btn_cab_done_red_creme2</item>
         </style>
 
         <!-- this style is only referenced in a Light.DarkActionBar based theme -->

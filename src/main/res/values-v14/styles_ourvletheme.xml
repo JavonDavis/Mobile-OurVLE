@@ -20,31 +20,31 @@
 <resources>
 
     <style name="Theme.Ourvletheme" parent="@style/Theme.AppCompat.Light">
-        <item name="android:actionBarItemBackground">@drawable/selectable_background_ourvletheme</item>
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_red_creme2</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Ourvletheme</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Ourvletheme</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Ourvletheme</item>
         <item name="android:actionBarTabTextStyle">@style/TabTextOurVLETheme</item>
         <item name="android:actionDropDownStyle">@style/DropDownNav.Ourvletheme</item>
         <item name="android:actionBarStyle">@style/ActionBar.Solid.Ourvletheme</item>
-        <item name="android:actionModeBackground">@drawable/cab_background_top_ourvletheme</item>
-        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_ourvletheme</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_red_creme2</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_red_creme2</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Ourvletheme</item>
         
         
     </style>
 
     <style name="ActionBar.Solid.Ourvletheme" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
-        <item name="android:background">@drawable/ab_background_textured_ourvletheme</item>
-        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_ourvletheme</item>
-        <item name="android:backgroundSplit">@drawable/ab_background_textured_ourvletheme</item>
+        <item name="android:background">@drawable/ab_solid_red_creme2</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_red_creme2</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_red_creme2</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Ourvletheme</item>
         <item name="android:titleTextStyle">@style/ActionbarTitleTextOurVLETheme</item>
 
     </style>
 
     <style name="ActionBar.Transparent.Ourvletheme" parent="@style/Widget.AppCompat.Light.ActionBar">
-        <item name="android:background">@drawable/ab_transparent_ourvletheme</item>
+        <item name="android:background">@drawable/ab_transparent_red_creme2</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Ourvletheme</item>
     </style>
     
