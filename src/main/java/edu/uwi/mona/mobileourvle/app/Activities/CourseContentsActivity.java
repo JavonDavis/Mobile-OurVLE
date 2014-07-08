@@ -11,9 +11,11 @@ import org.sourceforge.ah.android.utilities.Widgets.Listeners.SimpleViewPagerTab
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -211,20 +213,10 @@ public class CourseContentsActivity extends ActivityBase
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
     }
-
+    static File courseFile;
     @Override
     public void onCourseModuleSelected(final CourseModule module) {
-        if ("forum".equals(module.getName())) {
-            final Intent intent = new Intent(CourseContentsActivity.this,
-                    ForumDiscussionListActivity.class);
-
-            intent.putExtra(ParcelKeys.USER_SESSION, new UserSessionParcel(mUserSession));
-
-            intent.putExtra(ParcelKeys.COURSE_FORUM_MODULE, new CourseModuleParcel(module));
-
-            startActivity(intent);
-
-        } else if ("resource".equalsIgnoreCase(module.getName())) {
+        if ("resource".equalsIgnoreCase(module.getName())) {
 
             String folderLocation = "/OurVLE/courses/"+mCourse.getName().trim()+"-"+mCourse.getId()+"/files/"; // sub-folder definition
 
@@ -235,7 +227,7 @@ public class CourseContentsActivity extends ActivityBase
             }
 
             String fileLocation = location+"/"+module.getFileName();
-            File courseFile = new File(fileLocation);
+            courseFile = new File(fileLocation);
 
             if(!courseFile.exists()) // checks if the file is not already present
             {
@@ -259,49 +251,17 @@ public class CourseContentsActivity extends ActivityBase
                 final DownloadManager manager = (DownloadManager) getSystemService(
                         Context.DOWNLOAD_SERVICE);
                 manager.enqueue(request);
+
+                registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
             }
             else // open the file that is already present
             {
-                Uri path = Uri.fromFile(courseFile);
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(path);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                try
-                {
-                    startActivity(intent);
-                }
-                catch (ActivityNotFoundException e)
-                {
-                    Toast.makeText(getApplicationContext(), "no application available to view this file",
-                            Toast.LENGTH_LONG).show();
-                }
+                openFile(courseFile);
             }
         } else if (module.getFileUrl() != null) {
-            /*
-            new AlertDialog.Builder(this)
-                    .setTitle("Not Supported")
-                    .setMessage(
-                            "Access to this type of content is not yet supported by OurVLE Mobile. " +
-                                    "\n\nDo you want to open it in a browser?")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            final String url = module.getFileUrl();
-                            final Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                    url));
-                            startActivity(browserIntent);
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // do nothing
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
-                    */
+
             final String url = module.getFileUrl();
-            final Intent webviewIntent = new Intent(this,CourseContentResourceActivity.class);
+            final Intent webviewIntent = new Intent(this,CourseContentsResourceActivity.class);
             webviewIntent.putExtra("URL",url);
 
             startActivity(webviewIntent);
@@ -314,6 +274,31 @@ public class CourseContentsActivity extends ActivityBase
             }
 
     }
+
+    private void openFile(final File courseFile)
+    {
+        Uri path = Uri.fromFile(courseFile);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(path);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        try
+        {
+            startActivity(intent);
+        }
+        catch (ActivityNotFoundException e)
+        {
+            Toast.makeText(getApplicationContext(), "no application available to view this file",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    BroadcastReceiver onComplete=new BroadcastReceiver() {
+        public void onReceive(Context context, Intent intent) {
+
+            openFile(CourseContentsActivity.courseFile);
+        }
+    };
 
     @Override
     public void onParticipantSelected(final MoodleUser user) {

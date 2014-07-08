@@ -18,5 +18,6 @@ public class PostDiscussionPostReply extends RemoteWebServiceFunction {
 	super("core_enrol_get_users_courses", session,
 		"userid", session.getContext()
 			.getCurretnUser().getId());
+
     }
 }

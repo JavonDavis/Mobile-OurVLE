@@ -111,10 +111,10 @@ public class ForumDiscussionPostListFragment extends AuthenticatedListFragment
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //MenuItem item = menu.add(R.string.reply_icon_title);
+        MenuItem item = menu.add(R.string.reply_icon_title);
 
-        //item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        //item.setIcon(getActivity().getResources().getDrawable(R.drawable.reply_icon));
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        item.setIcon(getActivity().getResources().getDrawable(R.drawable.reply_icon));
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -136,6 +136,8 @@ public class ForumDiscussionPostListFragment extends AuthenticatedListFragment
 
             intent.putExtra(ParcelKeys.DISCUSSION_POST, new DiscussionPostParcel(extendedPost.getPost()));
 
+            intent.putExtra(ParcelKeys.FORUM_REPLY,extendedPost.getPost().getParentId()+"");
+            //Log.e("parent id",""+extendedPost.getPost().getParentId());
 
             startActivity(intent);
 

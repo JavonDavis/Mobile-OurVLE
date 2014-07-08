@@ -9,6 +9,7 @@ import org.sourceforge.ah.android.utilities.Parcels.SimpleParcableWrapper;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.DiscussionParent;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.ForumDiscussion;
@@ -34,6 +35,7 @@ public class ForumDiscussionParcel extends
     protected ForumDiscussion getObjectFromStream(final Parcel in) {
 	final long discussionId = in.readLong();
 	final String name = in.readString();
+
 	final MoodleUser creator = ((MoodleUserParcel) in.readParcelable(
 		MoodleUserParcel.class.getClassLoader()))
 		.getWrappedObejct();
@@ -46,7 +48,8 @@ public class ForumDiscussionParcel extends
 		.readParcelable(
 		DiscussionParentParcel.class.getClassLoader()))
 		.getWrappedObejct();
-	return new ForumDiscussion(discussionId, name, creator,
+
+        return new ForumDiscussion(discussionId, name, creator,
 		lastModified, parent);
     }
 

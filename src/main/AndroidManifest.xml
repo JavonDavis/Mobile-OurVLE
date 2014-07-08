@@ -72,7 +72,7 @@
             android:name="edu.uwi.mona.mobileourvle.app.Activities.ViewCourseNoteActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="edu.uwi.mona.mobileourvle.app.Activities.CourseContentResourceActivity"
+            android:name="edu.uwi.mona.mobileourvle.app.Activities.CourseContentsResourceActivity"
             android:screenOrientation="portrait" >
         </activity>
 

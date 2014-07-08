@@ -24,6 +24,7 @@ public interface SharedConstants {
 	public final String PARENT = "edu.uwi.mona.mobileourvle.app.course.module.forum.discussion.parent";
 	public final String FORUM_DISCUSSION_ID = "edu.uwi.mona.mobileourvle.app.course.module.forum.discussion.id";
 	public final String FORUM_DISCUSSION = "edu.uwi.mona.mobileourvle.app.course.module.forum.discussion";
+    public final String FORUM_REPLY = "edu.uwi.mona.mobileourvle.app.course.module.forum.reply";
 	public final String FORUM_DISCUSSION_LIST = "edu.uwi.mona.mobileourvle.app.course.module.forum.discussion.list";
 	public final String DISCUSSION_POST = "edu.uwi.mona.mobileourvle.app.course.module.forum.discussion.post";
 

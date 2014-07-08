@@ -17,6 +17,7 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,6 +157,7 @@ public class ForumDiscussionListFragment extends AuthenticatedListFragment
             if (mParent.isForum()) {
                 selection = ForumDiscussionContract.Columns.FORUM_ID + " = ?";
                 selectionArgs = new String[]{mParent.getForum().getForumid().toString()};
+
             } else if (mParent.isModule()) {
                 selection = ForumDiscussionContract.Columns.COURSE_MODULE_ID + " = ?";
                 selectionArgs = new String[]{mParent.getModule().getId().toString()};
