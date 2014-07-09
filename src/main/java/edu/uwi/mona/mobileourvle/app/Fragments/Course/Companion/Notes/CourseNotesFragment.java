@@ -16,6 +16,7 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,8 +99,10 @@ public class CourseNotesFragment extends PluggableListFragment implements
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
+        Log.e("her",item.getItemId()+"|"+id.menu_add);
 	switch (item.getItemId()) {
-	case id.menu_add_note:
+	case id.menu_add:
+
 	    startNewNoteIntent();
 	    break;
 	}
@@ -140,7 +143,8 @@ public class CourseNotesFragment extends PluggableListFragment implements
     }
 
     private void startNewNoteIntent() {
-	final Intent i = new Intent(getParentActivity(),
+        Log.e("deh ya","i got here");
+        final Intent i = new Intent(getParentActivity(),
 		AddCourseNoteActivity.class);
 
 	i.putExtra(ParcelKeys.MOODLE_COURSE, new MoodleCourseParcel(mCourse));

@@ -326,7 +326,7 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	    if (cPhoto == null)
 		cPhoto = new CoursePhoto(Uri.parse(getPhotoFilePath()),
 			new DateTime(
-				getTimestamp()),
+				this.getTimestamp()),
 			mCourse, getNotes());
 
 	    return cPhoto;

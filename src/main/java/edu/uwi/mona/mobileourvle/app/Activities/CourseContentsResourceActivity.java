@@ -1,11 +1,13 @@
 package edu.uwi.mona.mobileourvle.app.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
@@ -27,6 +29,7 @@ public class CourseContentsResourceActivity extends ActionBarActivity {
     private int load = -1; // variable used to decide whether to call the webview loadurl method when a page is finished loading
     private WebView coursePage;
     private String courseUrl;
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class CourseContentsResourceActivity extends ActionBarActivity {
             courseUrl = getIntent().getStringExtra("URL");
 
             coursePage = (WebView) findViewById(R.id.webview);
+            coursePage.setVisibility(View.GONE);
             coursePage.setWebViewClient(new WebViewClient()
             {
                 public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
@@ -61,6 +65,10 @@ public class CourseContentsResourceActivity extends ActionBarActivity {
                     if(load<0) {
                         coursePage.loadUrl(courseUrl);     //loads webpage
                         load = 1;
+                    }
+                    else {
+                        coursePage.setVisibility(View.VISIBLE);
+                        progress.dismiss();
                     }
                 }
             });
@@ -75,6 +83,8 @@ public class CourseContentsResourceActivity extends ActionBarActivity {
 
             byte[] post = EncodingUtils.getBytes("username="+username+"&password="+password, "BASE64"); // sets userdata in byte format to make post request
             try {
+                progress = ProgressDialog.show(this, "Loading",
+                        "Please wait...", true);
                 coursePage.postUrl(OURVLE_URL, post);//validates the user online
             } catch (NullPointerException e) {
                 Log.e("webview error",e.toString());
