@@ -197,6 +197,7 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	final Intent takePictureIntent = new Intent(
 		MediaStore.ACTION_IMAGE_CAPTURE);
 
+
 	try {
 	    tPhotoFile = MediaUtil.createCourseImageFile(mCourse);
 	} catch (final IOException e) {
@@ -213,7 +214,8 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	 * To fix this, I assume that the pic was added and then when loading
 	 * the pics I take this assumption into account.
 	 */
-	tPhoto = new CoursePhoto(tPhotoFile, new DateTime(), mCourse, "");
+	tPhoto = new CoursePhoto(tPhotoFile, DateTime.now(), mCourse, "");
+
 
 	final ContentResolver cr = getApplicationContext().getContentResolver();
 	final ContentValues values = new ContentValues();
@@ -262,7 +264,7 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	private static final int TIMESTAMP = 4;
 
 	/**
-	 * @param coursor
+	 * @param cursor
 	 * @param course
 	 */
 	public CoursePhotoCursorWrapper(final Cursor cursor,
@@ -300,6 +302,7 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	    if (cPhotoFilePath == null)
 		cPhotoFilePath = mCoursor
 			.getString(CoursePhotoCursorWrapper.Photo_FILE_PATH);
+
 	    return cPhotoFilePath;
 	}
 
@@ -316,9 +319,11 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	 * @return the Timestamp
 	 */
 	public Long getTimestamp() {
-	    if (cTimestamp == null)
-		cTimestamp = mCoursor
-			.getLong(CoursePhotoCursorWrapper.TIMESTAMP);
+	    if (cTimestamp == null) {
+            //cTimestamp = mCoursor
+               //     .getLong(CoursePhotoCursorWrapper.TIMESTAMP);
+            cTimestamp=new File(Uri.parse(getPhotoFilePath()).getPath()).lastModified();
+        }
 	    return cTimestamp;
 	}
 
@@ -326,7 +331,7 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	    if (cPhoto == null)
 		cPhoto = new CoursePhoto(Uri.parse(getPhotoFilePath()),
 			new DateTime(
-				this.getTimestamp()),
+				getTimestamp()),
 			mCourse, getNotes());
 
 	    return cPhoto;

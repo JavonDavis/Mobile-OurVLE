@@ -8,6 +8,7 @@ import java.io.File;
 import org.joda.time.DateTime;
 
 import android.net.Uri;
+import android.util.Log;
 
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Android.PhonePhoto;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Courses.MoodleCourse;
@@ -42,6 +43,7 @@ public class CoursePhoto extends PhonePhoto {
 	    final DateTime dateTaken, final MoodleCourse course,
 	    final String notes) {
 	this(Uri.fromFile(photoFile), dateTaken, course, notes);
+
     }
 
     /**

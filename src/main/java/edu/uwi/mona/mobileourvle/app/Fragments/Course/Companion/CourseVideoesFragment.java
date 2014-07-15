@@ -251,7 +251,7 @@ public class CourseVideoesFragment extends PluggableFragment implements
 	private static final int TIMESTAMP = 4;
 
 	/**
-	 * @param coursor
+	 * @param cursor
 	 * @param course
 	 */
 	public CourseVideoCursorWrapper(final Cursor cursor,
@@ -306,8 +306,9 @@ public class CourseVideoesFragment extends PluggableFragment implements
 	 */
 	public Long getTimestamp() {
 	    if (cTimestamp == null)
-		cTimestamp = mCoursor
-			.getLong(CourseVideoCursorWrapper.TIMESTAMP);
+		//cTimestamp = mCoursor
+		//	.getLong(CourseVideoCursorWrapper.TIMESTAMP);
+            cTimestamp=new File(Uri.parse(getVideoFilePath()).getPath()).lastModified();
 	    return cTimestamp;
 	}
 
