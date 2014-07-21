@@ -75,45 +75,33 @@ public class LoginMainActivity extends ActivityBase implements
 
         if (usernameTextbox != null) { // MY flag to test if the auto login was being ran
             final EditText passwordTextBox = (EditText) findViewById(R.id.password_field);
-            final CheckBox saveBox = (CheckBox) findViewById(R.id.keep_login);
 
             final SharedPreferences preferences = getSharedPreferences(
                     SAVED_LOGIN_PREFERENCES_NAME, MODE_PRIVATE);
+            final String privateEncryptionKey;
 
-            if (saveBox.isChecked()) {
-                final String privateEncryptionKey;
+            privateEncryptionKey = CryptographyUtil.generateSecureNonce();
 
-                if (preferences.getString(ENCRYPTION_KEY, "").isEmpty()) {
-                    privateEncryptionKey = CryptographyUtil.generateSecureNonce();
-                } else {
-                    privateEncryptionKey = preferences.getString(ENCRYPTION_KEY, "");
-                }
+            final String userNameHash = AESUtil.encryptAESString(
+                    privateEncryptionKey, usernameTextbox.getText().toString());
+            final String passwordHash = AESUtil.encryptAESString(
+                    privateEncryptionKey, passwordTextBox.getText().toString());
 
-                final String userNameHash = AESUtil.encryptAESString(
-                        privateEncryptionKey, usernameTextbox.getText().toString());
-                final String passwordHash = AESUtil.encryptAESString(
-                        privateEncryptionKey, passwordTextBox.getText().toString());
-
-                // If the encryption fails for any reason a log is printed and an empty
-                // string is returned
-                if (!userNameHash.isEmpty() && !passwordHash.isEmpty()) {
-                    preferences.edit()
-                               .putString(ENCRYPTION_KEY, privateEncryptionKey)
-                               .putString(USERNAME_KEY, userNameHash)
-                               .putString(PASSWORD_KEY, passwordHash)
-                               .commit();
-
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                                   "Could not save credentials", Toast.LENGTH_SHORT)
-                         .show();
-                }
-            } else
+            // If the encryption fails for any reason a log is printed and an empty
+            // string is returned
+            if (!userNameHash.isEmpty() && !passwordHash.isEmpty()) {
                 preferences.edit()
-                           .putString(ENCRYPTION_KEY, "")
-                           .putString(USERNAME_KEY, "")
-                           .putString(PASSWORD_KEY, "")
-                           .commit();
+                        .putString(ENCRYPTION_KEY, privateEncryptionKey)
+                        .putString(USERNAME_KEY, userNameHash)
+                        .putString(PASSWORD_KEY, passwordHash)
+                        .commit();
+
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Could not save credentials", Toast.LENGTH_SHORT)
+                        .show();
+            }
+
         }
 
 

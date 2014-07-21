@@ -295,8 +295,11 @@ public class CourseContentsActivity extends ActivityBase
 
     BroadcastReceiver onComplete=new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-
-            openFile(CourseContentsActivity.courseFile);
+            if(intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+                if(courseFile.exists())
+                    openFile(courseFile);
+                else
+                    Toast.makeText(CourseContentsActivity.this,"Error downloading file",Toast.LENGTH_LONG).show();
         }
     };
 

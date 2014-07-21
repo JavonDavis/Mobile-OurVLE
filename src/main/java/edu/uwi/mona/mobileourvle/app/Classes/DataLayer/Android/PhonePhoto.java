@@ -63,6 +63,12 @@ public class PhonePhoto {
 	return mPhotoBitmap;
     }
 
+    public boolean removeBitmap()
+    {
+        mPhotoBitmap=null;
+        return true;
+    }
+
     public Uri getFileUri() {
 	return mPhotoFileUri;
     }

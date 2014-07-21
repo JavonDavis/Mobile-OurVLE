@@ -143,7 +143,6 @@ public class CourseNotesFragment extends PluggableListFragment implements
     }
 
     private void startNewNoteIntent() {
-        Log.e("deh ya","i got here");
         final Intent i = new Intent(getParentActivity(),
 		AddCourseNoteActivity.class);
 

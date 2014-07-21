@@ -435,6 +435,7 @@ public class CoursePhotosFragment extends PluggableFragment implements
 
 		    mContext.get().startActivity(intent);
 		}
+
 	    });
 	}
 

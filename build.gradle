@@ -16,6 +16,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 }
 
 repositories {
@@ -34,3 +39,4 @@ dependencies {
     compile 'org.sourceforge.ah.android.utilities:android-utilities:1.0@aar'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
+

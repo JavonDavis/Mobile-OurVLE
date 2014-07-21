@@ -277,7 +277,7 @@ public class CourseClassTimesFragment extends ListFragmentBase
 	    if (eventStartTimestamp >= currentTimestamp)
 		nextClassDatetime = new DateTime(eventStartTimestamp);
 	    else {
-		final Recur recurrence = new Recur(e.getRepeatRule());
+		Recur recurrence = new Recur(e.getRepeatRule());
 
 		final Date nextClassDate = recurrence
 			.getNextDate(
@@ -327,6 +327,7 @@ public class CourseClassTimesFragment extends ListFragmentBase
 
     @Override
     public void onDestroy() {
+
 	DialogManager.unregisterResponseReceiver(getApplicationContext(),
 		Dialogs.AddCourseClass,
 		onClassAddedReceiver);
