@@ -97,11 +97,6 @@
             android:exported="false"
             android:label="@string/provider_label_course_class_times" />
         <provider
-            android:name="edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.ContentProviders.CourseNotesProvider"
-            android:authorities="edu.uwi.mona.mobileourvle.app.data.CourseNotesProvider"
-            android:exported="false"
-            android:label="@string/provider_label_course_class_times" />
-        <provider
             android:name="edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.ContentProviders.MoodleCourseProvider"
             android:authorities="edu.uwi.mona.mobileourvle.app.data.MoodleCourseProvider"
             android:exported="false" />

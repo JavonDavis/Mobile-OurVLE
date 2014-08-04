@@ -63,16 +63,14 @@ import edu.uwi.mona.mobileourvle.app.Classes.Util.MediaUtil;
 public class CoursePhotosFragment extends PluggableFragment implements
 	LoaderCallbacks<Cursor> {
     private MoodleCourse mCourse;
-    private static CoursePhotoCursorAdatper mAdapter;
-
-    private GridView mGridView;
+    private CoursePhotoCursorAdatper mAdapter;
 
     private File tPhotoFile;
     private CoursePhoto tPhoto;
 
     private TextView mEmptyTextView;
 
-    private final String sComponentUri = getClass().getName();
+    private final String sComponentUri = CoursePhotosFragment.class.getName();
 
     public static CoursePhotosFragment newInstance(
 	    final MoodleCourse course) {
@@ -133,9 +131,9 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	final View v = inflater.inflate(R.layout.fragment_course_photos_list,
 		container, false);
 
-	mGridView = (GridView) v.findViewById(android.R.id.list);
+        final GridView gridView = (GridView) v.findViewById(android.R.id.list);
 	mEmptyTextView = (TextView) v.findViewById(android.R.id.empty);
-	mGridView.setAdapter(mAdapter);
+	gridView.setAdapter(mAdapter);
 
 	return v;
     }
@@ -270,13 +268,8 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	private static final int PHOTO_ID = 1;
 	private static final int Photo_FILE_PATH = 2;
 	private static final int NOTES = 3;
-	private static final int TIMESTAMP = 4;
 
-	/**
-	 * @param cursor
-	 * @param course
-	 */
-	public CoursePhotoCursorWrapper(final Cursor cursor,
+        public CoursePhotoCursorWrapper(final Cursor cursor,
 		final MoodleCourse course) {
 	    super();
 	    mCoursor = cursor;
@@ -443,8 +436,6 @@ public class CoursePhotosFragment extends PluggableFragment implements
             dialog.setIdentifier(0);
 
             dialog.show(fragmentManager,"dialog");
-
-            return;
         }
 
 	    });
