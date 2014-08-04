@@ -46,4 +46,13 @@ public class CourseVideosOpenHelper extends SQLiteOpenHelper {
 	onCreate(db);
     }
 
+    public boolean deleteVideo(Long id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(CourseVideosOpenHelper.TABLE_NAME, CourseVideoesContract._ID+" = "+id , null);
+
+        return true;
+    }
+
 }

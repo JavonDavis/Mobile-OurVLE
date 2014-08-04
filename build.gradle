@@ -8,7 +8,7 @@ android {
         minSdkVersion 11
         targetSdkVersion 19
         versionCode 110
-        versionName "1.2.1-dev"
+        versionName "1.2.7-dev"
     }
     buildTypes {
         release {

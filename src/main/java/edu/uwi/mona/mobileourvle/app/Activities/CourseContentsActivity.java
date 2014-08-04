@@ -3,17 +3,15 @@
  */
 package edu.uwi.mona.mobileourvle.app.Activities;
 
-import org.sourceforge.ah.android.utilities.Dialog.DialogManager;
 import org.sourceforge.ah.android.utilities.Widgets.Activities.ActivityBase;
 import org.sourceforge.ah.android.utilities.Widgets.Fragments.FragmentResponseListerner;
 import org.sourceforge.ah.android.utilities.Widgets.Fragments.FragmentResponseManager;
 import org.sourceforge.ah.android.utilities.Widgets.Listeners.SimpleViewPagerTabListener;
-import android.app.AlertDialog;
+
 import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
@@ -25,18 +23,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import java.io.File;
+
+import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.OpenHelpers.CoursePhotosOpenHelper;
+import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.OpenHelpers.CourseVideosOpenHelper;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.DiscussionParent;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.ForumDiscussion;
+import edu.uwi.mona.mobileourvle.app.Classes.Dialogs.CourseMediaOptionsDialogFragment;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.CourseForumParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.DiscussionParentParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.ForumDiscussionParcel;
-import edu.uwi.mona.mobileourvle.app.Classes.TransportLayer.RemoteAPIRequests.RemoteAPIRequest;
 import edu.uwi.mona.mobileourvle.app.Fragments.Forum.ForumDiscussionListFragment;
 import edu.uwi.mona.mobileourvle.app.R;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants.ParcelKeys;
@@ -44,7 +44,6 @@ import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Authentication.Session.Us
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Courses.MoodleCourse;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.CourseModule;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Users.MoodleUser;
-import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.CourseModuleParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.MoodleCourseParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.MoodleUserParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.UserSessionParcel;
@@ -61,7 +60,7 @@ import edu.uwi.mona.mobileourvle.app.Fragments.Shared.UnderDevelopementFragment;
  * @author Aston Hamilton
  */
 public class CourseContentsActivity extends ActivityBase
-        implements CourseContentsFragment.Listener, CourseParticipantsFragment.Listener {
+        implements CourseContentsFragment.Listener, CourseParticipantsFragment.Listener, CourseMediaOptionsDialogFragment.MediaOptionListener {
     private UserSession mUserSession;
     private MoodleCourse mCourse;
 
@@ -70,6 +69,8 @@ public class CourseContentsActivity extends ActivityBase
 
     private CourseClassTimesFragment mCourseClassTimesProxiedFragment;
     private FragmentResponseListerner mOnDiscussionSeclectedReceiver;
+    private CoursePhotosFragment photoFragment;
+    private CourseVideoesFragment videoFragment;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -137,6 +138,58 @@ public class CourseContentsActivity extends ActivityBase
                 mOnDiscussionSeclectedReceiver);
 
         super.onResume();
+    }
+
+    @Override
+    public void OnPhotoItemSelected(int loc, Long id, Uri uri) {
+        switch (loc)
+        {
+            case MediaOptions.DELETE:
+                CoursePhotosOpenHelper helper = new CoursePhotosOpenHelper(this);
+                helper.deletePhoto(id);
+                photoFragment.refresh();
+                break;
+            case MediaOptions.VIEW:
+                // Launch default viewer for the file
+                final Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setDataAndType(
+                        uri, "image/*");
+
+                try{
+                    startActivity(intent);
+                }
+                catch(NullPointerException e)
+                {
+
+                }
+                break;
+            default:
+                Toast.makeText(this,"Error opening dialog",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onVideoItemSelected(int loc, Long id, Uri uri) {
+        switch (loc)
+        {
+            case MediaOptions.DELETE:
+                CourseVideosOpenHelper helper = new CourseVideosOpenHelper(this);
+                helper.deleteVideo(id);
+                videoFragment.refresh();
+                break;
+            case MediaOptions.VIEW:
+                // Launch default viewer for the file
+                final Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setDataAndType(
+                        uri, "video/*");
+
+                startActivity(intent);
+                break;
+            default:
+                Toast.makeText(this,"Error opening dialog",Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -213,6 +266,7 @@ public class CourseContentsActivity extends ActivityBase
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
     }
+
     static File courseFile;
     @Override
     public void onCourseModuleSelected(final CourseModule module) {
@@ -360,9 +414,11 @@ public class CourseContentsActivity extends ActivityBase
                     break;
                 case 5:
                     f = CoursePhotosFragment.newInstance(mCourse);
+                    photoFragment= (CoursePhotosFragment) f;
                     break;
                 case 6:
                     f = CourseVideoesFragment.newInstance(mCourse);
+                    videoFragment = (CourseVideoesFragment) f;
                     break;
                 default:
                     f = UnderDevelopementFragment.newInstance();
@@ -371,5 +427,11 @@ public class CourseContentsActivity extends ActivityBase
             return f;
         }
 
+    }
+
+    /*==================================== Interfaces =============================================*/
+    private interface MediaOptions {
+        static final int VIEW = 0;
+        static final int DELETE =1;
     }
 }

@@ -42,6 +42,8 @@ import android.widget.Toast;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import edu.uwi.mona.mobileourvle.app.Classes.Dialogs.CourseMediaOptionsDialogFragment;
 import edu.uwi.mona.mobileourvle.app.R;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants.ParcelKeys;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.CompanionEntities.CourseVideo;
@@ -163,6 +165,11 @@ public class CourseVideoesFragment extends PluggableFragment implements
 	    mAdapter.notifyDataSetChanged();
     }
 
+    public void refresh()
+    {
+        getLoaderManager().restartLoader(Loaders.LoadCourseVideoes,null,this);
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(final int arg0, final Bundle arg1) {
 	return new CursorLoader(getParentActivity(),
@@ -275,7 +282,6 @@ public class CourseVideoesFragment extends PluggableFragment implements
 	/**
 	 * @return the Id
 	 */
-	@SuppressWarnings("unused")
 	public Long getId() {
 	    if (cId == null)
 		cId = mCoursor.getLong(CourseVideoCursorWrapper.VIDEO_ID);
@@ -389,12 +395,16 @@ public class CourseVideoesFragment extends PluggableFragment implements
 
 		    // Launch default viewer for the file
 		    final Uri uri = data.getFileUri();
-		    final Intent intent = new Intent();
-		    intent.setAction(Intent.ACTION_VIEW);
-		    intent.setDataAndType(
-			    uri, "video/*");
 
-		    mContext.get().startActivity(intent);
+            CourseMediaOptionsDialogFragment dialog = new CourseMediaOptionsDialogFragment();
+            android.app.FragmentManager fragmentManager = ((Activity) mContext.get()).getFragmentManager();
+
+            dialog.setId(cWrapper.getId());
+            dialog.setUri(uri);
+            dialog.setIdentifier(1);
+
+            dialog.show(fragmentManager,"dialog");
+
 		}
 	    });
 

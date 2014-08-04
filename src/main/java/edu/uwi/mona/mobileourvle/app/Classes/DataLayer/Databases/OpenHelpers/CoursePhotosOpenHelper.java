@@ -47,4 +47,13 @@ public class CoursePhotosOpenHelper extends SQLiteOpenHelper {
 	onCreate(db);
     }
 
+
+    public boolean deletePhoto(Long id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(CoursePhotosOpenHelper.TABLE_NAME, CoursePhotosContract._ID+" = "+id , null);
+
+        return true;
+    }
 }

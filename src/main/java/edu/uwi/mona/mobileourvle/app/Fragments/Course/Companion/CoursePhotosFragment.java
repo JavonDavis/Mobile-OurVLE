@@ -43,6 +43,8 @@ import android.widget.Toast;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import edu.uwi.mona.mobileourvle.app.Classes.Dialogs.CourseMediaOptionsDialogFragment;
 import edu.uwi.mona.mobileourvle.app.R;
 import edu.uwi.mona.mobileourvle.app.R.id;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants.ParcelKeys;
@@ -61,7 +63,7 @@ import edu.uwi.mona.mobileourvle.app.Classes.Util.MediaUtil;
 public class CoursePhotosFragment extends PluggableFragment implements
 	LoaderCallbacks<Cursor> {
     private MoodleCourse mCourse;
-    private CoursePhotoCursorAdatper mAdapter;
+    private static CoursePhotoCursorAdatper mAdapter;
 
     private GridView mGridView;
 
@@ -111,6 +113,8 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	getLoaderManager().initLoader(Loaders.LoadCoursePhotos, null, this);
 
 	setHasOptionsMenu(true);
+
+
 	super.onCreate(savedInstanceState);
     }
 
@@ -167,6 +171,11 @@ public class CoursePhotosFragment extends PluggableFragment implements
 
     }
 
+    public void refresh()
+    {
+        getLoaderManager().restartLoader(Loaders.LoadCoursePhotos,null,this);
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(final int arg0, final Bundle arg1) {
 	return new CursorLoader(getParentActivity(),
@@ -216,8 +225,8 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	 */
 	tPhoto = new CoursePhoto(tPhotoFile, DateTime.now(), mCourse, "");
 
-
 	final ContentResolver cr = getApplicationContext().getContentResolver();
+
 	final ContentValues values = new ContentValues();
 	values.put(CoursePhotosContract.COURSE_ID,
 		mCourse.getId().toString());
@@ -358,8 +367,7 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	    mContext = new WeakReference<Context>(context);
 	    mCourse = course;
 	}
-
-	class ViewHolder implements SimpleViewHolder {
+        class ViewHolder implements SimpleViewHolder {
 	    ImageView photo;
 	    TextView date;
 	    TextView notes;
@@ -427,14 +435,17 @@ public class CoursePhotosFragment extends PluggableFragment implements
 			return;
 		    }
 
-		    // Launch default viewer for the file
-		    final Intent intent = new Intent();
-		    intent.setAction(Intent.ACTION_VIEW);
-		    intent.setDataAndType(
-			    coursePhoto.getFileUri(), "image/*");
+            CourseMediaOptionsDialogFragment dialog = new CourseMediaOptionsDialogFragment();
+            android.app.FragmentManager fragmentManager = ((Activity) mContext.get()).getFragmentManager();
 
-		    mContext.get().startActivity(intent);
-		}
+            dialog.setId(data.getId());
+            dialog.setUri(coursePhoto.getFileUri());
+            dialog.setIdentifier(0);
+
+            dialog.show(fragmentManager,"dialog");
+
+            return;
+        }
 
 	    });
 	}
