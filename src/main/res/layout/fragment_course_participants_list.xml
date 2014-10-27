@@ -14,6 +14,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:scrollingCache="true"
         tools:listitem="@android:layout/simple_list_item_single_choice" >
     </ListView>
 

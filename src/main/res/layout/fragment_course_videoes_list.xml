@@ -12,16 +12,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:paddingLeft="5dp"
+        android:padding="5dp"
         android:numColumns="3" >
 
     </GridView>
-
-
-
-
-
-
     <TextView
         android:id="@android:id/empty"
         android:layout_width="wrap_content"

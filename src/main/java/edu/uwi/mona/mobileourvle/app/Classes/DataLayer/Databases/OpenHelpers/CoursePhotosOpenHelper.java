@@ -18,7 +18,7 @@ import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.ContentProvider
 public class CoursePhotosOpenHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_NAME = "course_photos";
-    public static final int VERSION = 4;
+    public static final int VERSION = 5;
 
     private static final String DATABASE_TABLE_CREATE =
 	    QB.CREATE_TABLE(CoursePhotosOpenHelper.TABLE_NAME,

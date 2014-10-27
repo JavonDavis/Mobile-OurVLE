@@ -204,7 +204,7 @@ public class CourseVideoesFragment extends PluggableFragment implements
 	    tVideoFile = MediaUtil.createCourseVideoFile(mCourse);
 	} catch (final IOException e) {
 	    Toast.makeText(getApplicationContext(),
-		    "Cannot add new video.\n" + e.getMessage(),
+		    "Cannot add new video.\n" + e.toString(),
 		    Toast.LENGTH_LONG)
 		    .show();
 	    return;

@@ -37,11 +37,11 @@
     <string name="no_profile">No additional profile fields.</string>
     <string name="no_participants">No participants.</string>
     <string name="no_course_contents">There are no documents for this course.</string>
-    <string name="no_course_photos">No photos for this course</string>
-    <string name="no_course_videoes">No videos for this course</string>
+    <string name="no_course_photos">You have added no photos for this course</string>
+    <string name="no_course_videoes">You have added no videos for this course</string>
     <string name="no_course_voice_notes">No voice notes for this course</string>
-    <string name="no_course_notes">No notes for this course</string>
-    <string name="no_course_classes">No classes for this course</string>
+    <string name="no_course_notes">You have added no notes for this course</string>
+    <string name="no_course_classes">You have added no classes for this course</string>
     <string name="no_course_events">No events for this course</string>
     <string name="no_activities">No course activities</string>
     <string name="text_field_holder2">AIM</string>

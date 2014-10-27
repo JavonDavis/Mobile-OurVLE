@@ -262,7 +262,7 @@ public class CourseParticipantsFragment extends AuthenticatedListFragment
 
         /**
          * @param context
-         * @param mUserContactCache
+         * @param db
          */
         public CourseParticipantViewPopulator(
                 final MoodleUserContactDbWrapper db, final Context context) {

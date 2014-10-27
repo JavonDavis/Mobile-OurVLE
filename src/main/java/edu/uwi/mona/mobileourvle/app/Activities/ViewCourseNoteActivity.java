@@ -46,7 +46,7 @@ public class ViewCourseNoteActivity extends ActivityBase
 	 * Will be fixed in next version cuz I'm tired of looking at this code
 	 * right now :(
 	 */
-        mFragment = ViewCourseNoteFragment
+       mFragment = ViewCourseNoteFragment
                 .newInstance(mCourseNote.getCourse(), mCourseNote);
 
         final FragmentTransaction transaction = getSupportFragmentManager()

@@ -121,7 +121,7 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-
+        setHasOptionsMenu(true);
         mCourse = ((MoodleCourseParcel) getFragmentArguments()
                 .getParcelable(ParcelKeys.MOODLE_COURSE))
                 .getWrappedObejct();

@@ -74,6 +74,7 @@ public class AddCourseClassDialogFragment extends DialogFragmentBase
     private Button mStartTimeButton;
     private Button mEndTimeButton;
     private EditText mClassTypeEditText;
+    private EditText mClassLocationEditText;
 
     private boolean mStartDateSetFlag;
     private boolean mStartTimeSetFlag;
@@ -284,7 +285,7 @@ public class AddCourseClassDialogFragment extends DialogFragmentBase
                  .show();
             return;
         }
-        final CompatabilityEvents caenlarContractEvents = CompatabilityCalendarContract
+        final CompatabilityEvents calendarContractEvents = CompatabilityCalendarContract
                 .getInstance().getEvents();
 
         final String[] iCalDays = {"MO", "TU", "WE", "TH", "FR", "SA", "SU"};
@@ -293,6 +294,8 @@ public class AddCourseClassDialogFragment extends DialogFragmentBase
         final long calendarId = mCalendarSpinner.getSelectedItemId();
         final String courseType = mClassTypeEditText.getText().toString()
                                                     .trim();
+        final String classLocation = mClassLocationEditText.getText().toString().trim();
+
         final String timezone = TimeZone.getDefault().getID();
 
         final Period classDurationPeriod = new Period(mStartDateTime,
@@ -300,20 +303,21 @@ public class AddCourseClassDialogFragment extends DialogFragmentBase
 
         final ContentResolver cr = getApplicationContext().getContentResolver();
         final ContentValues values = new ContentValues();
-        values.put(caenlarContractEvents.DTSTART,
+        values.put(calendarContractEvents.DTSTART,
                    mStartDateTime.getMillis());
-        values.put(caenlarContractEvents.DURATION,
+        values.put(calendarContractEvents.DURATION,
                    classDurationPeriod.toString(ISOPeriodFormat.standard()));
-        values.put(caenlarContractEvents.TITLE, mCourse.getName());
-        values.put(caenlarContractEvents.DESCRIPTION, courseType);
-        values.put(caenlarContractEvents.CALENDAR_ID, calendarId);
-        values.put(caenlarContractEvents.EVENT_TIMEZONE, timezone);
-        values.put(caenlarContractEvents.HAS_ALARM, 1);
-        values.put(caenlarContractEvents.ACCESS_LEVEL,
-                   caenlarContractEvents.ACCESS_PRIVATE);
-        values.put(caenlarContractEvents.AVAILABILITY,
-                   caenlarContractEvents.AVAILABILITY_BUSY);
-        values.put(caenlarContractEvents.RRULE, "FREQ=WEEKLY;BYDAY="
+        values.put(calendarContractEvents.TITLE, mCourse.getName());
+        values.put(calendarContractEvents.DESCRIPTION, courseType);
+        values.put(calendarContractEvents.CALENDAR_ID, calendarId);
+        values.put(calendarContractEvents.EVENT_TIMEZONE, timezone);
+        values.put("eventLocation",classLocation);
+        values.put(calendarContractEvents.HAS_ALARM, 1);
+        values.put(calendarContractEvents.ACCESS_LEVEL,
+                   calendarContractEvents.ACCESS_PRIVATE);
+        values.put(calendarContractEvents.AVAILABILITY,
+                   calendarContractEvents.AVAILABILITY_BUSY);
+        values.put(calendarContractEvents.RRULE, "FREQ=WEEKLY;BYDAY="
                                                 + iCalRecurrenceDay);
 
         new AsyncQueryHandler(cr) {
@@ -370,7 +374,7 @@ public class AddCourseClassDialogFragment extends DialogFragmentBase
                 }.startInsert(0, null, caenlarContractReminders.CONTENT_URI,
                               values);
             }
-        }.startInsert(0, null, caenlarContractEvents.CONTENT_URI, values);
+        }.startInsert(0, null, calendarContractEvents.CONTENT_URI, values);
     }
 
     private View getDialogViewHeirachy(final LayoutInflater inflater,
@@ -386,15 +390,17 @@ public class AddCourseClassDialogFragment extends DialogFragmentBase
         mClassTypeEditText = (EditText) v
                 .findViewById(R.id.edittext_class_type);
 
+        mClassLocationEditText = (EditText) v.findViewById(R.id.editText_class_location);
+
         mWeekdaysSpinner
                 .setAdapter(
                         new ArrayAdapter<String>(getApplicationContext(),
                                                  R.layout.list_item_simple_item,
                                                  android.R.id.text1,
                                                  new String[]{
-                                                         "Sunday", "Monday", "Tuesday",
+                                                         "Monday", "Tuesday",
                                                          "Wednesday", "Thursday", "Friday",
-                                                         "Saturday"
+                                                         "Saturday","Sunday"
                                                  }));
 
         mWeekdaysSpinner
@@ -404,8 +410,7 @@ public class AddCourseClassDialogFragment extends DialogFragmentBase
                     public void onItemSelected(final AdapterView<?> arg0,
                                                final View arg1,
                                                int position, final long id) {
-                        if (position == 0)
-                            position = 7;
+                        position+=1;
 
                         mStartDateTime.setDayOfWeek(position);
                         mEndDateTime.setDayOfWeek(position);

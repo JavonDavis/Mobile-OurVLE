@@ -52,11 +52,13 @@ public class CourseListFragment extends AuthenticatedListFragment implements
         LoaderCallbacks<Cursor> {
 
     private MoodleCourseAdapter mAdapter;
+    private static boolean isLargeScreen;
 
-    public static CourseListFragment newInstance(final UserSession session) {
+    public static CourseListFragment newInstance(final UserSession session,final boolean large) {
         final CourseListFragment f = new CourseListFragment();
 
         f.setUserSession(session);
+        isLargeScreen = large;
 
         return f;
     }
@@ -81,10 +83,12 @@ public class CourseListFragment extends AuthenticatedListFragment implements
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem logOut = menu.add("Log Out");
+        if(!isLargeScreen) {
+            MenuItem logOut = menu.add("Log Out");
 //        logOut.setIcon(android.R.drawable.ic_lock_power_off);
-        logOut.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        logOut.setOnMenuItemClickListener(new LogOutListener());
+            logOut.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            logOut.setOnMenuItemClickListener(new LogOutListener());
+        }
     }
 
     @Override

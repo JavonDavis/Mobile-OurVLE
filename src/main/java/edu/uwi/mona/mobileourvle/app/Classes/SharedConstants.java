@@ -34,6 +34,7 @@ public interface SharedConstants {
 	public final String COURSE_FORUM_MODULE = "edu.uwi.mona.mobileourvle.app.course.module";
 
 	public final String USER_SESSION_KEY = "edu.uwi.mona.mobileourvle.app.user.session.keey";
+        String SCREEN_IDENTIFIER = "edu.uwi.mona.mobileourvle.app.user.screen.size";
     }
 
     public static interface SharedContract {
@@ -61,7 +62,7 @@ public interface SharedConstants {
 		new File(
 			Environment.getExternalStoragePublicDirectory(
 				Environment.DIRECTORY_MOVIES
-				),
+				).getAbsolutePath(),
 			VideoContract.ALBUM_NAME
 		);
     }

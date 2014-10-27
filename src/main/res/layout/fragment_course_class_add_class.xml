@@ -46,7 +46,17 @@
 	        android:layout_height="wrap_content"
 	        android:paddingTop="5dp"
 	        android:paddingBottom="5dp" />
-	    
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Location"
+            android:ems="10"
+            android:id="@+id/editText_class_location"
+            android:singleLine="true"
+            android:layout_gravity="center_horizontal" />
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_height="wrap_content"

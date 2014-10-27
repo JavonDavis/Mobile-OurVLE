@@ -86,8 +86,9 @@ public class MediaUtil {
 	final String imageFileName = timeStamp
 		+ "_";
 
+    //@see COurseContentsActivity OnCourseModuleSelected method
 	final File albumDirectory =
-		new File(VideoContract.ALBUM_DIR, course.getName());
+		new File(VideoContract.ALBUM_DIR, course.getName().replaceAll(":","-"));
 
 	if (!albumDirectory.exists())
 	    albumDirectory.mkdirs();

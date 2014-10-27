@@ -27,6 +27,7 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -88,6 +89,13 @@ public class CoursePhotosFragment extends PluggableFragment implements
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
+
+        setHasOptionsMenu(true);
+        if (savedInstanceState != null) {
+            super.onCreate(null);
+            return ;
+        }
+
 	mCourse = ((MoodleCourseParcel) getFragmentArguments()
 		.getParcelable(ParcelKeys.MOODLE_COURSE))
 		.getWrappedObejct();
@@ -114,6 +122,13 @@ public class CoursePhotosFragment extends PluggableFragment implements
 
 
 	super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+
+        getLoaderManager().initLoader(Loaders.LoadCoursePhotos, null, this);
+        super.onStart();
     }
 
     @Override
@@ -192,12 +207,28 @@ public class CoursePhotosFragment extends PluggableFragment implements
 
     @Override
     public void onLoadFinished(final Loader<Cursor> arg0, final Cursor arg1) {
-	mAdapter.swapCursor(arg1);
+        try {
+            mAdapter.swapCursor(arg1);
+        }
+        catch(IllegalArgumentException e)
+        {
+            Log.e("error|"+arg0+"|"+arg1+"|"+mAdapter,e.toString());
+        }
+        catch(NullPointerException e){
+            Log.e("error|"+arg0+"|"+arg1+"|"+mAdapter,e.toString());
+        }
+
     }
 
     @Override
     public void onLoaderReset(final Loader<Cursor> arg0) {
-	mAdapter.swapCursor(null);
+        try {
+            mAdapter.swapCursor(null);
+        }
+        catch(NullPointerException e){
+            Log.e("error|"+arg0+"|"+mAdapter,e.toString());
+        }
+
     }
 
     private void startPhotoCaptureIntent() {

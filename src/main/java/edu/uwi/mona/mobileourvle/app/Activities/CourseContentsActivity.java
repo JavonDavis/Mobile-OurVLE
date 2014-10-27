@@ -14,6 +14,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,23 +24,36 @@ import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
+import android.view.Menu;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.Toast;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
-import java.io.File;
+import android.widget.VideoView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
+import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.CompanionEntities.CourseNote;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.OpenHelpers.CoursePhotosOpenHelper;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.OpenHelpers.CourseVideosOpenHelper;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.DiscussionParent;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.ForumDiscussion;
+import edu.uwi.mona.mobileourvle.app.Classes.Dialogs.ConfirmDeleteDialog;
 import edu.uwi.mona.mobileourvle.app.Classes.Dialogs.CourseMediaOptionsDialogFragment;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.CourseForumParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.DiscussionParentParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.ForumDiscussionParcel;
+import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants;
+import edu.uwi.mona.mobileourvle.app.Fragments.Course.Companion.Notes.ViewCourseNoteFragment;
 import edu.uwi.mona.mobileourvle.app.Fragments.Forum.ForumDiscussionListFragment;
+import edu.uwi.mona.mobileourvle.app.Fragments.MoodleUser.ViewProfileFragment;
 import edu.uwi.mona.mobileourvle.app.R;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants.ParcelKeys;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Authentication.Session.UserSession;
@@ -60,7 +76,8 @@ import edu.uwi.mona.mobileourvle.app.Fragments.Shared.UnderDevelopementFragment;
  * @author Aston Hamilton
  */
 public class CourseContentsActivity extends ActivityBase
-        implements CourseContentsFragment.Listener, CourseParticipantsFragment.Listener, CourseMediaOptionsDialogFragment.MediaOptionListener {
+        implements CourseContentsFragment.Listener, CourseParticipantsFragment.Listener, CourseMediaOptionsDialogFragment.MediaOptionListener,ConfirmDeleteDialog.Listener,
+        ViewCourseNoteFragment.Listener {
     private UserSession mUserSession;
     private MoodleCourse mCourse;
 
@@ -71,6 +88,9 @@ public class CourseContentsActivity extends ActivityBase
     private FragmentResponseListerner mOnDiscussionSeclectedReceiver;
     private CoursePhotosFragment photoFragment;
     private CourseVideoesFragment videoFragment;
+    private CourseNotesFragment noteFragment;
+
+    private boolean isLargeScreen = false;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -82,6 +102,12 @@ public class CourseContentsActivity extends ActivityBase
         mUserSession = ((UserSessionParcel) extras.get(ParcelKeys.USER_SESSION)).getWrappedObejct();
 
         mCourse = ((MoodleCourseParcel) extras.get(ParcelKeys.MOODLE_COURSE)).getWrappedObejct();
+
+        isLargeScreen = extras.getBoolean(ParcelKeys.SCREEN_IDENTIFIER);
+
+        if (isLargeScreen) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
 
         setTitle(mCourse.getName());
 
@@ -151,6 +177,12 @@ public class CourseContentsActivity extends ActivityBase
                 break;
             case MediaOptions.VIEW:
                 // Launch default viewer for the file
+                if(isLargeScreen)
+                {
+                    ImageView image = (ImageView) findViewById(R.id.courseImage);
+                    image.setImageURI(uri);
+                    break;
+                }
                 final Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.setDataAndType(
@@ -179,6 +211,16 @@ public class CourseContentsActivity extends ActivityBase
                 videoFragment.refresh();
                 break;
             case MediaOptions.VIEW:
+                Log.d("is",(findViewById(R.id.courseVideo)!=null)+"");
+                if(isLargeScreen)
+                {
+                    VideoView video = (VideoView) findViewById(R.id.courseVideo);
+                    video.setVideoURI(uri);
+                    video.setMediaController(new MediaController(this));
+                    video.requestFocus();
+                    video.start();
+                    break;
+                }
                 // Launch default viewer for the file
                 final Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
@@ -247,16 +289,12 @@ public class CourseContentsActivity extends ActivityBase
                 .setTabListener(new SimpleViewPagerTabListener(mPager));
         actionBar.addTab(tab);
 
-        tab = actionBar.newTab().setText("Overview").setIcon(R.drawable.overview_icon)
-                .setTabListener(new SimpleViewPagerTabListener(mPager));
-        actionBar.addTab(tab, true);
-
         tab = actionBar.newTab().setText("Notes").setIcon(R.drawable.notes_icon).setTabListener(
                 new SimpleViewPagerTabListener(mPager));
-        actionBar.addTab(tab);
+        actionBar.addTab(tab,true);
 
         tab = actionBar.newTab().setText("Pictures").setIcon(R.drawable.picture_icon)
-                       .setTabListener(new SimpleViewPagerTabListener(mPager));
+                .setTabListener(new SimpleViewPagerTabListener(mPager));
         actionBar.addTab(tab);
 
         tab = actionBar.newTab().setText("Video").setIcon(R.drawable.video_icon).setTabListener(
@@ -272,7 +310,15 @@ public class CourseContentsActivity extends ActivityBase
     public void onCourseModuleSelected(final CourseModule module) {
         if ("resource".equalsIgnoreCase(module.getName())) {
 
-            String folderLocation = "/OurVLE/courses/"+mCourse.getName().trim()+"-"+mCourse.getId()+"/files/"; // sub-folder definition
+            /**
+             * Files are stored in the folder /Ourvle/courses/Modified Course Name-COurse Id/files/
+             * The modified course name removes any uneccesary whitespace from the name along with some course names may contain the colon
+             * The colon is a reserved character in the android library and causes an illegal state exception when explicitly creating a file with that
+             * in the name
+             *
+             * The android reserved characters for file names are  {"|", "\\", "?", "*", "<", "\"", ":", ">"};
+            */
+            String folderLocation = "/OurVLE/courses/"+mCourse.getName().trim().replaceAll(":","-")+"-"+mCourse.getId()+"/files/"; // sub-folder definition
 
             File location = new File(Environment.getExternalStorageDirectory(), folderLocation);
 
@@ -306,7 +352,7 @@ public class CourseContentsActivity extends ActivityBase
                         Context.DOWNLOAD_SERVICE);
                 manager.enqueue(request);
 
-                registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                //registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
             }
             else // open the file that is already present
             {
@@ -339,6 +385,7 @@ public class CourseContentsActivity extends ActivityBase
         try
         {
             startActivity(intent);
+            //TODO - unRegister();
         }
         catch (ActivityNotFoundException e)
         {
@@ -346,7 +393,7 @@ public class CourseContentsActivity extends ActivityBase
                     Toast.LENGTH_LONG).show();
         }
     }
-
+    /*
     BroadcastReceiver onComplete=new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
@@ -355,15 +402,65 @@ public class CourseContentsActivity extends ActivityBase
                 else
                     Toast.makeText(CourseContentsActivity.this,"Error downloading file",Toast.LENGTH_LONG).show();
         }
-    };
+    };*/
+
+    /*TODO
+    private void unRegister() {
+        unregisterReceiver(onComplete);
+    }*/
+
 
     @Override
     public void onParticipantSelected(final MoodleUser user) {
-        final Intent i = new Intent(CourseContentsActivity.this, ViewUserProfileActivity.class);
-        i.putExtra(ParcelKeys.USER_SESSION, new UserSessionParcel(mUserSession));
-        i.putExtra(ParcelKeys.MOODLE_USER, new MoodleUserParcel(user));
+        if(isLargeScreen)
+        {
+            final ViewProfileFragment fragment = ViewProfileFragment
+                    .newInstance(mUserSession, user, null,isLargeScreen);
 
-        startActivity(i);
+            final FragmentTransaction transaction = getSupportFragmentManager()
+                    .beginTransaction();
+
+            // Replace whatever is in the fragment_container view with this
+            // fragment,
+            transaction.replace(R.id.participant, fragment);
+
+            // Commit the transaction
+            transaction.commit();
+        }
+        else {
+            final Intent i = new Intent(CourseContentsActivity.this, ViewUserProfileActivity.class);
+            i.putExtra(ParcelKeys.USER_SESSION, new UserSessionParcel(mUserSession));
+            i.putExtra(ParcelKeys.MOODLE_USER, new MoodleUserParcel(user));
+
+            startActivity(i);
+        }
+    }
+
+    @Override
+    public void onNoteSaved(final CourseNote courseNote) {
+        Toast.makeText(getApplicationContext(), "Note saved", Toast.LENGTH_LONG)
+                .show();
+
+        finish();
+    }
+
+    @Override
+    public void onNoteDeleted(final CourseNote courseNote) {
+        Toast.makeText(getApplicationContext(), "Note deleted",
+                Toast.LENGTH_LONG)
+                .show();
+
+        finish();
+    }
+
+    @Override
+    public void onPositiveClicked() {
+        noteFragment.deleteNote();
+    }
+
+    @Override
+    public void onNegativeClicked() {
+        // do nothing
     }
 
     /* ===================== Private Helper Dependent Classes =============== */
@@ -387,7 +484,7 @@ public class CourseContentsActivity extends ActivityBase
 
         @Override
         public int getCount() {
-            return 7;
+            return 6;
 
         }
 
@@ -407,16 +504,14 @@ public class CourseContentsActivity extends ActivityBase
                     f = CourseContentsFragment.newInstance(mUserSession, mCourse);
                     break;
                 case 3:
-                    f = CourseOverviewFragment.newInstance(mUserSession, mCourse);
+                    f = CourseNotesFragment.newInstance(mCourse,isLargeScreen);
+                    noteFragment = (CourseNotesFragment) f;
                     break;
                 case 4:
-                    f = CourseNotesFragment.newInstance(mCourse);
-                    break;
-                case 5:
                     f = CoursePhotosFragment.newInstance(mCourse);
                     photoFragment= (CoursePhotosFragment) f;
                     break;
-                case 6:
+                case 5:
                     f = CourseVideoesFragment.newInstance(mCourse);
                     videoFragment = (CourseVideoesFragment) f;
                     break;

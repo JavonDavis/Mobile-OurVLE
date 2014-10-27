@@ -31,6 +31,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,6 +47,8 @@ import android.view.MenuItem;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import edu.uwi.mona.mobileourvle.app.Activities.CourseListActivity;
 import edu.uwi.mona.mobileourvle.app.R;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants.ParcelKeys;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Android.PhoneContact;
@@ -95,6 +98,7 @@ public class ViewProfileFragment extends AuthenticatedListFragment implements
     private String mEmptyListString;
     private Activity mActivity;
     private final String sComponentUri;
+    private static boolean isLargeScreen = false;
 
     public ViewProfileFragment() {
         super();
@@ -104,12 +108,16 @@ public class ViewProfileFragment extends AuthenticatedListFragment implements
 
     public static ViewProfileFragment newInstance(final UserSession session,
                                                   final MoodleUser user,
-                                                  final MoodleCourse course) {
+                                                  final MoodleCourse course,
+                                                  final boolean large) {
         final ViewProfileFragment f = new ViewProfileFragment();
+
 
         f.setUserSession(session);
         f.setMoodleUser(user);
         f.setMoodleCourse(course);
+        isLargeScreen = large;
+
         return f;
     }
 
@@ -157,7 +165,6 @@ public class ViewProfileFragment extends AuthenticatedListFragment implements
 
         mDbWrapper = new MoodleUserContactDbWrapper(mActivity);
 
-        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
 
         mEmptyListString = getString(R.string.no_profile);
@@ -165,16 +172,19 @@ public class ViewProfileFragment extends AuthenticatedListFragment implements
 
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        if(!isLargeScreen) {
 
-        inflater.inflate(R.menu.view_user_profile_menu, menu);
+            inflater.inflate(R.menu.view_user_profile_menu, menu);
 
-        if (mPhoneContact != null) {
-            inflater.inflate(R.menu.change_user_profile_menu, menu);
-            menu.findItem(R.id.menu_add_profile).setShowAsAction(
-                    MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
-                    | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+            if (mPhoneContact != null) {
+                inflater.inflate(R.menu.change_user_profile_menu, menu);
+                menu.findItem(R.id.menu_add_profile).setShowAsAction(
+                        MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
+                                | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+            }
+
+            super.onCreateOptionsMenu(menu, inflater);
         }
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

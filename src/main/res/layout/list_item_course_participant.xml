@@ -22,6 +22,7 @@
         android:layout_toLeftOf="@+id/quickcontact_profile"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
+        android:scrollHorizontally="true"
         android:textSize="@dimen/text_primary"
         android:text="@string/field_holder_first_line" />
 
