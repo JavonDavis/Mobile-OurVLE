@@ -79,14 +79,9 @@ public class CourseListActivity extends ActivityBase {
     private ListView navigationList;
     private LinearLayout layout;
     private boolean isLargeScreen = false;
-    private MoodleCourse mCourse;
-
-    private CoursePhotosFragment photoFragment;
 
     private FragmentResponseListerner mOnCourseSeclectedReceiver;
     private FragmentResponseListerner mOnDiscussionSeclectedReceiver;
-    private CourseVideoesFragment videoFragment;
-    private Menu mMenu;
 
 
     @Override
@@ -206,7 +201,7 @@ public class CourseListActivity extends ActivityBase {
 
     }
 
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -216,9 +211,8 @@ public class CourseListActivity extends ActivityBase {
             logOut.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             logOut.setOnMenuItemClickListener(new LogOutListener());
         }
-        mMenu = menu;
         return super.onCreateOptionsMenu(menu);
-    }
+    }*/
 
     private void setupViewPager() {
         mPagerAdapter = new MainPagePagerAdaper(getSupportFragmentManager());

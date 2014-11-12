@@ -26,6 +26,7 @@ import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,9 +79,10 @@ public class CourseListFragment extends AuthenticatedListFragment implements
 
         setListAdapter(mAdapter);
 
+        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
     }
-
+    /*
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         if(!isLargeScreen) {
@@ -89,6 +91,17 @@ public class CourseListFragment extends AuthenticatedListFragment implements
             logOut.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             logOut.setOnMenuItemClickListener(new LogOutListener());
         }
+    }*/
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if(!isLargeScreen) {
+            MenuItem logOut = menu.add("Log Out");
+//        logOut.setIcon(android.R.drawable.ic_lock_power_off);
+            logOut.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            logOut.setOnMenuItemClickListener(new LogOutListener());
+        }
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
