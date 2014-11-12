@@ -1,5 +1,7 @@
 package edu.uwi.mona.mobileourvle.app.Classes.Util;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -64,10 +66,11 @@ public class MediaUtil {
 		+ "_";
 
 	final File albumDirectory =
-		new File(PhotosContract.ALBUM_DIR, course.getName());
+		new File(PhotosContract.ALBUM_DIR, course.getName().trim().replaceAll(":","-"));
 
 	if (!albumDirectory.exists())
 	    albumDirectory.mkdirs();
+
 
 	final File image = File.createTempFile(
 		imageFileName,

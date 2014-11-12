@@ -363,7 +363,6 @@ public class AddCourseClassDialogFragment extends DialogFragmentBase
 
                             }
 
-                            ;
                         }.startInsert(0, null,
                                       CourseClassTimeContract.CONTENT_URI,
                                       values);

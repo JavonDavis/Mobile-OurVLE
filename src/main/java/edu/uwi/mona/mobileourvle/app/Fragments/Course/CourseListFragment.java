@@ -136,7 +136,6 @@ public class CourseListFragment extends AuthenticatedListFragment implements
             case Loaders.LoadCourses:
                 mAdapter.swapCursor(cursor);
         }
-
     }
 
     @Override

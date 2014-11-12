@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:gravity="center"
         android:ellipsize="end"
         android:text="@string/field_holder_first_line"
         android:textSize="17sp"

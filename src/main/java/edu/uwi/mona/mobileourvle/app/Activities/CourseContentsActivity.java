@@ -10,7 +10,9 @@ import org.sourceforge.ah.android.utilities.Widgets.Listeners.SimpleViewPagerTab
 
 import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
+import android.content.AsyncQueryHandler;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -41,6 +43,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.CompanionEntities.CourseNote;
+import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.ContentProviderContracts.CoursePhotosContract;
+import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.ContentProviderContracts.CourseVideoesContract;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.OpenHelpers.CoursePhotosOpenHelper;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.OpenHelpers.CourseVideosOpenHelper;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.DiscussionParent;
@@ -171,8 +175,14 @@ public class CourseContentsActivity extends ActivityBase
         switch (loc)
         {
             case MediaOptions.DELETE:
-                CoursePhotosOpenHelper helper = new CoursePhotosOpenHelper(this);
-                helper.deletePhoto(id);
+                final ContentResolver cr = getApplicationContext()
+                        .getContentResolver();
+
+                new AsyncQueryHandler(cr) {
+
+                }.startDelete(0, null, CoursePhotosContract.CONTENT_URI,
+                        CoursePhotosContract.PHOTO_FILE_PATH + "=?",
+                        new String[] { uri.toString() });
                 photoFragment.refresh();
                 break;
             case MediaOptions.VIEW:
@@ -206,8 +216,14 @@ public class CourseContentsActivity extends ActivityBase
         switch (loc)
         {
             case MediaOptions.DELETE:
-                CourseVideosOpenHelper helper = new CourseVideosOpenHelper(this);
-                helper.deleteVideo(id);
+                final ContentResolver cr = getApplicationContext()
+                        .getContentResolver();
+
+                new AsyncQueryHandler(cr) {
+
+                }.startDelete(0, null, CourseVideoesContract.CONTENT_URI,
+                        CourseVideoesContract.VIDEO_FILE_PATH + "=?",
+                        new String[]{uri.toString()});
                 videoFragment.refresh();
                 break;
             case MediaOptions.VIEW:
@@ -287,11 +303,11 @@ public class CourseContentsActivity extends ActivityBase
 
         tab = actionBar.newTab().setText("Resource").setIcon(R.drawable.collection_icon)
                 .setTabListener(new SimpleViewPagerTabListener(mPager));
-        actionBar.addTab(tab);
+        actionBar.addTab(tab,true);
 
         tab = actionBar.newTab().setText("Notes").setIcon(R.drawable.notes_icon).setTabListener(
                 new SimpleViewPagerTabListener(mPager));
-        actionBar.addTab(tab,true);
+        actionBar.addTab(tab);
 
         tab = actionBar.newTab().setText("Pictures").setIcon(R.drawable.picture_icon)
                 .setTabListener(new SimpleViewPagerTabListener(mPager));
@@ -471,14 +487,10 @@ public class CourseContentsActivity extends ActivityBase
             super(fm);
         }
 
-        public Object getPrimaryItem() {
-            return mPrimaryItem;
-        }
 
         @Override
         public void setPrimaryItem(final ViewGroup container, final int position,
                                    final Object object) {
-            mPrimaryItem = object;
             super.setPrimaryItem(container, position, object);
         }
 
@@ -522,6 +534,10 @@ public class CourseContentsActivity extends ActivityBase
             return f;
         }
 
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            super.destroyItem(container, position, object);
+        }
     }
 
     /*==================================== Interfaces =============================================*/

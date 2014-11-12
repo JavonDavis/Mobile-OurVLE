@@ -56,4 +56,13 @@ public class CoursePhotosOpenHelper extends SQLiteOpenHelper {
 
         return true;
     }
+
+    public boolean deletePhotoByFilePath(String path)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(CoursePhotosOpenHelper.TABLE_NAME, CoursePhotosContract.PHOTO_FILE_PATH+" = ?" , new String[]{path});
+
+        return true;
+    }
 }

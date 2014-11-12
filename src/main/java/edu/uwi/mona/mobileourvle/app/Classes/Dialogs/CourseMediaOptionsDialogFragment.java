@@ -15,16 +15,16 @@ import edu.uwi.mona.mobileourvle.app.R;
  */
 public class CourseMediaOptionsDialogFragment extends DialogFragment {
 
-    private Long id;
+    private Long mediaID;
     private Uri uri;
     private int identifier;
 
     public Long getMediaId() {
-        return id;
+        return this.mediaID;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.mediaID = id;
     }
 
     public Uri getUri() {

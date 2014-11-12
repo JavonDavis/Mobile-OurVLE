@@ -11,8 +11,9 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
+                android:gravity="center"
                 android:padding="5dp"
-                android:numColumns="3" >
+                android:numColumns="1" >
 
             </GridView>
 

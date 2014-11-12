@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
@@ -86,13 +87,17 @@ public class CourseNotesFragment extends PluggableListFragment implements
             Log.e("cast exception in notes fragment",e.toString());
         }
 
-        getLoaderManager().initLoader(Loaders.LoadCourseNotes, null, this);
-
         setListAdapter(mAdapter);
 
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
 
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getLoaderManager().initLoader(Loaders.LoadCourseNotes, null, this);
     }
 
     @Override
@@ -136,8 +141,8 @@ public class CourseNotesFragment extends PluggableListFragment implements
         return new CursorLoader(getParentActivity(),
                 CourseNotesContract.CONTENT_URI,
                 new String[] {
-                        CourseNotesContract.COURSE_ID,
                         CourseNotesContract._ID,
+                        CourseNotesContract.COURSE_ID,
                         CourseNotesContract.TEXT,
                         CourseNotesContract.TIMESTAMP
                 },

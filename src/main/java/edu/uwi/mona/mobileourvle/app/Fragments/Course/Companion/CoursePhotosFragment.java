@@ -65,6 +65,7 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	LoaderCallbacks<Cursor> {
     private MoodleCourse mCourse;
     private CoursePhotoCursorAdatper mAdapter;
+    private GridView gridView;
 
     private File tPhotoFile;
     private CoursePhoto tPhoto;
@@ -83,7 +84,7 @@ public class CoursePhotosFragment extends PluggableFragment implements
 
     public void setMoodleCourse(final MoodleCourse course) {
 	getFragmentArguments().putParcelable(ParcelKeys.MOODLE_COURSE,
-		new MoodleCourseParcel(course));
+            new MoodleCourseParcel(course));
 	mCourse = course;
     }
 
@@ -116,19 +117,14 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	    }
 	};
 
-	getLoaderManager().initLoader(Loaders.LoadCoursePhotos, null, this);
-
-	setHasOptionsMenu(true);
-
-
 	super.onCreate(savedInstanceState);
     }
 
     @Override
-    public void onStart() {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         getLoaderManager().initLoader(Loaders.LoadCoursePhotos, null, this);
-        super.onStart();
     }
 
     @Override
@@ -146,7 +142,7 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	final View v = inflater.inflate(R.layout.fragment_course_photos_list,
 		container, false);
 
-        final GridView gridView = (GridView) v.findViewById(android.R.id.list);
+        gridView = (GridView) v.findViewById(android.R.id.list);
 	mEmptyTextView = (TextView) v.findViewById(android.R.id.empty);
 	gridView.setAdapter(mAdapter);
 
@@ -178,7 +174,24 @@ public class CoursePhotosFragment extends PluggableFragment implements
     @Override
     public void onResume() {
 	super.onResume();
+        if(mAdapter == null ) {
+            mAdapter = new CoursePhotoCursorAdatper(sComponentUri, mCourse,
+                    getParentActivity(), null,
+                    CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER) {
+                @Override
+                public void notifyDataSetChanged() {
 
+                    if (mEmptyTextView != null)
+                        if (mAdapter.getCount() == 0)
+                            mEmptyTextView.setVisibility(View.VISIBLE);
+                        else
+                            mEmptyTextView.setVisibility(View.INVISIBLE);
+
+                    super.notifyDataSetChanged();
+                }
+            };
+            gridView.setAdapter(mAdapter);
+        }
 	if (tPhoto != null && tPhotoFile != null)
 	    handlePhotoTakenResult(Activity.RESULT_OK);
 
@@ -207,44 +220,27 @@ public class CoursePhotosFragment extends PluggableFragment implements
 
     @Override
     public void onLoadFinished(final Loader<Cursor> arg0, final Cursor arg1) {
-        try {
-            mAdapter.swapCursor(arg1);
-        }
-        catch(IllegalArgumentException e)
-        {
-            Log.e("error|"+arg0+"|"+arg1+"|"+mAdapter,e.toString());
-        }
-        catch(NullPointerException e){
-            Log.e("error|"+arg0+"|"+arg1+"|"+mAdapter,e.toString());
-        }
-
+           mAdapter.swapCursor(arg1);
     }
 
     @Override
     public void onLoaderReset(final Loader<Cursor> arg0) {
-        try {
             mAdapter.swapCursor(null);
-        }
-        catch(NullPointerException e){
-            Log.e("error|"+arg0+"|"+mAdapter,e.toString());
-        }
-
     }
 
     private void startPhotoCaptureIntent() {
-	final Intent takePictureIntent = new Intent(
-		MediaStore.ACTION_IMAGE_CAPTURE);
+	    final Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-
-	try {
-	    tPhotoFile = MediaUtil.createCourseImageFile(mCourse);
-	} catch (final IOException e) {
-	    Toast.makeText(getApplicationContext(),
-		    "Cannot add new photo.\n" + e.getMessage(),
-		    Toast.LENGTH_LONG)
-		    .show();
-	    return;
-	}
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            try {
+                tPhotoFile = MediaUtil.createCourseImageFile(mCourse);
+            } catch (final IOException e) {
+                Toast.makeText(getApplicationContext(),
+                        "Cannot add new photo.\n" + e.getMessage(),
+                        Toast.LENGTH_LONG)
+                        .show();
+                return;
+            }
 	/*
 	 * Sometimes the activity is killed when taking a pic so
 	 * onActivityResult is not called.
@@ -252,28 +248,29 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	 * To fix this, I assume that the pic was added and then when loading
 	 * the pics I take this assumption into account.
 	 */
-	tPhoto = new CoursePhoto(tPhotoFile, DateTime.now(), mCourse, "");
+            tPhoto = new CoursePhoto(tPhotoFile, DateTime.now(), mCourse, "");
 
-	final ContentResolver cr = getApplicationContext().getContentResolver();
+            final ContentResolver cr = getApplicationContext().getContentResolver();
 
-	final ContentValues values = new ContentValues();
-	values.put(CoursePhotosContract.COURSE_ID,
-		mCourse.getId().toString());
-	values.put(CoursePhotosContract.PHOTO_FILE_PATH,
-		tPhoto.getFileUri().toString());
-	values.put(CoursePhotosContract.TIMESTAMP,
-		tPhoto.getDateTaken().getMillis() / 1000);
-	values.put(CoursePhotosContract.NOTES,
-		tPhoto.getNotes());
+            final ContentValues values = new ContentValues();
+            values.put(CoursePhotosContract.COURSE_ID,
+                    mCourse.getId().toString());
+            values.put(CoursePhotosContract.PHOTO_FILE_PATH,
+                    tPhoto.getFileUri().toString());
+            values.put(CoursePhotosContract.TIMESTAMP,
+                    tPhoto.getDateTaken().getMillis() / 1000);
+            values.put(CoursePhotosContract.NOTES,
+                    tPhoto.getNotes());
 
-	new AsyncQueryHandler(cr) {
+            new AsyncQueryHandler(cr) {
 
-	}.startInsert(0, null, CoursePhotosContract.CONTENT_URI, values);
+            }.startInsert(0, null, CoursePhotosContract.CONTENT_URI, values);
 
-	takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-		Uri.fromFile(tPhotoFile));
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                    Uri.fromFile(tPhotoFile));
 
-	startActivityForResult(takePictureIntent, Activities.TAKE_PICTURE);
+            startActivityForResult(takePictureIntent, Activities.TAKE_PICTURE);
+        }
     }
 
     @Override
@@ -287,7 +284,7 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	private final Cursor mCoursor;
 	private final MoodleCourse mCourse;
 
-	private Long cId;
+	private Long cId = null;
 	private Long cCourseId;
 	private String cPhotoFilePath;
 	private String cNotes;
@@ -410,15 +407,15 @@ public class CoursePhotosFragment extends PluggableFragment implements
 
 	    if (task != null)
 		task.cancel(true);
-
+        final CoursePhoto mPhoto = data.getCoursePhoto();
 	    task = new RemoteImageViewLoader
 		    .AsyncImageViewLoaderTask(h.photo, mAsyncTaskTag) {
-			CoursePhoto mPhoto;
+
 			WeakReference<Context> context;
 
 			@Override
 			protected void onPreExecute() {
-			    mPhoto = data.getCoursePhoto();
+
 			    context = new WeakReference<Context>(mContext.get());
 			    super.onPreExecute();
 			}
@@ -444,9 +441,8 @@ public class CoursePhotosFragment extends PluggableFragment implements
 
 	    task.execute();
 
-	    final CoursePhoto coursePhoto = data.getCoursePhoto();
 	    h.photo.setTag(task);
-	    h.date.setText(DateFormatter.getShortDateTime(coursePhoto
+	    h.date.setText(DateFormatter.getShortDateTime(mPhoto
 		    .getDateTaken()));
 	    h.notes.setText(data.getNotes());
 
@@ -463,7 +459,7 @@ public class CoursePhotosFragment extends PluggableFragment implements
             android.app.FragmentManager fragmentManager = ((Activity) mContext.get()).getFragmentManager();
 
             dialog.setId(data.getId());
-            dialog.setUri(coursePhoto.getFileUri());
+            dialog.setUri(mPhoto.getFileUri());
             dialog.setIdentifier(0);
 
             dialog.show(fragmentManager,"dialog");

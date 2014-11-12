@@ -57,7 +57,8 @@ public class CourseContentsResourceActivity extends ActionBarActivity {
             {
                 public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                     //Users will be notified in case there's an error (i.e. no internet connection)
-                    Toast.makeText(getApplicationContext(), "Error Loading... Please Internet Connection", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Error Loading... Please check Internet Connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),description, Toast.LENGTH_LONG).show();
                 }
 
                 public void onPageFinished(WebView view, String url) {

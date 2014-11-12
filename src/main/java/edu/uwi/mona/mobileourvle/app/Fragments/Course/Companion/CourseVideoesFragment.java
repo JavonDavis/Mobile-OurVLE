@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -104,10 +105,15 @@ public class CourseVideoesFragment extends PluggableFragment implements
 	    }
 	};
 
-	getLoaderManager().initLoader(Loaders.LoadCourseVideoes, null, this);
-
 	setHasOptionsMenu(true);
 	super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        getLoaderManager().initLoader(Loaders.LoadCourseVideoes, null, this);
     }
 
     @Override
