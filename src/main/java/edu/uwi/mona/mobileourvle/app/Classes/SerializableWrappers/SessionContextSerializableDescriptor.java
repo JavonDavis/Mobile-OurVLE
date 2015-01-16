@@ -23,7 +23,7 @@ public class SessionContextSerializableDescriptor extends
 	final JsonObject serializedSessionContext = new JsonObject();
 
 	final JsonElement serializedUser = new MoodleUserSerializableDescriptor()
-		.serialzeObject(unserializedObj.getCurretnUser());
+		.serialzeObject(unserializedObj.getCurrentUser());
 
 	final JsonElement serializedSiteInfo = new SiteInfoSerializableDescriptor()
 		.serialzeObject(unserializedObj.getSiteInfo());

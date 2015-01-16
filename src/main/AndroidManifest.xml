@@ -27,7 +27,7 @@
             android:name="edu.uwi.mona.mobileourvle.app.Activities.LoginMainActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            android:theme="@android:style/Theme.Holo.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,11 +43,12 @@
             android:name="edu.uwi.mona.mobileourvle.app.Activities.CourseListActivity"
             android:label="@string/title_course_list"
             android:launchMode="singleTop"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="edu.uwi.mona.mobileourvle.app.Activities.CourseContentsActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="edu.uwi.mona.mobileourvle.app.Activities.ForumDiscussionPagerActivity"

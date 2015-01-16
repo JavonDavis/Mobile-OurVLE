@@ -171,7 +171,7 @@ public class CourseOverviewFragment extends AuthenticatedListFragment implements
 
     private void loadCourseActivityOverview() {
 
-	mMainInstructor = getUserSession().getContext().getCurretnUser();
+	mMainInstructor = getUserSession().getContext().getCurrentUser();
 
 	mMainInstructorTextView.setText(mMainInstructor.getFullName());
     }

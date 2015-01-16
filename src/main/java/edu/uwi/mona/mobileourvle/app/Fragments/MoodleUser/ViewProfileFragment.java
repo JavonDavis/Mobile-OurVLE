@@ -108,15 +108,13 @@ public class ViewProfileFragment extends AuthenticatedListFragment implements
 
     public static ViewProfileFragment newInstance(final UserSession session,
                                                   final MoodleUser user,
-                                                  final MoodleCourse course,
-                                                  final boolean large) {
+                                                  final MoodleCourse course) {
         final ViewProfileFragment f = new ViewProfileFragment();
 
 
         f.setUserSession(session);
         f.setMoodleUser(user);
         f.setMoodleCourse(course);
-        isLargeScreen = large;
 
         return f;
     }
@@ -141,6 +139,7 @@ public class ViewProfileFragment extends AuthenticatedListFragment implements
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         mUser = ((MoodleUserParcel) getFragmentArguments()
                 .getParcelable(ParcelKeys.MOODLE_USER))
                 .getWrappedObejct();
@@ -165,12 +164,10 @@ public class ViewProfileFragment extends AuthenticatedListFragment implements
 
         mDbWrapper = new MoodleUserContactDbWrapper(mActivity);
 
-        super.onCreate(savedInstanceState);
-
         mEmptyListString = getString(R.string.no_profile);
     }
 
-    @Override
+    /*@Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         if(!isLargeScreen) {
 
@@ -185,7 +182,7 @@ public class ViewProfileFragment extends AuthenticatedListFragment implements
 
             super.onCreateOptionsMenu(menu, inflater);
         }
-    }
+    }*/
 
     @Override
     public View onCreateView(final LayoutInflater inflater,
@@ -221,7 +218,7 @@ public class ViewProfileFragment extends AuthenticatedListFragment implements
                 mPhoneContact = null;
     }
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add_profile:
@@ -232,7 +229,7 @@ public class ViewProfileFragment extends AuthenticatedListFragment implements
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode,

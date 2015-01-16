@@ -32,6 +32,7 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,6 +72,9 @@ public class CoursePhotosFragment extends PluggableFragment implements
     private CoursePhoto tPhoto;
 
     private TextView mEmptyTextView;
+    private Menu menu;
+
+    private int itemID;
 
     private final String sComponentUri = CoursePhotosFragment.class.getName();
 
@@ -128,12 +132,40 @@ public class CoursePhotosFragment extends PluggableFragment implements
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        addMenuItem();
+    }
+
+    private void addMenuItem() {
+        menu= ((Toolbar) getActivity().findViewById(R.id.course_toolbar)).getMenu();
+        //add search button to menu
+        MenuItem item = menu.add("Add Photo");
+        itemID = item.getItemId();
+
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        item.setIcon(R.drawable.picture_icon);
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                startPhotoCaptureIntent();
+
+                return true;
+            }
+        });
+
+    }
+
+
+
+    /*@Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
 
 	inflater.inflate(R.menu.course_photos_fragment_menu, menu);
 
 	super.onCreateOptionsMenu(menu, inflater);
-    }
+    }*/
 
     @Override
     public View onCreateView(final LayoutInflater inflater,
@@ -149,7 +181,7 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	return v;
     }
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(final MenuItem item) {
 	switch (item.getItemId()) {
 	case id.menu_add_photo:
@@ -157,6 +189,13 @@ public class CoursePhotosFragment extends PluggableFragment implements
 	    break;
 	}
 	return super.onOptionsItemSelected(item);
+    }*/
+
+    private void removeMenuItem() {
+
+        menu= ((Toolbar) getActivity().findViewById(R.id.course_toolbar)).getMenu();
+        //add search button to menu
+        menu.removeItem(itemID);
     }
 
     @Override
@@ -275,9 +314,11 @@ public class CoursePhotosFragment extends PluggableFragment implements
 
     @Override
     public void onStop() {
-	AsyncManager.cancelRunningTasks(sComponentUri, true);
-	super.onStop();
+        AsyncManager.cancelRunningTasks(sComponentUri, true);
+        removeMenuItem();
+        super.onStop();
     }
+
 
     /* ====================== Private Classes =================== */
     private static class CoursePhotoCursorWrapper {

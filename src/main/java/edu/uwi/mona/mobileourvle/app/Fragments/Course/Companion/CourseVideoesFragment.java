@@ -31,6 +31,7 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,6 +68,8 @@ public class CourseVideoesFragment extends PluggableFragment implements
 
     private File tVideoFile;
     private CourseVideo tVideo;
+    private Menu menu;
+    private int itemID;
 
     private TextView mEmptyTextView;
 
@@ -105,6 +108,7 @@ public class CourseVideoesFragment extends PluggableFragment implements
 	    }
 	};
 
+
 	setHasOptionsMenu(true);
 	super.onCreate(savedInstanceState);
     }
@@ -117,11 +121,51 @@ public class CourseVideoesFragment extends PluggableFragment implements
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        addMenuItem();
+
+    }
+
+    private void addMenuItem() {
+        menu= ((Toolbar) getActivity().findViewById(R.id.course_toolbar)).getMenu();
+        //add search button to menu
+        MenuItem item = menu.add("Add Video");
+        itemID = item.getItemId();
+
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        item.setIcon(R.drawable.video_icon);
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                startVideoCaptureIntent();
+
+                return true;
+            }
+        });
+
+    }
+
+    /*@Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
 
 	inflater.inflate(R.menu.course_videos_fragment_menu, menu);
 
 	super.onCreateOptionsMenu(menu, inflater);
+    }*/
+
+    private void removeMenuItem() {
+
+        menu= ((Toolbar) getActivity().findViewById(R.id.course_toolbar)).getMenu();
+        //add search button to menu
+        menu.removeItem(itemID);
+    }
+
+    @Override
+    public void onStop() {
+        removeMenuItem();
+        super.onStop();
     }
 
     @Override

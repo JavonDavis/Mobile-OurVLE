@@ -11,14 +11,10 @@ import org.sourceforge.ah.android.utilities.Widgets.Listeners.SimpleViewPagerTab
 import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
 import android.content.AsyncQueryHandler;
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
-import android.database.Cursor;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,27 +22,24 @@ import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.Toast;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
-import android.widget.VideoView;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.CompanionEntities.CourseNote;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.ContentProviderContracts.CoursePhotosContract;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.ContentProviderContracts.CourseVideoesContract;
-import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.OpenHelpers.CoursePhotosOpenHelper;
-import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Databases.OpenHelpers.CourseVideosOpenHelper;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.DiscussionParent;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.ForumDiscussion;
 import edu.uwi.mona.mobileourvle.app.Classes.Dialogs.ConfirmDeleteDialog;
@@ -54,10 +47,8 @@ import edu.uwi.mona.mobileourvle.app.Classes.Dialogs.CourseMediaOptionsDialogFra
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.CourseForumParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.DiscussionParentParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.ForumDiscussionParcel;
-import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants;
 import edu.uwi.mona.mobileourvle.app.Fragments.Course.Companion.Notes.ViewCourseNoteFragment;
 import edu.uwi.mona.mobileourvle.app.Fragments.Forum.ForumDiscussionListFragment;
-import edu.uwi.mona.mobileourvle.app.Fragments.MoodleUser.ViewProfileFragment;
 import edu.uwi.mona.mobileourvle.app.R;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants.ParcelKeys;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Authentication.Session.UserSession;
@@ -68,7 +59,6 @@ import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.MoodleCourseParcel
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.MoodleUserParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.UserSessionParcel;
 import edu.uwi.mona.mobileourvle.app.Fragments.Course.CourseContentsFragment;
-import edu.uwi.mona.mobileourvle.app.Fragments.Course.CourseOverviewFragment;
 import edu.uwi.mona.mobileourvle.app.Fragments.Course.CourseParticipantsFragment;
 import edu.uwi.mona.mobileourvle.app.Fragments.Course.Companion.CoursePhotosFragment;
 import edu.uwi.mona.mobileourvle.app.Fragments.Course.Companion.CourseVideoesFragment;
@@ -94,7 +84,14 @@ public class CourseContentsActivity extends ActivityBase
     private CourseVideoesFragment videoFragment;
     private CourseNotesFragment noteFragment;
 
-    private boolean isLargeScreen = false;
+    private final static String RESOURCE_TAG = "resource";
+    private final static String SCHEDULE_TAG = "schedule";
+    private final static String NOTES_TAG = "note";
+    private final static String VIDEOS_TAG = "video";
+    private final static String PICTURES_TAG = "picture";
+    private final static String PARTICIPANTS_TAG = "participant";
+    private Menu menu;
+
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -107,18 +104,341 @@ public class CourseContentsActivity extends ActivityBase
 
         mCourse = ((MoodleCourseParcel) extras.get(ParcelKeys.MOODLE_COURSE)).getWrappedObejct();
 
-        isLargeScreen = extras.getBoolean(ParcelKeys.SCREEN_IDENTIFIER);
+        //setTitle(mCourse.getName());
 
-        if (isLargeScreen) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.course_toolbar);
+        //setSupportActionBar(toolbar);
+
+        toolbar.setTitle(mCourse.getName());
+        toolbar.setNavigationIcon(R.drawable.back_icon);
+        toolbar.setNavigationContentDescription(getResources().getString(R.string.course));
+
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setTitleTextAppearance(this, Typeface.BOLD);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        toolbar.inflateMenu(R.menu.menu_course_contents);
+
+        final MenuItem resourceItem = toolbar.getMenu().getItem(ToolbarOptions.RESOURCE_ITEM);
+        final MenuItem scheduleItem = toolbar.getMenu().getItem(ToolbarOptions.SCHEDULE_ITEM);
+        final MenuItem noteItem = toolbar.getMenu().getItem(ToolbarOptions.NOTES_ITEM);
+        final MenuItem photoItem = toolbar.getMenu().getItem(ToolbarOptions.PHOTOS_ITEM);
+        final MenuItem videoItem = toolbar.getMenu().getItem(ToolbarOptions.VIDEOS_ITEM);
+        final MenuItem participantItem = toolbar.getMenu().getItem(ToolbarOptions.PARTICIPANTS_ITEM);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if (!(getSupportFragmentManager().getBackStackEntryCount() == 0)) {
+                    String tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+
+                    switch(tag)
+                    {
+                        case RESOURCE_TAG:
+                            toolbar.setTitle(mCourse.getName());
+                            resourceItem.setVisible(false);
+                            scheduleItem.setVisible(true);
+                            noteItem.setVisible(true);
+                            photoItem.setVisible(true);
+                            videoItem.setVisible(true);
+                            participantItem.setVisible(true);
+                            break;
+                        case SCHEDULE_TAG:
+                            toolbar.setTitle(getResources().getString(R.string.schedule_menu_option));
+                            scheduleItem.setVisible(false);
+                            resourceItem.setVisible(true);
+                            noteItem.setVisible(true);
+                            photoItem.setVisible(true);
+                            videoItem.setVisible(true);
+                            participantItem.setVisible(true);
+                            break;
+                        case NOTES_TAG:
+                            toolbar.setTitle(getResources().getString(R.string.note_menu_option));
+                            noteItem.setVisible(false);
+                            resourceItem.setVisible(true);
+                            scheduleItem.setVisible(true);
+                            photoItem.setVisible(true);
+                            videoItem.setVisible(true);
+                            participantItem.setVisible(true);
+                            break;
+                        case PICTURES_TAG:
+                            toolbar.setTitle(getResources().getString(R.string.photo_menu_option));
+                            photoItem.setVisible(false);
+                            resourceItem.setVisible(true);
+                            scheduleItem.setVisible(true);
+                            noteItem.setVisible(true);
+                            videoItem.setVisible(true);
+                            participantItem.setVisible(true);
+                            break;
+                        case VIDEOS_TAG:
+                            toolbar.setTitle(getResources().getString(R.string.video_menu_option));
+                            videoItem.setVisible(false);
+                            resourceItem.setVisible(true);
+                            scheduleItem.setVisible(true);
+                            noteItem.setVisible(true);
+                            photoItem.setVisible(true);
+                            participantItem.setVisible(true);
+                            break;
+                        case PARTICIPANTS_TAG:
+                            toolbar.setTitle(getResources().getString(R.string.participant_menu_option));
+                            participantItem.setVisible(false);
+                            resourceItem.setVisible(true);
+                            scheduleItem.setVisible(true);
+                            noteItem.setVisible(true);
+                            photoItem.setVisible(true);
+                            videoItem.setVisible(true);
+                            break;
+                    }
+
+                }
+                else
+                {
+                    toolbar.setTitle(mCourse.getName());
+                    resourceItem.setVisible(false);
+                    scheduleItem.setVisible(true);
+                    noteItem.setVisible(true);
+                    photoItem.setVisible(true);
+                    videoItem.setVisible(true);
+                    participantItem.setVisible(true);
+                }
+
+            }
+        });
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+
+                switch (id) {
+                    case R.id.resources_option:
+                        getSupportFragmentManager().beginTransaction().
+                                replace(R.id.container,CourseContentsFragment.newInstance(mUserSession,mCourse)
+                                , RESOURCE_TAG).addToBackStack(RESOURCE_TAG).commit();
+
+                        item.setVisible(false);
+                        toolbar.setTitle(mCourse.getName());
+                        scheduleItem.setVisible(true);
+                        noteItem.setVisible(true);
+                        photoItem.setVisible(true);
+                        videoItem.setVisible(true);
+                        participantItem.setVisible(true);
+                        //toolbar.getMenu().getItem(MenuOptions.ADD_VIDEO_ITEM).setVisible(false);
+                        return true;
+                    case R.id.schedule_option:
+                        getSupportFragmentManager().beginTransaction().
+                                replace(R.id.container,CourseClassTimesFragment.newInstance(
+                                        mCourse), SCHEDULE_TAG).addToBackStack(SCHEDULE_TAG).commit();
+
+                        item.setVisible(false);
+                        toolbar.setTitle(item.getTitle());
+                        resourceItem.setVisible(true);
+                        noteItem.setVisible(true);
+                        photoItem.setVisible(true);
+                        videoItem.setVisible(true);
+                        participantItem.setVisible(true);
+                        //toolbar.getMenu().getItem(6).setVisible(false);
+                        return true;
+                    case R.id.notes_option:
+
+                        noteFragment = CourseNotesFragment.newInstance(mCourse);;
+
+                        getSupportFragmentManager().beginTransaction().
+                                replace(R.id.container,noteFragment, NOTES_TAG).addToBackStack(NOTES_TAG).commit();
+
+                        item.setVisible(false);
+                        toolbar.setTitle(item.getTitle());
+                        resourceItem.setVisible(true);
+                        scheduleItem.setVisible(true);
+                        photoItem.setVisible(true);
+                        videoItem.setVisible(true);
+                        participantItem.setVisible(true);
+                        //toolbar.getMenu().getItem(6).setVisible(false);
+                        return true;
+                    case R.id.photos_option:
+                        photoFragment= CoursePhotosFragment.newInstance(mCourse);
+
+                        getSupportFragmentManager().beginTransaction().
+                                replace(R.id.container,photoFragment, PICTURES_TAG).addToBackStack(PICTURES_TAG).commit();
+
+                        item.setVisible(false);
+                        toolbar.setTitle(item.getTitle());
+                        resourceItem.setVisible(true);
+                        scheduleItem.setVisible(true);
+                        noteItem.setVisible(true);
+                        videoItem.setVisible(true);
+                        participantItem.setVisible(true);
+                        //toolbar.getMenu().getItem(6).setVisible(false);
+                        return true;
+                    case R.id.videos_option:
+                        videoFragment= CourseVideoesFragment.newInstance(mCourse);
+
+                        getSupportFragmentManager().beginTransaction().
+                                replace(R.id.container,videoFragment, VIDEOS_TAG).addToBackStack(VIDEOS_TAG).commit();
+
+                        item.setVisible(false);
+                        toolbar.setTitle(item.getTitle());
+                        resourceItem.setVisible(true);
+                        scheduleItem.setVisible(true);
+                        noteItem.setVisible(true);
+                        photoItem.setVisible(true);
+                        participantItem.setVisible(true);
+                        //toolbar.getMenu().getItem(6).setVisible(true);
+                        return true;
+                    case R.id.participants_option:
+
+                        getSupportFragmentManager().beginTransaction().
+                                replace(R.id.container,CourseParticipantsFragment.newInstance(mUserSession, mCourse)
+                                        , PARTICIPANTS_TAG).addToBackStack(PARTICIPANTS_TAG).commit();
+
+                        item.setVisible(false);
+                        toolbar.setTitle(item.getTitle());
+                        resourceItem.setVisible(true);
+                        scheduleItem.setVisible(true);
+                        noteItem.setVisible(true);
+                        photoItem.setVisible(true);
+                        videoItem.setVisible(true);
+                        //toolbar.getMenu().getItem(6).setVisible(false);
+                        return true;
+
+                }
+                return false;
+            }
+        });
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, CourseContentsFragment.newInstance(mUserSession,mCourse))
+                    .commit();
         }
 
-        setTitle(mCourse.getName());
 
-        setupViewPager();
-        addTabNavigation();
+        //setupViewPager();
+        //addTabNavigation();
 
     }
+
+    /*@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        final MenuItem resourceItem = menu.findItem(R.id.resources_option);
+        final MenuItem scheduleItem = menu.findItem(R.id.schedule_option);
+        final MenuItem noteItem = menu.findItem(R.id.notes_option);
+        final MenuItem photoItem = menu.findItem(R.id.photos_option);
+        final MenuItem videoItem = menu.findItem(R.id.videos_option);
+        final MenuItem participantItem = menu.findItem(R.id.participants_option);
+
+        switch (id) {
+            case R.id.resources_option:
+                getSupportFragmentManager().beginTransaction().
+                        replace(R.id.container,CourseContentsFragment.newInstance(mUserSession,mCourse)
+                                , RESOURCE_TAG).addToBackStack(RESOURCE_TAG).commit();
+
+                item.setVisible(false);
+                setTitle(mCourse.getName());
+                scheduleItem.setVisible(true);
+                noteItem.setVisible(true);
+                photoItem.setVisible(true);
+                videoItem.setVisible(true);
+                participantItem.setVisible(true);
+                //toolbar.getMenu().getItem(MenuOptions.ADD_VIDEO_ITEM).setVisible(false);
+                return true;
+            case R.id.schedule_option:
+                getSupportFragmentManager().beginTransaction().
+                        replace(R.id.container,CourseClassTimesFragment.newInstance(
+                                mCourse), SCHEDULE_TAG).addToBackStack(SCHEDULE_TAG).commit();
+
+                item.setVisible(false);
+                setTitle(item.getTitle());
+                resourceItem.setVisible(true);
+                noteItem.setVisible(true);
+                photoItem.setVisible(true);
+                videoItem.setVisible(true);
+                participantItem.setVisible(true);
+                //toolbar.getMenu().getItem(6).setVisible(false);
+                return true;
+            case R.id.notes_option:
+
+                noteFragment = CourseNotesFragment.newInstance(mCourse);;
+
+                getSupportFragmentManager().beginTransaction().
+                        replace(R.id.container,noteFragment, NOTES_TAG).addToBackStack(NOTES_TAG).commit();
+
+                item.setVisible(false);
+                setTitle(item.getTitle());
+                resourceItem.setVisible(true);
+                scheduleItem.setVisible(true);
+                photoItem.setVisible(true);
+                videoItem.setVisible(true);
+                participantItem.setVisible(true);
+                //toolbar.getMenu().getItem(6).setVisible(false);
+                return true;
+            case R.id.photos_option:
+                photoFragment= CoursePhotosFragment.newInstance(mCourse);
+
+                getSupportFragmentManager().beginTransaction().
+                        replace(R.id.container,photoFragment, PICTURES_TAG).addToBackStack(PICTURES_TAG).commit();
+
+                item.setVisible(false);
+                setTitle(item.getTitle());
+                resourceItem.setVisible(true);
+                scheduleItem.setVisible(true);
+                noteItem.setVisible(true);
+                videoItem.setVisible(true);
+                participantItem.setVisible(true);
+                //toolbar.getMenu().getItem(6).setVisible(false);
+                return true;
+            case R.id.videos_option:
+                videoFragment= CourseVideoesFragment.newInstance(mCourse);
+
+                getSupportFragmentManager().beginTransaction().
+                        replace(R.id.container,videoFragment, VIDEOS_TAG).addToBackStack(VIDEOS_TAG).commit();
+
+                item.setVisible(false);
+                setTitle(item.getTitle());
+                resourceItem.setVisible(true);
+                scheduleItem.setVisible(true);
+                noteItem.setVisible(true);
+                photoItem.setVisible(true);
+                participantItem.setVisible(true);
+                //toolbar.getMenu().getItem(6).setVisible(true);
+                return true;
+            case R.id.participants_option:
+
+                getSupportFragmentManager().beginTransaction().
+                        replace(R.id.container,CourseParticipantsFragment.newInstance(mUserSession, mCourse)
+                                , PARTICIPANTS_TAG).addToBackStack(PARTICIPANTS_TAG).commit();
+
+                item.setVisible(false);
+                setTitle(item.getTitle());
+                resourceItem.setVisible(true);
+                scheduleItem.setVisible(true);
+                noteItem.setVisible(true);
+                photoItem.setVisible(true);
+                videoItem.setVisible(true);
+                //toolbar.getMenu().getItem(6).setVisible(false);
+                return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }*/
 
     @Override
     protected void onResume() {
@@ -187,12 +507,13 @@ public class CourseContentsActivity extends ActivityBase
                 break;
             case MediaOptions.VIEW:
                 // Launch default viewer for the file
+                /* // check for larger screens
                 if(isLargeScreen)
                 {
                     ImageView image = (ImageView) findViewById(R.id.courseImage);
                     image.setImageURI(uri);
                     break;
-                }
+                }*/
                 final Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.setDataAndType(
@@ -227,6 +548,8 @@ public class CourseContentsActivity extends ActivityBase
                 videoFragment.refresh();
                 break;
             case MediaOptions.VIEW:
+
+                /* // check for larger screens
                 Log.d("is",(findViewById(R.id.courseVideo)!=null)+"");
                 if(isLargeScreen)
                 {
@@ -236,7 +559,7 @@ public class CourseContentsActivity extends ActivityBase
                     video.requestFocus();
                     video.start();
                     break;
-                }
+                }*/
                 // Launch default viewer for the file
                 final Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
@@ -281,6 +604,15 @@ public class CourseContentsActivity extends ActivityBase
 
         });
     }
+
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_course_contents, menu);
+
+        this.menu = menu;
+        return true;
+    }*/
 
     private void addTabNavigation() {
         // setup action bar for tabs
@@ -428,7 +760,7 @@ public class CourseContentsActivity extends ActivityBase
 
     @Override
     public void onParticipantSelected(final MoodleUser user) {
-        if(isLargeScreen)
+        /*if(isLargeScreen)
         {
             final ViewProfileFragment fragment = ViewProfileFragment
                     .newInstance(mUserSession, user, null,isLargeScreen);
@@ -443,13 +775,13 @@ public class CourseContentsActivity extends ActivityBase
             // Commit the transaction
             transaction.commit();
         }
-        else {
+        else {*/
             final Intent i = new Intent(CourseContentsActivity.this, ViewUserProfileActivity.class);
             i.putExtra(ParcelKeys.USER_SESSION, new UserSessionParcel(mUserSession));
             i.putExtra(ParcelKeys.MOODLE_USER, new MoodleUserParcel(user));
 
             startActivity(i);
-        }
+        //}
     }
 
     @Override
@@ -516,7 +848,7 @@ public class CourseContentsActivity extends ActivityBase
                     f = CourseContentsFragment.newInstance(mUserSession, mCourse);
                     break;
                 case 3:
-                    f = CourseNotesFragment.newInstance(mCourse,isLargeScreen);
+                    f = CourseNotesFragment.newInstance(mCourse);
                     noteFragment = (CourseNotesFragment) f;
                     break;
                 case 4:
@@ -544,5 +876,19 @@ public class CourseContentsActivity extends ActivityBase
     private interface MediaOptions {
         static final int VIEW = 0;
         static final int DELETE =1;
+    }
+
+    private interface ToolbarOptions
+    {
+        final static int RESOURCE_ITEM = 0;
+        final static int SCHEDULE_ITEM = 1;
+        final static int NOTES_ITEM = 2;
+        final static int PHOTOS_ITEM = 3;
+        final static int VIDEOS_ITEM = 4;
+        final static int PARTICIPANTS_ITEM = 5;
+        final static int ADD_VIDEO_ITEM = 6;
+        final static int ADD_PHOTO_ITEM = 7;
+        final static int ADD_NOTE_ITEM = 8;
+
     }
 }

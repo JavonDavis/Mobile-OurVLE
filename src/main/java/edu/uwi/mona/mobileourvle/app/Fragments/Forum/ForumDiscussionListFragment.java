@@ -51,13 +51,11 @@ public class ForumDiscussionListFragment extends AuthenticatedListFragment
     private DiscussionParent mParent;
 
     private ExtendediscussionListAdapter mListAdapter;
-    private static boolean isLargeScreen = false;
 
     public static ForumDiscussionListFragment newInstance(final UserSession session,
-                                                          final CourseForum forum,final boolean large) {
+                                                          final CourseForum forum) {
         final ForumDiscussionListFragment f = ForumDiscussionListFragment.newInstance(session,
                                                                                       forum, null);
-        isLargeScreen = large;
         return f;
     }
 
@@ -102,6 +100,7 @@ public class ForumDiscussionListFragment extends AuthenticatedListFragment
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
+
         mParent = ((DiscussionParentParcel) getFragmentArguments().getParcelable(ParcelKeys.PARENT))
                 .getWrappedObejct();
 
@@ -127,7 +126,6 @@ public class ForumDiscussionListFragment extends AuthenticatedListFragment
         getLoaderManager().initLoader(Loaders.Discussions, null, this);
 
         setListAdapter(mListAdapter);
-
         super.onCreate(savedInstanceState);
     }
 
@@ -137,12 +135,6 @@ public class ForumDiscussionListFragment extends AuthenticatedListFragment
         final View v = inflater.inflate(R.layout.fragment_discussion_list, container, false);
 
         return v;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if(!isLargeScreen)
-            super.onCreateOptionsMenu(menu,inflater);
     }
 
     @Override

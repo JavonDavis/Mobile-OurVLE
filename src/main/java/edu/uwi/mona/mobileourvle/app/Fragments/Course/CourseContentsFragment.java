@@ -18,7 +18,9 @@ import org.sourceforge.ah.android.utilities.Widgets.Adapters.PinnedHeaderListAda
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -64,6 +66,7 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
     private String mEmptyListString;
 
     private Menu menu;
+    private int searchID;
 
     public static CourseContentsFragment newInstance(
             final UserSession session,
@@ -82,23 +85,31 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
         mCourse = course;
     }
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menuA) {
-        menu=menuA;
-        addSearchOption();
-    }
+
 
     public void addSearchOption()
     {
+        menu= ((Toolbar) getActivity().findViewById(R.id.course_toolbar)).getMenu();
         //add search button to menu
         MenuItem item = menu.add("Search");
+        searchID = item.getItemId();
 
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         SearchView searchView = new SearchView(getActivity());
 
         searchView.setOnQueryTextListener(new SearchListener());
         item.setActionView(searchView);
     }
+
+    public void removeSearchOption()
+    {
+        menu= ((Toolbar) getActivity().findViewById(R.id.course_toolbar)).getMenu();
+        //add search button to menu
+        menu.removeItem(searchID);
+
+    }
+
+
 
     @Override
     public void onAttach(final Activity activity) {
@@ -117,6 +128,7 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
                 }
             };
         }
+
     }
 
     @Override
@@ -134,9 +146,11 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
 
         setListAdapter(mCourseModuleListAdapter);
 
+
         super.onCreate(savedInstanceState);
 
         mEmptyListString = getString(R.string.no_course_contents);
+
     }
 
     @Override
@@ -144,6 +158,7 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
         super.onStart();
 
         loadCourseContents();
+        addSearchOption();
     }
 
     @Override
@@ -207,13 +222,14 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
 
     @Override
     public void onCommunicationMenuItemTriggered() {
-        addSearchOption();
+        //addSearchOption();
         loadCourseContents();
     }
 
     @Override
     public void onStop() {
         CommuncationModule.cancelAllRunningAsyncRequests(this);
+        removeSearchOption();
         super.onStop();
     }
 
@@ -226,28 +242,27 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
             //list to hold filtered courses
             List<CourseSection> filteredContents = new ArrayList<CourseSection>();
 
+            if(courseContents!=null) {
+                for (final CourseSection courseSection : courseContents) {
+                    List<CourseModule> filteredModules = new ArrayList<CourseModule>();
+                    List<CourseModule> moduleList = new ArrayList<CourseModule>(courseSection.getModuleList());
 
-            for(final CourseSection courseSection: courseContents)
-            {
-                List<CourseModule> filteredModules = new ArrayList<CourseModule>();
-                List<CourseModule> moduleList = new ArrayList<CourseModule>(courseSection.getModuleList());
+                    for (CourseModule courseModule : moduleList)
+                        if (courseModule.getLabel().toLowerCase().contains(query.toLowerCase()))
+                            filteredModules.add(courseModule);
 
-                for(CourseModule courseModule: moduleList)
-                    if(courseModule.getLabel().toLowerCase().contains(query.toLowerCase()))
-                        filteredModules.add(courseModule);
+                    filteredContents.add(new CourseSection(courseSection.getName(), filteredModules));
+                }
 
-                filteredContents.add(new CourseSection(courseSection.getName(),filteredModules));
+                mCourseModuleListAdapter.clearPartitions();
+
+                for (CourseSection section : filteredContents)
+                    if (section.getModuleList().size() > 0)
+                        mCourseModuleListAdapter
+                                .addPartition(section, section.getModuleList());
+
+                mCourseModuleListAdapter.notifyDataSetChanged();
             }
-
-            mCourseModuleListAdapter.clearPartitions();
-
-            for (CourseSection section : filteredContents)
-                if (section.getModuleList().size() > 0)
-                    mCourseModuleListAdapter
-                            .addPartition(section, section.getModuleList());
-
-            mCourseModuleListAdapter.notifyDataSetChanged();
-
             return false;
         }
 

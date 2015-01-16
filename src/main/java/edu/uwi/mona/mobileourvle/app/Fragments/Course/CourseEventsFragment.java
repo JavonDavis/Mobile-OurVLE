@@ -204,6 +204,7 @@ public class CourseEventsFragment extends PluggableListFragment
 
             // Empty the table and insert all new events
             new AsyncQueryHandler(cr) {
+                @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
                 @Override
                 protected void onDeleteComplete(final int token,
                                                 final Object cookie, final int result) {

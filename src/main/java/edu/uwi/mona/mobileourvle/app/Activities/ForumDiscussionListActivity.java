@@ -66,7 +66,7 @@ public class ForumDiscussionListActivity extends ActivityBase {
 
         if (forum != null) {
             fragment = ForumDiscussionListFragment
-                    .newInstance(mUserSession, forum,false);
+                    .newInstance(mUserSession, forum);
             setTitle(forum.getName());
         } else if ("forum".equals(module.getName())) {
             fragment = ForumDiscussionListFragment

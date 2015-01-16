@@ -50,7 +50,7 @@ public class ViewUserProfileActivity extends ActivityBase {
         setTitle(mUser.getFullName());
 
         final ViewProfileFragment fragment = ViewProfileFragment
-                .newInstance(mUserSession, mUser, mCourse,false);
+                .newInstance(mUserSession, mUser, mCourse);
 
         final FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction();

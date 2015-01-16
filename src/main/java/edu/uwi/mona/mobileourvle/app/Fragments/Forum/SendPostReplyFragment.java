@@ -3,36 +3,19 @@
  */
 package edu.uwi.mona.mobileourvle.app.Fragments.Forum;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EncodingUtils;
 import org.sourceforge.ah.android.utilities.Communication.CommuncationModule;
 import org.sourceforge.ah.android.utilities.Communication.Interfaces.OnCommunicationResponseListener;
-import org.sourceforge.ah.android.utilities.Communication.Request.RequestObject;
 import org.sourceforge.ah.android.utilities.Communication.Response.ResponseError;
 import org.sourceforge.ah.android.utilities.Communication.Response.ResponseObject;
-import org.sourceforge.ah.android.utilities.Cryptography.AESUtil;
 import org.sourceforge.ah.android.utilities.Formatters.DateFormatter;
 import org.sourceforge.ah.android.utilities.Plugins.DefaultCommunicationModulePlugin;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,26 +24,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.uwi.mona.mobileourvle.app.Activities.LoginMainActivity;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.UserSessionParcel;
-import edu.uwi.mona.mobileourvle.app.Classes.TransportLayer.APIEndpoints;
-import edu.uwi.mona.mobileourvle.app.Classes.TransportLayer.RemoteAPIRequests.RemoteAPIRequest;
-import edu.uwi.mona.mobileourvle.app.Classes.TransportLayer.RemoteAPIRequests.WebServiceFunctions.RemoteWebServiceFunction;
 import edu.uwi.mona.mobileourvle.app.R;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants.ParcelKeys;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Authentication.Session.UserSession;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.DiscussionPost;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.Forum.DiscussionPostReply;
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.DiscussionPostParcel;
-import edu.uwi.mona.mobileourvle.app.Classes.TransportLayer.RemoteAPIRequests.WebServiceFunctions.PostDiscussionPostReply;
 import edu.uwi.mona.mobileourvle.app.Fragments.Components.AuthenticatedFragment;
 
 /**
@@ -223,7 +193,7 @@ public class SendPostReplyFragment extends AuthenticatedFragment implements
         final DiscussionPostReply reply =
             new DiscussionPostReply(
                 getUserSession()
-                    .getContext().getCurretnUser(),
+                    .getContext().getCurrentUser(),
                 mDiscussionPost, subject, message);
 
         mCommunicationPlugin.turnOnLoadingIcon();

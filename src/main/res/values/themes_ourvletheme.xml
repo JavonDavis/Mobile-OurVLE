@@ -3,7 +3,8 @@
 <!-- Generated with http://android-holo-colors.com -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <style name="OurVLETheme" parent="@style/_OurVLETheme"/>
+  <style name="OurVLETheme" parent="Theme.AppCompat.Light.NoActionBar">
+  </style>
 
   <style name="_OurVLETheme" parent="Theme.Ourvletheme">
 

@@ -36,6 +36,7 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +67,8 @@ public class CourseClassTimesFragment extends ListFragmentBase
 
     private String mClassEventIdListString;
     private int mHasCalendarFlag = -1;
+    private int itemID;
+    private  Menu menu;
 
     private final static String ARG_MOODLE_COURSE = "moodle_course";
 
@@ -86,34 +89,84 @@ public class CourseClassTimesFragment extends ListFragmentBase
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-	mCourse = ((MoodleCourseParcel) getFragmentArguments()
-		.getParcelable(CourseClassTimesFragment.ARG_MOODLE_COURSE))
-		.getWrappedObejct();
+        mCourse = ((MoodleCourseParcel) getFragmentArguments()
+            .getParcelable(CourseClassTimesFragment.ARG_MOODLE_COURSE))
+            .getWrappedObejct();
 
-	mAdapter = new ClassTimeCursorAdatper(
-		getApplicationContext(),
-		mCourse, null, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        mAdapter = new ClassTimeCursorAdatper(
+            getApplicationContext(),
+            mCourse, null, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
-	// Register dialog receivers
-	DialogManager.registerResponseReceiver(getApplicationContext(),
-		Dialogs.AddCourseClass,
-		AddCourseClassDialogFragment.Response.onClassAdded,
-		onClassAddedReceiver);
-	getLoaderManager().initLoader(Loaders.LoadCalendars, null, this);
-	getLoaderManager().initLoader(Loaders.LoadCourseClasses, null, this);
-	setListAdapter(mAdapter);
-	setHasOptionsMenu(true);
-	super.onCreate(savedInstanceState);
+        // Register dialog receivers
+        DialogManager.registerResponseReceiver(getApplicationContext(),
+            Dialogs.AddCourseClass,
+            AddCourseClassDialogFragment.Response.onClassAdded,
+            onClassAddedReceiver);
+
+        getLoaderManager().initLoader(Loaders.LoadCalendars, null, this);
+        getLoaderManager().initLoader(Loaders.LoadCourseClasses, null, this);
+        setListAdapter(mAdapter);
+        setHasOptionsMenu(true);
+
+        super.onCreate(savedInstanceState);
 
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        addMenuOption();
+    }
+
+    private void addMenuOption() {
+        menu= ((Toolbar) getActivity().findViewById(R.id.course_toolbar)).getMenu();
+        //add search button to menu
+        MenuItem item = menu.add("Add Class Time");
+        itemID = item.getItemId();
+
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        item.setIcon(R.drawable.ic_new);
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                if (mHasCalendarFlag < 0)
+                    Toast.makeText(getApplicationContext(),
+                            "Still loading. Please try again",
+                            Toast.LENGTH_LONG).show();
+                else if (mHasCalendarFlag == 0)
+                    Toast.makeText(getApplicationContext(),
+                            "Add atleast one calendar to your device.",
+                            Toast.LENGTH_LONG).show();
+                else
+                    DialogManager.showDialog(Dialogs.AddCourseClass, CourseClassTimesFragment.this,
+                            getFragmentManager());
+
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public void onStop() {
+        removeMenuItem();
+        super.onStop();
+
+    }
+
+    private void removeMenuItem() {
+        menu= ((Toolbar) getActivity().findViewById(R.id.course_toolbar)).getMenu();
+        //add search button to menu
+        menu.removeItem(itemID);
+    }
+
+    /*@Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
 
 	inflater.inflate(R.menu.add_item_menu, menu);
 
 	super.onCreateOptionsMenu(menu, inflater);
-    }
+    }*/
 
     @Override
     public View onCreateView(final LayoutInflater inflater,
@@ -124,7 +177,7 @@ public class CourseClassTimesFragment extends ListFragmentBase
 	return v;
     }
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
 	switch (item.getItemId()) {
 	case id.menu_add:
@@ -142,7 +195,7 @@ public class CourseClassTimesFragment extends ListFragmentBase
 	    break;
 	}
 	return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     public void onListItemClick(final ListView l, final View v,

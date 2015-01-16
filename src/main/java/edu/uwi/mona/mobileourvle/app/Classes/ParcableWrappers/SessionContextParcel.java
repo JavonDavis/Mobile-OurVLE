@@ -45,7 +45,7 @@ public class SessionContextParcel extends
     protected void writeObjectToParcel(final SessionContext wrappedObject,
 	    final Parcel parcel) {
 	parcel.writeParcelable(
-		new MoodleUserParcel(wrappedObject.getCurretnUser()), 0);
+		new MoodleUserParcel(wrappedObject.getCurrentUser()), 0);
 
 	parcel.writeParcelable(
 		new SiteInfoParcel(wrappedObject.getSiteInfo()), 0);

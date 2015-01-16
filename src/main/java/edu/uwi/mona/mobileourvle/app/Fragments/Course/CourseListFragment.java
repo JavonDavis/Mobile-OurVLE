@@ -26,7 +26,6 @@ import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,13 +52,11 @@ public class CourseListFragment extends AuthenticatedListFragment implements
         LoaderCallbacks<Cursor> {
 
     private MoodleCourseAdapter mAdapter;
-    private static boolean isLargeScreen;
 
-    public static CourseListFragment newInstance(final UserSession session,final boolean large) {
+    public static CourseListFragment newInstance(final UserSession session) {
         final CourseListFragment f = new CourseListFragment();
 
         f.setUserSession(session);
-        isLargeScreen = large;
 
         return f;
     }
@@ -68,7 +65,7 @@ public class CourseListFragment extends AuthenticatedListFragment implements
     public void onCreate(final Bundle savedInstanceState) {
 
         mAdapter = new MoodleCourseAdapter(getParentActivity(), null,
-                                           CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 
         final EntitySyncronizerPlugin plugin = new EntitySyncronizerPlugin(
                 new MoodleCourseSyncronizationManager());
@@ -79,30 +76,16 @@ public class CourseListFragment extends AuthenticatedListFragment implements
 
         setListAdapter(mAdapter);
 
-        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
     }
-    /*
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        if(!isLargeScreen) {
-            MenuItem logOut = menu.add("Log Out");
-//        logOut.setIcon(android.R.drawable.ic_lock_power_off);
-            logOut.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-            logOut.setOnMenuItemClickListener(new LogOutListener());
-        }
-    }*/
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        if(!isLargeScreen) {
-            MenuItem logOut = menu.add("Log Out");
+   /* @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem logOut = menu.add("Log Out");
 //        logOut.setIcon(android.R.drawable.ic_lock_power_off);
-            logOut.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-            logOut.setOnMenuItemClickListener(new LogOutListener());
-        }
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+        logOut.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        logOut.setOnMenuItemClickListener(new LogOutListener());
+    }*/
 
     @Override
     public View onCreateView(final LayoutInflater inflater,
@@ -120,7 +103,7 @@ public class CourseListFragment extends AuthenticatedListFragment implements
 
         final Bundle b = new Bundle();
         b.putParcelable(SharedConstants.ParcelKeys.MOODLE_COURSE,
-                        new MoodleCourseParcel(course));
+                new MoodleCourseParcel(course));
         sendResponse(Responses.onCourseSelected, b);
     }
 
@@ -129,14 +112,14 @@ public class CourseListFragment extends AuthenticatedListFragment implements
         switch (id) {
             case Loaders.LoadCourses:
                 return new CursorLoader(getParentActivity(),
-                                        MoodleCourseContract.CONTENT_URI,
-                                        new String[]{
-                                                MoodleCourseContract.Columns._ID,
-                                                MoodleCourseContract.Columns.COURSE_ID,
-                                                MoodleCourseContract.Columns.COURSE_NAME,
-                                                MoodleCourseContract.Columns.COURSE_MANAGERS
-                                        },
-                                        null, null, null
+                        MoodleCourseContract.CONTENT_URI,
+                        new String[]{
+                                MoodleCourseContract.Columns._ID,
+                                MoodleCourseContract.Columns.COURSE_ID,
+                                MoodleCourseContract.Columns.COURSE_NAME,
+                                MoodleCourseContract.Columns.COURSE_MANAGERS
+                        },
+                        null, null, null
                 );
             default:
                 return null;
@@ -149,6 +132,7 @@ public class CourseListFragment extends AuthenticatedListFragment implements
             case Loaders.LoadCourses:
                 mAdapter.swapCursor(cursor);
         }
+
     }
 
     @Override
@@ -219,14 +203,15 @@ public class CourseListFragment extends AuthenticatedListFragment implements
                     managersBuilder.append(", ");
                 }
                 managersBuilder.append(manager.getFirstName()
-                                              .toUpperCase(Locale.US)
-                                              .charAt(0));
+                        .toUpperCase(Locale.US)
+                        .charAt(0));
                 managersBuilder.append(". ");
                 managersBuilder.append(manager.getLastName().toUpperCase(
                         Locale.US));
             }
             viewHolder.courseTitle.setText(courseName);
-            viewHolder.courseManagers.setText(managersBuilder.toString());
+//
+//            viewHolder.courseManagers.setText(managersBuilder.toString());
         }
 
 
@@ -237,16 +222,16 @@ public class CourseListFragment extends AuthenticatedListFragment implements
             final LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final View view = inflater.inflate(R.layout.list_item_course_list,
-                                               root,
-                                               false);
+                    root,
+                    false);
 
             final ViewHolder viewHolder = new ViewHolder();
 
             viewHolder.courseTitle = (TextView) view
                     .findViewById(R.id.textview_course_title);
 
-            viewHolder.courseManagers = (TextView) view
-                    .findViewById(R.id.textview_course_managers);
+//            viewHolder.courseManagers = (TextView) view
+//                    .findViewById(R.id.textview_course_managers);
 
             view.setTag(viewHolder);
 
@@ -285,10 +270,10 @@ public class CourseListFragment extends AuthenticatedListFragment implements
                                             Context.MODE_PRIVATE);
 
                             preferences.edit()
-                                       .putString(LoginMainActivity.ENCRYPTION_KEY, "")
-                                       .putString(LoginMainActivity.USERNAME_KEY, "")
-                                       .putString(LoginMainActivity.PASSWORD_KEY, "")
-                                       .commit();
+                                    .putString(LoginMainActivity.ENCRYPTION_KEY, "")
+                                    .putString(LoginMainActivity.USERNAME_KEY, "")
+                                    .putString(LoginMainActivity.PASSWORD_KEY, "")
+                                    .commit();
 
                             final Intent intent = new Intent(getActivity(), LoginMainActivity.class);
 

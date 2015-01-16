@@ -11,13 +11,13 @@ public class SessionContext {
 
     /**
      * @param siteInfo
-     * @param curretnUser
+     * @param currentUser
      */
     public SessionContext(final SiteInfo siteInfo,
-                          final MoodleUser curretnUser) {
+                          final MoodleUser currentUser) {
         super();
         this.siteInfo = siteInfo;
-        this.curretnUser = curretnUser;
+        this.curretnUser = currentUser;
     }
 
     /**
@@ -30,7 +30,7 @@ public class SessionContext {
     /**
      * @return the curretnUser
      */
-    public MoodleUser getCurretnUser() {
+    public MoodleUser getCurrentUser() {
         return curretnUser;
     }
 }

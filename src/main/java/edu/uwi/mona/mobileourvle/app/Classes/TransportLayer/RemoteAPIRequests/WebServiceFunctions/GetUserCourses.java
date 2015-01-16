@@ -13,6 +13,6 @@ public class GetUserCourses extends RemoteWebServiceFunction {
     public GetUserCourses(final UserSession session) {
         super("core_enrol_get_users_courses", session,
               "userid", session.getContext()
-                               .getCurretnUser().getId().toString());
+                               .getCurrentUser().getId().toString());
     }
 }
