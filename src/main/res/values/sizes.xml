@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_primary">15sp</dimen><dimen name="text_secondary">13sp</dimen>
+    
+    <dimen name="text_tertiary">10sp</dimen>
+    <dimen name="text_date">13sp</dimen>
+    <dimen name="width_grid">160dp</dimen>
+    <dimen name="height_grid">160dp</dimen>
+    
+</resources>

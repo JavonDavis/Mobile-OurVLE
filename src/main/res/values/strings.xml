@@ -1,3 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OurVLE</string>
+
+    <string name="hello">Hello World, MainActivity!</string>
+    <string name="app_name">Mobile OurVLE</string>
+    <string name="field_login_username">Username</string>
+    <string name="field_login_password">Password</string>
+    <string name="button_login">Login</string>
+    <string name="remember">Remember Me</string>
+    <string name="keep_login">Keep Me Logged In</string>
+    <string name="log_out">Logging Out</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="log_out_ourvle">Log out</string>
+    <string name="close">Close application</string>
+    <string name="log_out_prompt">Are you sure you want to log out of OurVLE?</string>
+    <string name="send_icon_title">Send Reply</string>
+    <string name="reply_icon_title">Reply</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="title_item_list">Items</string>
+    <string name="title_main">Main</string>
+    <string name="title_course_list">Courses</string>
+    <string name="title_login">Login</string>
+    <string name="text_image">Image</string>
+    <string name="text_start_time">Start Time</string>
+    <string name="text_end_time">End Time</string>
+    <string name="header_courses">COURSES</string>
+    <string name="ftext_num_courses">%s courses</string>
+    <string name="field_holder_first_line">My Application</string>
+    <string name="field_holder_second_line">My Application is super good lorem ipsum dolor is a cool phrase haha ha ha.</string>
+    <string name="field_holder_course_managers">A. HAMILTON, P. STEWART</string>
+    <string name="header_site_news">SITE NEWS</string>
+    <string name="ftext_by_author">by: %s</string>
+    <string name="no_courses">You are not enrolled in any courses.</string>
+    <string name="no_discussions">There no discussions.</string>
+    <string name="no_discussion_posts">There no posts in this discussions.</string>
+    <string name="no_profile">No additional profile fields.</string>
+    <string name="no_participants">No participants.</string>
+    <string name="no_course_contents">There are no documents for this course.</string>
+    <string name="no_course_photos">No photos for this course</string>
+    <string name="no_course_videoes">No videos for this course</string>
+    <string name="no_course_voice_notes">No voice notes for this course</string>
+    <string name="no_course_notes">No notes for this course</string>
+    <string name="no_course_classes">No classes for this course</string>
+    <string name="no_course_events">No events for this course</string>
+    <string name="no_activities">No course activities</string>
+    <string name="text_field_holder2">AIM</string>
+    <string name="text_new_profile">Add new profile</string>
+    <string name="under_development">Still under development</string>
+    <string name="text_in_progress">In Progress</string>
+    <string name="field_note">Note:</string>
+    <string name="menu_done">Done</string>
+    <string name="menu_cancel">Cancel</string>
+    <string name="text_class_type">Class Type</string>
+    <string name="text_calendar">Calendar</string>
+    <string name="provider_label_course_class_times">Course Class Times</string>
+    <string name="title_activity_course_content_resource">CourseContentResourceActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="nav">Navigation</string>
+    <string name="course"> My Courses</string>
+
 </resources>
