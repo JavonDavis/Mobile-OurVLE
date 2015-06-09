@@ -40,6 +40,12 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="edu.uwi.mona.mobileourvle.app.Activities.HomeActivity"
+            android:label="@string/title_home"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
+        <activity
             android:name="edu.uwi.mona.mobileourvle.app.Activities.CourseListActivity"
             android:label="@string/title_course_list"
             android:launchMode="singleTop"

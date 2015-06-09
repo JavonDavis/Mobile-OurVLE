@@ -162,4 +162,5 @@
     <color name="tab_background">#1A000000</color>
     <color name="BaseColor">@color/White</color>
     <color name="DarkBackground">#261E1921</color>
+    <color name="circle_background">@color/DeepSkyBlue</color>
 </resources>

@@ -69,5 +69,6 @@
     <string name="photo_menu_option">My Photos</string>
     <string name="video_menu_option">My Videos</string>
     <string name="participant_menu_option">Course Participants</string>
+    <string name="title_home">Home</string>
 
 </resources>

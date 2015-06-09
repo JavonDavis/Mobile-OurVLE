@@ -5,7 +5,7 @@ android {
     buildToolsVersion '21.1.2'
 
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion 14
         targetSdkVersion 21
         versionCode 110
         versionName "1.2.8-dev"
@@ -37,6 +37,8 @@ dependencies {
     compile 'org.mnode.ical4j:ical4j:1.0.5.2@jar'
     compile 'com.madgag.spongycastle:core:1.50.0.0@jar'
     compile 'org.sourceforge.ah.android.utilities:android-utilities:1.0@aar'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.pkmmte.view:circularimageview:1.1'
+    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 }
 

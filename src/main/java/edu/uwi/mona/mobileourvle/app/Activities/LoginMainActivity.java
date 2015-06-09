@@ -65,7 +65,7 @@ public class LoginMainActivity extends ActivityBase implements
     @Override
     public void onLoginAuthenticationSuccess(final UserSession session,
                                              final ResponseObject response) {
-        final Intent intent = new Intent(LoginMainActivity.this, CourseListActivity.class);
+        final Intent intent = new Intent(LoginMainActivity.this, HomeActivity.class);
 
         intent.putExtra(ParcelKeys.USER_SESSION, new UserSessionParcel(session));
 
