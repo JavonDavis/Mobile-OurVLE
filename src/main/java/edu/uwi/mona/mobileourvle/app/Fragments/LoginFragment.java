@@ -12,10 +12,12 @@ import org.sourceforge.ah.android.utilities.Dialog.DialogManager;
 import org.sourceforge.ah.android.utilities.Plugins.DefaultCommunicationModulePlugin;
 import org.sourceforge.ah.android.utilities.Plugins.BaseClass.PluggableFragment;
 import org.sourceforge.ah.android.utilities.Widgets.Fragments.DialogFragmentBase;
+import org.w3c.dom.Text;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,6 +52,7 @@ public class LoginFragment extends PluggableFragment implements
 
     private EditText mUsernameTextbox;
     private EditText mPasswordTextBox;
+    private TextView ourvleShort,ourvleLong;
 
     private Listener mListener;
 
@@ -102,6 +105,14 @@ public class LoginFragment extends PluggableFragment implements
 
             final View v = inflater.inflate(R.layout.fragment_auto_login_main, container, false);
 
+            ourvleLong = (TextView) v.findViewById(R.id.ourvle_long);
+            ourvleShort = (TextView) v.findViewById(R.id.ourvle_short);
+
+            Typeface main = Typeface.createFromAsset(getActivity().getAssets(),"jacks.ttf");
+
+            ourvleLong.setTypeface(main);
+            ourvleShort.setTypeface(main);
+
             final TextView idNumberView = (TextView) v.findViewById(R.id.id_number);
 
             idNumberView.setText(username);
@@ -115,6 +126,14 @@ public class LoginFragment extends PluggableFragment implements
 
         mUsernameTextbox = (EditText) fragmentView.findViewById(R.id.id_number_field);
         mPasswordTextBox = (EditText) fragmentView.findViewById(R.id.password_field);
+
+        ourvleLong = (TextView) fragmentView.findViewById(R.id.ourvle_long);
+        ourvleShort = (TextView) fragmentView.findViewById(R.id.ourvle_short);
+
+        Typeface main = Typeface.createFromAsset(getActivity().getAssets(),"jacks.ttf");
+
+        ourvleLong.setTypeface(main);
+        ourvleShort.setTypeface(main);
 
         // Attach Login button
         loginButton.setOnClickListener(new LoginButtonListener());

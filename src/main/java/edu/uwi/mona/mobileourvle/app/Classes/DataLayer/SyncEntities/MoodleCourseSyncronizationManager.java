@@ -29,6 +29,34 @@ import edu.uwi.mona.mobileourvle.app.Classes.Util.ApplicationDataManager;
 public class MoodleCourseSyncronizationManager extends
         EntitySyncronizationManager {
 
+    public static List<MoodleCourse> getCourses(Context context)
+    {
+        final UserSession lastUserSession = ApplicationDataManager
+                .getLastUserSession(context);
+
+        if (lastUserSession == null) {
+            Log.d("MoodleSycnManager",
+                    "Last Session not found so aborting syncronization.");
+            return null;
+        }
+
+        final ResponseObject response = CommuncationModule.senRequest(context,
+                new GetUserCourses(
+                        lastUserSession));
+
+        if (response instanceof ResponseError) {
+            Log.e("response error","MoodleaCourseSyncronizationManager");
+            return null;
+        }
+
+        final String coursesJSON = response.getResponseText();
+        final List<? extends MoodleCourse> extendedMoodleCourses = JSONDecoder
+                .getObjectList(new ExtendedMoodleCourseDescriptior(),
+                        coursesJSON);
+
+        return (List<MoodleCourse>) extendedMoodleCourses;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     protected void doPullSyncronization(final Context context,
@@ -69,7 +97,7 @@ public class MoodleCourseSyncronizationManager extends
     @Override
     protected void doPushSyncronization(final Context context,
                                         final SyncRecord record) {
-        Log.d("MoodleCourseSyncronizationManager",
+        Log.d("MCSM",
               "Executing push syncronization for "
               + getEntityManagerClassName());
     }

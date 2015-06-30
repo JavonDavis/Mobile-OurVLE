@@ -10,15 +10,18 @@ package edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Courses;
 public class MoodleCourse {
     private final long id;
     private final String name;
+    private final String shortName;
 
     /**
      * @param id
      * @param name
+     * @param shortName
      */
-    public MoodleCourse(final Long id, final String name) {
+    public MoodleCourse(final Long id, final String name, String shortName) {
 	super();
 	this.id = id;
 	this.name = name;
+        this.shortName = shortName;
     }
 
     /**
@@ -35,4 +38,7 @@ public class MoodleCourse {
 	return name;
     }
 
+    public String getShortName() {
+        return shortName;
+    }
 }

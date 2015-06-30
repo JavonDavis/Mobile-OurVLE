@@ -70,5 +70,10 @@
     <string name="video_menu_option">My Videos</string>
     <string name="participant_menu_option">Course Participants</string>
     <string name="title_home">Home</string>
+    <string name="summary_menu">Summary</string>
+    <string name="material_menu">Materials</string>
+    <string name="acitivity_menu">Activities</string>
+    <string name="ourvle_short">OurVLE</string>
+    <string name="ourvle_long">Our Virtual Learning Environment</string>
 
 </resources>

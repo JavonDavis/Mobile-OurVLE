@@ -18,21 +18,21 @@ import org.sourceforge.ah.android.utilities.Widgets.Adapters.PinnedHeaderListAda
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import edu.uwi.mona.mobileourvle.app.Fragments.Components.AuthenticatedFragment;
+import edu.uwi.mona.mobileourvle.app.Classes.CourseContentAdapter;
 import edu.uwi.mona.mobileourvle.app.R;
 import edu.uwi.mona.mobileourvle.app.Classes.SharedConstants.ParcelKeys;
 import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Authentication.Session.UserSession;
@@ -42,22 +42,27 @@ import edu.uwi.mona.mobileourvle.app.Classes.DataLayer.Moodle.Modules.CourseModu
 import edu.uwi.mona.mobileourvle.app.Classes.ParcableWrappers.MoodleCourseParcel;
 import edu.uwi.mona.mobileourvle.app.Classes.TransportLayer.JSONDescriptors.Moodle.Courses.CourseSectionDescriptor;
 import edu.uwi.mona.mobileourvle.app.Classes.TransportLayer.RemoteAPIRequests.WebServiceFunctions.GetCourseContents;
-import edu.uwi.mona.mobileourvle.app.Fragments.Components.AuthenticatedListFragment;
 import edu.uwi.mona.mobileourvle.app.Fragments.Components.CourseListFragment.CourseModuleFactory;
 
 /**
  * @author Aston Hamilton
  */
-public class CourseContentsFragment extends AuthenticatedListFragment implements
+public class CourseContentsFragment extends AuthenticatedFragment implements
         OnCommunicationResponseListener, OnReloadFragmentListener {
 
     private MoodleCourse mCourse;
 
-    private static PinnedHeaderListAdapter<CourseSection, CourseModule> mCourseModuleListAdapter;
+    private static CourseContentAdapter mCourseModuleListAdapter;
 
     private static List<CourseSection> courseContents;
 
     private Listener mListener;
+
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private final ArrayList<CourseModule> moduleList = new ArrayList<>();
 
     private DefaultCommunicationModulePlugin mCommunicatioModulePlugin;
 
@@ -81,7 +86,7 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
 
     public void setMoodleCourse(final MoodleCourse course) {
         getFragmentArguments().putParcelable(ParcelKeys.MOODLE_COURSE,
-                                             new MoodleCourseParcel(course));
+                new MoodleCourseParcel(course));
         mCourse = course;
     }
 
@@ -142,14 +147,14 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
 
         registerPlugin(mCommunicatioModulePlugin);
 
-        mCourseModuleListAdapter = new CourseModuleListAdapter(mActivity);
+        //mCourseModuleListAdapter = new CourseContentAdapter(getActivity(),moduleList);
 
-        setListAdapter(mCourseModuleListAdapter);
+//        setListAdapter(mCourseModuleListAdapter);
 
 
         super.onCreate(savedInstanceState);
 
-        mEmptyListString = getString(R.string.no_course_contents);
+       // mEmptyListString = getString(R.string.no_course_contents);
 
     }
 
@@ -165,16 +170,33 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
     public View onCreateView(final LayoutInflater inflater,
                              final ViewGroup container,
                              final Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_course_contents,
-                                container, false);
-    }
 
-    @Override
-    public void onListItemClick(final ListView l, final View v,
-                                final int position, final long id) {
-        mListener.onCourseModuleSelected(
-                mCourseModuleListAdapter.getItem(position));
+        View view = inflater.inflate(R.layout.fragment_course_contents,
+                container, false);
+
+
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.contentList);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        mAdapter = new CourseContentAdapter(getActivity(),moduleList);
+        mRecyclerView.setAdapter(mAdapter);
+        return view;
     }
+//
+//    @Override
+//    public void onListItemClick(final ListView l, final View v,
+//                                final int position, final long id) {
+//        mListener.onCourseModuleSelected(
+//                (CourseModule) mCourseModuleListAdapter.getItem(position));
+//    }
 
     @Override
     public void onCommunicationError(final ResponseError response) {
@@ -184,7 +206,7 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
     @Override
     public void onCommunicationResponse(final int requestId,
                                         final ResponseObject response) {
-        setEmptyText(mEmptyListString);
+        //setEmptyText(mEmptyListString);
         switch (requestId) {
             case Requests.GET_COURSE_CONTENTS:
                     mCommunicatioModulePlugin.turnOffLoadingIcon();
@@ -197,14 +219,13 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
                     courseContents = courseSectionList;
 
 
-                mCourseModuleListAdapter.clearPartitions();
+                //mCourseModuleListAdapter.clearPartitions();
 
                 for (final CourseSection section : courseContents)
                     if (section.getModuleList().size() > 0)
-                        mCourseModuleListAdapter
-                                .addPartition(section, section.getModuleList());
+                        moduleList.addAll(section.getModuleList());
 
-                mCourseModuleListAdapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged();
                 break;
         }
     }
@@ -212,7 +233,7 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
     private void loadCourseContents() {
         mCommunicatioModulePlugin.turnOnLoadingIcon();
 
-        setEmptyText("Loading contents....");
+        //setEmptyText("Loading contents....");
         CommuncationModule.sendAsyncRequest(
                 mActivity,
                 new GetCourseContents(
@@ -234,7 +255,7 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
     }
 
     /* ======================== Private CLasses ====================== */
-    private static class SearchListener implements SearchView.OnQueryTextListener {
+    private class SearchListener implements SearchView.OnQueryTextListener {
 
         @Override
         public boolean onQueryTextChange(String query)
@@ -254,12 +275,11 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
                     filteredContents.add(new CourseSection(courseSection.getName(), filteredModules));
                 }
 
-                mCourseModuleListAdapter.clearPartitions();
+                moduleList.clear();
 
                 for (CourseSection section : filteredContents)
                     if (section.getModuleList().size() > 0)
-                        mCourseModuleListAdapter
-                                .addPartition(section, section.getModuleList());
+                        moduleList.addAll(section.getModuleList());
 
                 mCourseModuleListAdapter.notifyDataSetChanged();
             }
@@ -315,6 +335,8 @@ public class CourseContentsFragment extends AuthenticatedListFragment implements
             }
         }
     }
+
+
 
     /* ========================== Interfaces ======================= */
 

@@ -33,6 +33,7 @@ public class ExtendedMoodleCourseParcel extends
 
 	final long courseId = in.readLong();
 	final String fullName = in.readString();
+		final String shortName = in.readString();
 
 	final int numManagers = in.readInt();
 	final CourseManager[] managerList = new CourseManager[numManagers];
@@ -53,7 +54,7 @@ public class ExtendedMoodleCourseParcel extends
 	    managerList[i] = manager;
 	}
 
-	return new ExtendedMoodleCourse(courseId, fullName, managerList);
+	return new ExtendedMoodleCourse(courseId, fullName,shortName, managerList);
     }
 
     @Override

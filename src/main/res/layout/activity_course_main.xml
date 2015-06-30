@@ -5,11 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
-    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:id="@+id/course_toolbar"
-        android:background="@color/red"
+        android:background="@color/toolbar_background"
         android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/course_title"
+            android:text=""
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            />
 
     </android.support.v7.widget.Toolbar>
 

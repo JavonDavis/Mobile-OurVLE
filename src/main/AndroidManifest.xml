@@ -48,13 +48,18 @@
         <activity
             android:name="edu.uwi.mona.mobileourvle.app.Activities.CourseListActivity"
             android:label="@string/title_course_list"
-            android:launchMode="singleTop"
+            android:parentActivityName=".Activities.HomeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait" >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.HomeActivity" />
         </activity>
         <activity
             android:name="edu.uwi.mona.mobileourvle.app.Activities.CourseContentsActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
         <activity
             android:name="edu.uwi.mona.mobileourvle.app.Activities.ForumDiscussionPagerActivity"

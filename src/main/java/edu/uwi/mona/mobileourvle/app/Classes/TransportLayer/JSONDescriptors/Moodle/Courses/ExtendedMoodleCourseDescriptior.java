@@ -46,6 +46,7 @@ public class ExtendedMoodleCourseDescriptior extends
 
         final long courseId = jsonObject.get("id").getAsLong();
         final String fullName = jsonObject.get("fullname").getAsString();
+        final String shortName = jsonObject.get("shortname").getAsString();
 
         // TODO - Official API Doesn't return the managers so this feature wll need to be removed in the rebuild.
         final JsonArray courseManagers = new JsonArray();
@@ -62,6 +63,6 @@ public class ExtendedMoodleCourseDescriptior extends
             managerList[i] = manager;
         }
 
-        return new ExtendedMoodleCourse(courseId, fullName, managerList);
+        return new ExtendedMoodleCourse(courseId, fullName, shortName,managerList);
     }
 }

@@ -15,11 +15,12 @@ public class ExtendedMoodleCourse extends MoodleCourse {
     /**
      * @param id
      * @param name
+     * @param shortName
      * @param managers
      */
-    public ExtendedMoodleCourse(final Long id, final String name,
+    public ExtendedMoodleCourse(final Long id, final String name,String shortName,
 	    final CourseManager... managers) {
-	super(id, name);
+	super(id, name, shortName);
 	this.managers = managers;
     }
 

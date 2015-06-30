@@ -25,12 +25,14 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -69,7 +71,7 @@ import edu.uwi.mona.mobileourvle.app.Fragments.Shared.UnderDevelopementFragment;
 /**
  * @author Aston Hamilton
  */
-public class CourseContentsActivity extends ActivityBase
+public class CourseContentsActivity extends AppCompatActivity
         implements CourseContentsFragment.Listener, CourseParticipantsFragment.Listener, CourseMediaOptionsDialogFragment.MediaOptionListener,ConfirmDeleteDialog.Listener,
         ViewCourseNoteFragment.Listener {
     private UserSession mUserSession;
@@ -104,14 +106,17 @@ public class CourseContentsActivity extends ActivityBase
 
         mCourse = ((MoodleCourseParcel) extras.get(ParcelKeys.MOODLE_COURSE)).getWrappedObejct();
 
+
         //setTitle(mCourse.getName());
 
-
+        TextView title = (TextView) findViewById(R.id.course_title);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.course_toolbar);
-        //setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
 
-        toolbar.setTitle(mCourse.getName());
+        title.setText(mCourse.getShortName());
+
+        /*toolbar.setTitle(mCourse.getName());
         toolbar.setNavigationIcon(R.drawable.back_icon);
         toolbar.setNavigationContentDescription(getResources().getString(R.string.course));
 
@@ -139,9 +144,12 @@ public class CourseContentsActivity extends ActivityBase
             public void onClick(View v) {
                 finish();
             }
-        });
+        });*/
 
-        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        /*getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
                 if (!(getSupportFragmentManager().getBackStackEntryCount() == 0)) {
@@ -319,7 +327,7 @@ public class CourseContentsActivity extends ActivityBase
                 }
                 return false;
             }
-        });
+        });*/
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

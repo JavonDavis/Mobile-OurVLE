@@ -36,4 +36,12 @@ public class AuthenticatedListFragment extends PluggableListFragment {
 		.getWrappedObejct();
 	super.onCreate(savedInstanceState);
     }
+
+    public Bundle getFragmentArguments() {
+        if(super.getArguments() == null) {
+            this.setArguments(new Bundle());
+        }
+
+        return super.getArguments();
+    }
 }

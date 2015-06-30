@@ -29,8 +29,9 @@ public class MoodleCourseParcel extends SimpleParcableWrapper<MoodleCourse> {
     protected MoodleCourse getObjectFromStream(final Parcel in) {
 	final long courseId = in.readLong();
 	final String fullName = in.readString();
+        final String shortName = in.readString();
 
-	return new MoodleCourse(courseId, fullName);
+	return new MoodleCourse(courseId, fullName, shortName);
     }
 
     @Override
@@ -39,6 +40,7 @@ public class MoodleCourseParcel extends SimpleParcableWrapper<MoodleCourse> {
 	    final Parcel parcel) {
 	parcel.writeLong(wrappedObject.getId().longValue());
 	parcel.writeString(wrappedObject.getName());
+        parcel.writeString(wrappedObject.getShortName());
     }
 
     /** The Constant CREATOR. */

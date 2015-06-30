@@ -20,7 +20,7 @@ public class MoodleCourseOpenHelper extends SQLiteOpenHelper {
 
     public static final String DB_FILE_NAME = "moddle_courses.db";
     public static final String TABLE_NAME = "moddle_courses";
-    public static final int VERSION = 2;
+    public static final int VERSION = 3;
 
     private static final String DATABASE_TABLE_CREATE =
 	    QB.CREATE_TABLE(MoodleCourseOpenHelper.TABLE_NAME,
@@ -28,6 +28,7 @@ public class MoodleCourseOpenHelper extends SQLiteOpenHelper {
 			    QB.INTEGER(MoodleCourseContract.Columns._ID)),
 		    QB.TEXT(MoodleCourseContract.Columns.COURSE_ID),
 		    QB.TEXT(MoodleCourseContract.Columns.COURSE_NAME),
+				QB.TEXT(MoodleCourseContract.Columns.SHORT_NAME),
 		    QB.TEXT(MoodleCourseContract.Columns.COURSE_MANAGERS));
 
     public MoodleCourseOpenHelper(final Context context) {

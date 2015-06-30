@@ -1,5 +1,6 @@
 package edu.uwi.mona.mobileourvle.app.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -53,6 +54,18 @@ public class HomeActivity extends ActionBarActivity implements OptionListFragmen
 
     @Override
     public void onOptionSelected(String id) {
-        Toast.makeText(this,"You clicked option "+id,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"click",Toast.LENGTH_LONG).show();
+        if(id.equals("1"))
+        {
+            final Intent intent = new Intent(HomeActivity.this, CourseListActivity.class);
+
+            intent.putExtra(SharedConstants.ParcelKeys.USER_SESSION, new UserSessionParcel(mUserSession));
+
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            startActivity(intent);
+        }
+        else
+            Toast.makeText(this,"You clicked option "+id,Toast.LENGTH_SHORT).show();
     }
 }

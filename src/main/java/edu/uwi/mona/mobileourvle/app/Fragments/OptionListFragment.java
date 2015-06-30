@@ -79,7 +79,7 @@ public class OptionListFragment extends ListFragment {
     }
 
     public interface OnOptionSelectedListener {
-        public void onOptionSelected(String id);
+        void onOptionSelected(String id);
     }
 
 }

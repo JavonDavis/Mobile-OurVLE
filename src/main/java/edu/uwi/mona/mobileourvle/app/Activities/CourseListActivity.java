@@ -22,6 +22,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,7 +56,7 @@ import java.net.URL;
 /**
  * @author Aston Hamilton
  */
-public class CourseListActivity extends ActivityBase {
+public class CourseListActivity extends AppCompatActivity {
 
     private UserSession mUserSession;
 
@@ -77,7 +78,7 @@ public class CourseListActivity extends ActivityBase {
         setContentView(R.layout.activity_courses_list);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.home_toolbar);
-        //setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
 
 
 
@@ -86,14 +87,17 @@ public class CourseListActivity extends ActivityBase {
         mUserSession = ((UserSessionParcel) extras
                 .get(ParcelKeys.USER_SESSION)).getWrappedObejct();
 
-        toolbar.setTitle(getResources().getString(R.string.course));
 
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        toolbar.setTitleTextAppearance(this,Typeface.BOLD);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        toolbar.setTitle(getResources().getString(R.string.course));
+//
+//        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+//        toolbar.setTitleTextAppearance(this,Typeface.BOLD);
 
 
 
-        toolbar.inflateMenu(R.menu.menu_course_list);
+        /*toolbar.inflateMenu(R.menu.menu_course_list);
 
         final MenuItem courseItem = toolbar.getMenu().getItem(ToolbarOptions.COURSE_ITEM);
         final MenuItem profileItem = toolbar.getMenu().getItem(ToolbarOptions.PROFILE_ITEM);
@@ -172,7 +176,7 @@ public class CourseListActivity extends ActivityBase {
                 }
                 return false;
             }
-        });
+        });*/
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

@@ -64,6 +64,8 @@ public class MoodleCourseProvider extends SimpleContentProvider {
                           course.getId());
             newValues.put(MoodleCourseContract.Columns.COURSE_NAME,
                           course.getName());
+            newValues.put(MoodleCourseContract.Columns.SHORT_NAME,
+                    course.getShortName());
 
             if (course instanceof ExtendedMoodleCourse)
                 newValues

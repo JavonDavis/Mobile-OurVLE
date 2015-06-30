@@ -52,6 +52,7 @@ public class HomeOptionsAdapter extends BaseAdapter {
             holder = new OptionHolder();
 
             holder.option = (TextView) mView.findViewById(R.id.option);
+            holder.option.setText(((OptionContent.Option) getItem(i)).content);
 
         }
         else
@@ -59,7 +60,6 @@ public class HomeOptionsAdapter extends BaseAdapter {
             holder = (OptionHolder) mView.getTag();
         }
 
-        holder.option.setText(((OptionContent.Option) getItem(i)).content);
 
         return mView;
     }

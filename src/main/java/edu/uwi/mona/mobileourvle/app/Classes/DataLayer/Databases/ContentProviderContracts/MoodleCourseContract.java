@@ -28,5 +28,6 @@ public interface MoodleCourseContract {
 	static final String COURSE_ID = "course_id";
 	static final String COURSE_NAME = "course_name";
 	static final String COURSE_MANAGERS = "course_managers";
-    }
+		static final String SHORT_NAME = "short_name";
+	}
 }
