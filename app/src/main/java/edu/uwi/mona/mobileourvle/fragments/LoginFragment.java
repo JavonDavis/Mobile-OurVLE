@@ -15,6 +15,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,8 @@ public class LoginFragment extends Fragment{
     private EditText mPasswordTextBox;
     private TextView ourvleShort,ourvleLong;
     private Button loginButton;
+    private ProgressBar progressBar;
+    private LinearLayout loginBox;
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -51,6 +55,9 @@ public class LoginFragment extends Fragment{
         ourvleLong = (TextView) fragmentView.findViewById(R.id.ourvle_long);
         ourvleShort = (TextView) fragmentView.findViewById(R.id.ourvle_short);
 
+        progressBar = (ProgressBar) fragmentView.findViewById(R.id.progress);
+        loginBox = (LinearLayout) fragmentView.findViewById(R.id.loginBox);
+
         Typeface main = Typeface.createFromAsset(getActivity().getAssets(),"jacks.ttf");
 
         ourvleLong.setTypeface(main);
@@ -67,11 +74,11 @@ public class LoginFragment extends Fragment{
     private class LoginButtonListener implements OnClickListener {
         @Override
         public void onClick(final View v) {
-            loginButton.setEnabled(false);
+            //loginButton.setEnabled(false);
             final String enteredUsername = mUsernameTextbox.getText().toString();
             final String enteredPassword = mPasswordTextBox.getText().toString();
 
-            new LoginTask(getActivity(),enteredUsername,enteredPassword).execute();
+            new LoginTask(getActivity(),enteredUsername,enteredPassword,progressBar,loginBox).execute();
 
         }
     }

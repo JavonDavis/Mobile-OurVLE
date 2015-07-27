@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -67,6 +68,9 @@ public class ForumListFragment extends Fragment {
         }
 
         token = SiteInfo.listAll(SiteInfo.class).get(0).getToken();
+
+        forums = getCourseId() == 0 ? CourseForum.listAll(CourseForum.class):CourseForum.find(CourseForum.class,"courseid = ?",getCourseId()+"");
+
     }
 
     @Override
@@ -77,32 +81,38 @@ public class ForumListFragment extends Fragment {
         //ImageView letter = (ImageView) view.findViewById(R.id.letter_view);
         //TextView title = (TextView) view.findViewById(R.id.forum_title);
 
-        forums = getCourseId() == 0 ? CourseForum.listAll(CourseForum.class):CourseForum.find(CourseForum.class,"courseid = ?",getCourseId()+"");
-
         mRecyclerView = (RecyclerView) view.findViewById(R.id.forum_list);
+        TextView emptyView = (TextView) view.findViewById(R.id.emptyText);
 
-        mRecyclerView.setHasFixedSize(true);
+        if(!forums.isEmpty()) {
+
+            mRecyclerView.setHasFixedSize(true);
 
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+            mLayoutManager = new LinearLayoutManager(getActivity());
+            mRecyclerView.setLayoutManager(mLayoutManager);
 
 
-        mAdapter = new ForumListAdapter(forums,getActivity());
+            mAdapter = new ForumListAdapter(forums, getActivity());
 
 //        mAdapter = new MoodleCourseAdapter(getParentActivity(), null,
 //                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                int itemPosition = position;
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    int itemPosition = position;
 
-                mListener.onForumSelected(forums.get(itemPosition).getForumid());
+                    mListener.onForumSelected(forums.get(itemPosition).getForumid());
 
-            }
-        }));
-
+                }
+            }));
+        }
+        else
+        {
+            mRecyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
         //new ForumLoaderTask(token).execute();
 
         return view;

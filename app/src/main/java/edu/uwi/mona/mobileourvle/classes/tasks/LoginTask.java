@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -30,13 +33,24 @@ public class LoginTask extends AsyncTask<String,String,Boolean> {
     private String token;
     private Context context;
     private SiteInfo siteInfo = new SiteInfo();
+    private ProgressBar progressBar;
+    private LinearLayout loginBox;
 
-    public LoginTask(Context context, String username, String password)
+    public LoginTask(Context context, String username, String password, ProgressBar progressBar, LinearLayout loginBox)
     {
         this.context = context;
         this.username = username;
         this.password = password;
+        this.progressBar = progressBar;
+        this.loginBox = loginBox;
 
+    }
+
+    @Override
+    protected void onPreExecute() {
+        progressBar.setIndeterminate(true);
+        loginBox.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -209,6 +223,8 @@ public class LoginTask extends AsyncTask<String,String,Boolean> {
             return;
         } else {
             Toast.makeText(context,"login failed",Toast.LENGTH_LONG).show();
+            loginBox.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
     }
 }

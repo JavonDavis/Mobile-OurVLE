@@ -62,33 +62,42 @@ public class CourseListFragment extends Fragment{
                 .inflate(R.layout.fragment_course_list, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.course_list);
+        TextView emptyView = (TextView) view.findViewById(R.id.emptyText);
 
-        mRecyclerView.setHasFixedSize(true);
+        if(!moodleCourses.isEmpty()) {
+
+            mRecyclerView.setHasFixedSize(true);
 
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+            mLayoutManager = new LinearLayoutManager(getActivity());
+            mRecyclerView.setLayoutManager(mLayoutManager);
 
 
-        mAdapter = new CourseAdapter(getActivity(),moodleCourses);
+            mAdapter = new CourseAdapter(getActivity(), moodleCourses);
 
 //        mAdapter = new MoodleCourseAdapter(getParentActivity(), null,
 //                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                int itemPosition = position;
+            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    int itemPosition = position;
 
-                MoodleCourse tempCourse = moodleCourses.get(itemPosition);
+                    MoodleCourse tempCourse = moodleCourses.get(itemPosition);
 
-                Intent intent = new Intent(getActivity(), CourseContentsActivity.class);
-                intent.putExtra("courseid",tempCourse.getCourseid());
-                Log.d("course selected",tempCourse.getShortname());
-                getActivity().startActivity(intent);
+                    Intent intent = new Intent(getActivity(), CourseContentsActivity.class);
+                    intent.putExtra("courseid", tempCourse.getCourseid());
+                    Log.d("course selected", tempCourse.getShortname());
+                    getActivity().startActivity(intent);
 
-            }
-        }));
+                }
+            }));
+        }
+        else
+        {
+            mRecyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
 
         return view;
     }
