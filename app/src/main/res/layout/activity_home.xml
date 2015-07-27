@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/homeToolbar"
+        android:layout_height="300dp"
+        android:layout_width="match_parent"
+        android:background="@drawable/home_bg">
+
+        <com.pkmmte.view.CircularImageView
+            android:id="@+id/profile_pic"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/user_icon"
+            android:layout_gravity="center"
+            app:border="true"
+            app:border_color="#EEEEEE"
+            app:border_width="4dp"
+            app:shadow="true" />
+
+        </android.support.v7.widget.Toolbar>
+    <FrameLayout
+        android:id="@+id/homeContainer"
+        android:layout_width="match_parent" android:layout_height="fill_parent"
+        tools:context=".HomeActivity" tools:ignore="MergeRootFrame"
+        android:layout_marginBottom="50dp"/>
+
+</LinearLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="edu.uwi.mona.mobileourvle" >
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name="com.orm.SugarApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".activities.LoginActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
+
+        <meta-data
+            android:name="DATABASE"
+            android:value="ourvle.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="10" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="edu.uwi.mona.mobileourvle" />
+
+        <activity
+            android:name=".activities.HomeActivity"
+            android:label="@string/title_activity_home" >
+        </activity>
+        <activity
+            android:name=".activities.CourseListActivity"
+            android:label="@string/activity_course_list" >
+        </activity>
+        <activity
+            android:name=".activities.CourseContentsActivity"
+            android:label="@string/title_activity_course_contents" >
+        </activity>
+        <activity
+            android:name=".activities.ForumListActivity"
+            android:label="@string/title_activity_forum_list" >
+        </activity>
+        <activity
+            android:name=".activities.ForumActivity"
+            android:label="@string/title_activity_forum" >
+        </activity>
+        <activity
+            android:name=".activities.PostListActivity"
+            android:label="@string/title_activity_post" >
+        </activity>
+        <activity
+            android:name=".activities.SplashActivity"
+            android:label="@string/title_activity_splash" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
