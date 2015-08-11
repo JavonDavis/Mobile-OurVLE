@@ -5,16 +5,20 @@ package edu.uwi.mona.mobileourvle.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -23,9 +27,11 @@ import java.util.ArrayList;
 
 import edu.uwi.mona.mobileourvle.R;
 import edu.uwi.mona.mobileourvle.activities.CourseContentsActivity;
-import edu.uwi.mona.mobileourvle.classes.Colors;
-import edu.uwi.mona.mobileourvle.classes.RecyclerItemClickListener;
+import edu.uwi.mona.mobileourvle.classes.helpers.Colors;
+import edu.uwi.mona.mobileourvle.classes.helpers.RecyclerItemClickListener;
 import edu.uwi.mona.mobileourvle.classes.models.MoodleCourse;
+import edu.uwi.mona.mobileourvle.classes.models.SiteInfo;
+import edu.uwi.mona.mobileourvle.classes.tasks.CourseTask;
 
 /**
  * @author Aston Hamilton
@@ -38,6 +44,9 @@ public class CourseListFragment extends Fragment{
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<MoodleCourse> moodleCourses;
+    private ProgressBar progressBar;
+    private TextView emptyView;
+    private String token;
 
     public static CourseListFragment newInstance() {
         final CourseListFragment f = new CourseListFragment();
@@ -47,10 +56,29 @@ public class CourseListFragment extends Fragment{
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-
-        moodleCourses = (ArrayList<MoodleCourse>) MoodleCourse.listAll(MoodleCourse.class);
-
         super.onCreate(savedInstanceState);
+        moodleCourses = (ArrayList<MoodleCourse>) MoodleCourse.listAll(MoodleCourse.class);
+        token = SiteInfo.listAll(SiteInfo.class).get(0).getToken();
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_courses, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case R.id.synchronize:
+                new CourseSyncTask().execute();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -62,7 +90,8 @@ public class CourseListFragment extends Fragment{
                 .inflate(R.layout.fragment_course_list, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.course_list);
-        TextView emptyView = (TextView) view.findViewById(R.id.emptyText);
+        emptyView = (TextView) view.findViewById(R.id.emptyText);
+        progressBar = (ProgressBar) view.findViewById(R.id.progress);
 
         if(!moodleCourses.isEmpty()) {
 
@@ -156,6 +185,48 @@ public class CourseListFragment extends Fragment{
         public int getItemCount() {
             return courses.size();
         }
+    }
+
+    private class CourseSyncTask extends AsyncTask<Void,Void,Void>
+    {
+
+        @Override
+        protected void onPreExecute() {
+            moodleCourses.clear();
+            emptyView.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            getCourseInfo();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            moodleCourses.addAll(MoodleCourse.listAll(MoodleCourse.class));
+            mAdapter.notifyDataSetChanged();
+
+            progressBar.setVisibility(View.GONE);
+            if(mAdapter.getItemCount()==0)
+            {
+                mRecyclerView.setVisibility(View.GONE);
+                emptyView.setVisibility(View.VISIBLE);
+            }
+            else
+                mRecyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private boolean getCourseInfo() {
+        CourseTask cTask = new CourseTask(token);
+
+        Boolean usrCourseSyncStatus = cTask.syncUserCourses();
+
+        // Success on user's course sync is what matters
+        return usrCourseSyncStatus;
     }
 
 }

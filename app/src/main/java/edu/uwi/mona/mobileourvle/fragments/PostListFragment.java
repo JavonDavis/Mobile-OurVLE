@@ -8,7 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Collections;
@@ -16,9 +17,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import edu.uwi.mona.mobileourvle.R;
-import edu.uwi.mona.mobileourvle.classes.DiscussionsListAdapter;
-import edu.uwi.mona.mobileourvle.classes.PostListAdapter;
-import edu.uwi.mona.mobileourvle.classes.RecyclerItemClickListener;
+import edu.uwi.mona.mobileourvle.classes.adapters.PostListAdapter;
+import edu.uwi.mona.mobileourvle.classes.helpers.RecyclerItemClickListener;
 import edu.uwi.mona.mobileourvle.classes.models.DiscussionPost;
 import edu.uwi.mona.mobileourvle.classes.models.SiteInfo;
 import edu.uwi.mona.mobileourvle.classes.tasks.PostTask;
@@ -34,6 +34,8 @@ public class PostListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
+    private ProgressBar progressBar;
+    private TextView emptyView;
 
     private String token;
 
@@ -73,6 +75,8 @@ public class PostListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_post, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.discussion_list);
+        progressBar = (ProgressBar) view.findViewById(R.id.progress);
+        emptyView = (TextView) view.findViewById(R.id.emptyText);
 
         mRecyclerView.setHasFixedSize(true);
 
@@ -105,6 +109,7 @@ public class PostListFragment extends Fragment {
      * after every update to posts list or else the order may be lost.
      */
     private void sortPostsByTime() {
+
         Collections.sort(mPosts, new Comparator<DiscussionPost>() {
             public int compare(DiscussionPost o1, DiscussionPost o2) {
                 if (o1.getCreated() == o2.getCreated())
@@ -120,6 +125,13 @@ public class PostListFragment extends Fragment {
 
         public AsyncPostsTask(String token) {
             pst = new PostTask(token);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            mRecyclerView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
         }
 
         @Override
@@ -139,6 +151,19 @@ public class PostListFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             mAdapter.notifyDataSetChanged();
+
+            progressBar.setVisibility(View.GONE);
+
+            if(mAdapter.getItemCount()==0)
+            {
+                mRecyclerView.setVisibility(View.GONE);
+                emptyView.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                emptyView.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.VISIBLE);
+            }
             //mAdapter = new PostListAdapter(mPosts,getActivity());
             //mRecyclerView.swapAdapter(mAdapter,false);
         }

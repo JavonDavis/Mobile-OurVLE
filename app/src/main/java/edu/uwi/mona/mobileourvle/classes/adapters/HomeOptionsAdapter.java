@@ -1,4 +1,4 @@
-package edu.uwi.mona.mobileourvle.classes;
+package edu.uwi.mona.mobileourvle.classes.adapters;
 
 import android.app.Activity;
 import android.content.Context;

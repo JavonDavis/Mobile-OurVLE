@@ -131,25 +131,17 @@ public class CourseContentsTask {
             return;
 
         List<CourseModule> dbModules;
+
         for (CourseModule module: modules) {
 
-            if (!"label".equalsIgnoreCase(module.getModname())) {
+            if (!("label".equalsIgnoreCase(module.getModname()) || "forum".equalsIgnoreCase(module.getModname()))) {
                 module.setCourseid(course.getCourseid());
                 module.setParentid(sectiondbid);
                 module.setSectionid(sectionid);
 
                 // Update or save in database
-
-                dbModules = CourseModule.find(CourseModule.class,
-                        "moduleid = ?", module.getModuleid() + "");
-                if (dbModules.size() > 0)
-                    module.setId(dbModules.get(0).getId()); // updates on save()
-                    // set notifications if enabled
-
-                else if (notification) {
-                    //notify user
-                }
                 module.save();
+                int count = CourseModule.listAll(CourseModule.class).size();
 
                 // Now loop all Module contents in this module
                 syncModuleContents(module.getContents(), module.getId(),

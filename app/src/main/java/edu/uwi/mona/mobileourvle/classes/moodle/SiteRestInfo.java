@@ -29,8 +29,6 @@ public class SiteRestInfo {
      * Get the siteinfo for the current account
      *
      * @return siteinfo object
-     *
-     * @author Praveen Kumar Pendyala (praveen@praveenkumar.co.in)
      */
     public SiteInfo getSiteInfo() {
         String format = MoodleFunctions.RESPONSE_FORMAT;

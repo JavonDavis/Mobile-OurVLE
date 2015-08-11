@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -42,8 +43,6 @@ public class HomeActivity extends AppCompatActivity implements OptionListFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        final Bundle extras = getIntent().getExtras();
-
         homeToolbar = (Toolbar) findViewById(R.id.homeToolbar);
         setSupportActionBar(homeToolbar);
 
@@ -71,14 +70,14 @@ public class HomeActivity extends AppCompatActivity implements OptionListFragmen
         switch(id+1)
         {
             case 1:
-                intent = new Intent(HomeActivity.this, CourseListActivity.class);
+                intent = new Intent(this, CourseListActivity.class);
 
                 //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
                 startActivity(intent);
                 break;
-            case 3:
-                intent = new Intent(HomeActivity.this, ForumListActivity.class);
+            case 2:
+                intent = new Intent(this, ForumListActivity.class);
 
                 //intent.putExtra(SharedConstants.ParcelKeys.USER_SESSION, new UserSessionParcel(mUserSession));
 
@@ -86,7 +85,19 @@ public class HomeActivity extends AppCompatActivity implements OptionListFragmen
 
                 startActivity(intent);
                 break;
+            case 3:
+//                intent = new Intent(this,MessageListActivity.class);
+//                startActivity(intent);
+
+                Toast.makeText(this,"This section is not yet supported in the mobile version of OurVLE",Toast.LENGTH_LONG).show();
+                break;
             case 4:
+                intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto", "ourvlemobilesupport@gmail.com", null));
+                intent.putExtra(Intent.EXTRA_TEXT,"Sent from OurVLE mobile");
+                startActivity(Intent.createChooser(intent, "Send Email"));
+                break;
+            case 5:
                 showLogoutDialog();
                 break;
         }

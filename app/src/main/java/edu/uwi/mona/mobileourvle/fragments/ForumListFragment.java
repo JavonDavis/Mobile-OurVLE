@@ -7,17 +7,22 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.uwi.mona.mobileourvle.R;
-import edu.uwi.mona.mobileourvle.classes.ForumListAdapter;
-import edu.uwi.mona.mobileourvle.classes.RecyclerItemClickListener;
+import edu.uwi.mona.mobileourvle.classes.adapters.ForumListAdapter;
+import edu.uwi.mona.mobileourvle.classes.helpers.RecyclerItemClickListener;
 import edu.uwi.mona.mobileourvle.classes.models.CourseForum;
 import edu.uwi.mona.mobileourvle.classes.models.MoodleCourse;
 import edu.uwi.mona.mobileourvle.classes.models.SiteInfo;
@@ -33,6 +38,8 @@ public class ForumListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
+    private ProgressBar progressBar;
+    private TextView emptyView;
 
     private int courseId;
     private String token;
@@ -71,6 +78,26 @@ public class ForumListFragment extends Fragment {
 
         forums = getCourseId() == 0 ? CourseForum.listAll(CourseForum.class):CourseForum.find(CourseForum.class,"courseid = ?",getCourseId()+"");
 
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_course_contents, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case R.id.synchronize:
+                new ForumLoaderTask(token).execute();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -82,7 +109,8 @@ public class ForumListFragment extends Fragment {
         //TextView title = (TextView) view.findViewById(R.id.forum_title);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.forum_list);
-        TextView emptyView = (TextView) view.findViewById(R.id.emptyText);
+        emptyView = (TextView) view.findViewById(R.id.emptyText);
+        progressBar = (ProgressBar) view.findViewById(R.id.progress);
 
         if(!forums.isEmpty()) {
 
@@ -161,6 +189,9 @@ public class ForumListFragment extends Fragment {
 
         public ForumLoaderTask(String token)
         {
+            emptyView.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
             task = new ForumTask(token);
         }
 
@@ -188,6 +219,14 @@ public class ForumListFragment extends Fragment {
 //            mRecyclerView.swapAdapter(mAdapter, false);
 
             mAdapter.notifyDataSetChanged();
+            progressBar.setVisibility(View.GONE);
+            if(mAdapter.getItemCount()==0)
+            {
+                mRecyclerView.setVisibility(View.GONE);
+                emptyView.setVisibility(View.VISIBLE);
+            }
+            else
+                mRecyclerView.setVisibility(View.VISIBLE);
         }
     }
 }

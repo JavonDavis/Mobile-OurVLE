@@ -9,20 +9,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.uwi.mona.mobileourvle.R;
-import edu.uwi.mona.mobileourvle.classes.DiscussionsListAdapter;
-import edu.uwi.mona.mobileourvle.classes.PostListAdapter;
-import edu.uwi.mona.mobileourvle.classes.RecyclerItemClickListener;
-import edu.uwi.mona.mobileourvle.classes.models.DiscussionPost;
+import edu.uwi.mona.mobileourvle.classes.adapters.DiscussionsListAdapter;
+import edu.uwi.mona.mobileourvle.classes.helpers.RecyclerItemClickListener;
 import edu.uwi.mona.mobileourvle.classes.models.ForumDiscussion;
 import edu.uwi.mona.mobileourvle.classes.models.SiteInfo;
 import edu.uwi.mona.mobileourvle.classes.tasks.DiscussionTask;
-import edu.uwi.mona.mobileourvle.classes.tasks.PostTask;
 
 /**
  *
@@ -35,6 +33,8 @@ public class ForumFragment extends Fragment {
     private int id;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
+    private ProgressBar progressBar;
+    private TextView emptyView;
     private RecyclerView.Adapter mAdapter;
     private ArrayList<Integer> ids = new ArrayList<>();
 
@@ -82,6 +82,8 @@ public class ForumFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_forum, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.discussion_list);
+        progressBar = (ProgressBar) view.findViewById(R.id.progress);
+        emptyView = (TextView) view.findViewById(R.id.emptyText);
 
         mRecyclerView.setHasFixedSize(true);
 
@@ -135,7 +137,7 @@ public class ForumFragment extends Fragment {
     }
 
     public interface OnDiscussionSelectedListener {
-        public void onDiscussionSelected(int discussionId);
+        void onDiscussionSelected(int discussionId);
     }
 
     private class AsyncDiscussionTask extends AsyncTask<String, Integer, Boolean> {
@@ -143,6 +145,13 @@ public class ForumFragment extends Fragment {
 
         public AsyncDiscussionTask(String token) {
             dst = new DiscussionTask(token);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            mRecyclerView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -161,6 +170,16 @@ public class ForumFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             mAdapter.notifyDataSetChanged();
+            progressBar.setVisibility(View.GONE);
+            if(mAdapter.getItemCount()==0)
+            {
+                mRecyclerView.setVisibility(View.GONE);
+                emptyView.setVisibility(View.VISIBLE);
+            }
+            else {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                emptyView.setVisibility(View.GONE);
+            }
 
         }
     }

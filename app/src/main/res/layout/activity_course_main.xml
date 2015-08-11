@@ -4,13 +4,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:fitsSystemWindows="true">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:id="@+id/course_toolbar"
         android:background="@color/toolbar_background"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize">
 
         <TextView
             android:layout_width="wrap_content"
@@ -23,9 +24,20 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <FrameLayout
-        android:id="@+id/container"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/tab_border"
+        style="@style/AppTabLayout"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="wrap_content" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+         />
 
 </LinearLayout>

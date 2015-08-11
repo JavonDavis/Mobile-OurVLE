@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author Javon Davis
  *         Created by Javon Davis on 7/6/15.
  */
-public class SiteInfo extends SugarRecord<SiteInfo>{
+public class SiteInfo extends SugarRecord{
 
     String sitename;
     String username;

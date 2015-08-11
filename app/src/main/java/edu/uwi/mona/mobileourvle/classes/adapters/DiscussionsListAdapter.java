@@ -1,8 +1,7 @@
-package edu.uwi.mona.mobileourvle.classes;
+package edu.uwi.mona.mobileourvle.classes.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,27 +10,27 @@ import android.widget.TextView;
 import java.util.List;
 
 import edu.uwi.mona.mobileourvle.R;
-import edu.uwi.mona.mobileourvle.classes.models.DiscussionPost;
+import edu.uwi.mona.mobileourvle.classes.models.ForumDiscussion;
 
 /**
  * @author Javon Davis
  *         Created by Javon Davis on 7/22/15.
  */
-public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHolder>{
+public class DiscussionsListAdapter extends RecyclerView.Adapter<DiscussionsListAdapter.ViewHolder> {
 
-    private List<DiscussionPost> mPosts;
+    private List<ForumDiscussion> mDiscussions;
     private Context mContext;
 
-    public PostListAdapter(List<DiscussionPost> posts, Context context)
+    public DiscussionsListAdapter(List<ForumDiscussion> discussions, Context context)
     {
-        mPosts = posts;
+        mDiscussions = discussions;
         mContext = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_post, parent, false);
+                .inflate(R.layout.list_item_discussion, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
@@ -39,12 +38,13 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        DiscussionPost post = mPosts.get(position);
-        String content = post.getMessage();
-        String author = post.getUserfullname().trim();
+        ForumDiscussion discussion = mDiscussions.get(position);
+        String title = discussion.getName().trim();
+        String author = discussion.getFirstuserfullname().trim();
 
-        holder.message.setText(content.trim());
         holder.author.setText(author);
+        holder.discussionTitle.setText(title);
+
 //        String course = forum.getCoursename();
 //        holder.courseTitle.setText(course.trim());
 //        Colors colors = new Colors(mContext);
@@ -58,16 +58,16 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return mPosts.size();
+        return mDiscussions.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView message;
+        TextView discussionTitle;
         TextView author;
         public ViewHolder(View v) {
             super(v);
-            message= (TextView) v.findViewById(R.id.post);
+            discussionTitle = (TextView) v.findViewById(R.id.discussion_title);
             author = (TextView) v.findViewById(R.id.author);
         }
 

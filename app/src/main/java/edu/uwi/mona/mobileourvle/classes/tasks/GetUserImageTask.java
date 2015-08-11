@@ -22,36 +22,7 @@ public class GetUserImageTask extends AsyncTask<String,Void,Void> {
 
     @Override
     protected Void doInBackground(String... params) {
-        InputStream input = null;
-        OutputStream output = null;
-        HttpURLConnection connection = null;
-        try {
-            URL url = new URL(params[0]);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.connect();
 
-            // Make directories if required
-            File f = new File(Environment.getExternalStorageDirectory()
-                    + "/OurVLE/");
-            f.mkdirs();
-
-            // download the file
-            input = connection.getInputStream();
-            output = new FileOutputStream(
-                    Environment.getExternalStorageDirectory() + "/OurVLE/"
-                            + "profile_pic");
-
-            byte data[] = new byte[4096];
-            int count;
-            while ((count = input.read(data)) != -1) {
-                output.write(data, 0, count);
-            }
-
-            output.close();
-            input.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return null;
     }
 }

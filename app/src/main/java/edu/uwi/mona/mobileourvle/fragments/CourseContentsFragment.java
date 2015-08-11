@@ -4,36 +4,33 @@
 package edu.uwi.mona.mobileourvle.fragments;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.uwi.mona.mobileourvle.R;
-import edu.uwi.mona.mobileourvle.classes.CourseContentAdapter;
-import edu.uwi.mona.mobileourvle.classes.RecyclerItemClickListener;
+import edu.uwi.mona.mobileourvle.classes.adapters.CourseContentAdapter;
+import edu.uwi.mona.mobileourvle.classes.helpers.RecyclerItemClickListener;
 import edu.uwi.mona.mobileourvle.classes.models.CourseModule;
 import edu.uwi.mona.mobileourvle.classes.models.CourseSection;
-import edu.uwi.mona.mobileourvle.classes.models.MoodleCourse;
+import edu.uwi.mona.mobileourvle.classes.models.ModuleContent;
 import edu.uwi.mona.mobileourvle.classes.models.SiteInfo;
 import edu.uwi.mona.mobileourvle.classes.tasks.CourseContentsTask;
-import edu.uwi.mona.mobileourvle.classes.tasks.ForumTask;
 
 /**
  * @author Aston Hamilton
@@ -43,13 +40,19 @@ public class CourseContentsFragment extends Fragment {
     private Listener mListener;
     private Activity mActivity;
     private int _id;
+    private ProgressBar progressBar;
+    private TextView emptyView;
+    private Menu menu;
+    private int searchID;
 
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private final ArrayList<CourseModule> moduleList = new ArrayList<>();
+    private ArrayList<CourseModule> originalModuleList = new ArrayList<>(); //used in search
     private String token;
+    private List<CourseSection> sections;
 
 
     public static CourseContentsFragment newInstance(int courseId) {
@@ -57,30 +60,6 @@ public class CourseContentsFragment extends Fragment {
         f.set_id(courseId);
         return f;
     }
-
-
-    /*
-    public void addSearchOption()
-    {
-        menu= ((Toolbar) getActivity().findViewById(R.id.course_toolbar)).getMenu();
-        //add search button to menu
-        MenuItem item = menu.add("Search");
-        searchID = item.getItemId();
-
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        SearchView searchView = new SearchView(getActivity());
-
-        searchView.setOnQueryTextListener(new SearchListener());
-        item.setActionView(searchView);
-    }
-
-    public void removeSearchOption()
-    {
-        menu= ((Toolbar) getActivity().findViewById(R.id.course_toolbar)).getMenu();
-        //add search button to menu
-        menu.removeItem(searchID);
-
-    }*/
 
 
 
@@ -110,7 +89,41 @@ public class CourseContentsFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
 
+        sections = CourseSection.find(CourseSection.class,
+                "courseid = ?", get_id() + "");
+
+        // Add modules to sections
+        List<CourseModule> dbModules;
+        List<ModuleContent> dbContents;
+        for (int i = 0; i < sections.size(); i++) {
+            dbModules = CourseModule.find(CourseModule.class, "parentid = ?",
+                    sections.get(i).getId() + "");
+
+            // Set module contents to modules
+            for (int j = 0; j < dbModules.size(); j++) {
+                dbContents = ModuleContent.find(
+                        ModuleContent.class, "parentid = ?", dbModules
+                                .get(j).getId() + "");
+                dbModules.get(j).setContents(dbContents);
+            }
+
+            sections.get(i).setModules(dbModules);
+        }
+
+        ArrayList<CourseModule> modules;
+        for (CourseSection section:sections) {
+            modules = section.getModules();
+            if (modules.size() > 0) {
+
+                // Add modules
+                for (CourseModule module:modules) {
+                    moduleList.add(module);
+                }
+            }
+        }
        // mEmptyListString = getString(R.string.no_course_contents);
+        originalModuleList.addAll(moduleList);
+        setHasOptionsMenu(true);
 
     }
 
@@ -119,6 +132,47 @@ public class CourseContentsFragment extends Fragment {
         super.onStart();
 
         //addSearchOption();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.menu_course_contents, menu);
+        this.menu = menu;
+        addSearchOption();
+    }
+
+    public void addSearchOption()
+    {
+        //add search button to menu
+        MenuItem item = menu.add("Search");
+        searchID = item.getItemId();
+
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        SearchView searchView = new SearchView(getActivity());
+
+        searchView.setOnQueryTextListener(new SearchListener());
+        item.setActionView(searchView);
+    }
+
+    /*public void removeSearchOption()
+    {
+        //add search button to menu
+        menu.removeItem(searchID);
+
+    }*/
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case R.id.synchronize:
+                new CourseContentsSyncTask(token,get_id()).execute();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -131,6 +185,8 @@ public class CourseContentsFragment extends Fragment {
 
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.contentList);
+        progressBar = (ProgressBar) view.findViewById(R.id.progress);
+        emptyView = (TextView) view.findViewById(R.id.emptyText);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -151,7 +207,10 @@ public class CourseContentsFragment extends Fragment {
         }));
 
         token = SiteInfo.listAll(SiteInfo.class).get(0).getToken();
-        new CourseSyncThread(token,get_id()).execute();
+
+        if(moduleList.isEmpty())
+            new CourseContentsSyncTask(token,get_id()).execute();
+
         return view;
     }
 //
@@ -177,34 +236,31 @@ public class CourseContentsFragment extends Fragment {
     }
 
     /* ======================== Private CLasses ====================== */
-   /* private class SearchListener implements SearchView.OnQueryTextListener {
+    private class SearchListener implements SearchView.OnQueryTextListener {
 
         @Override
         public boolean onQueryTextChange(String query)
         {
             //list to hold filtered courses
-            List<CourseSection> filteredContents = new ArrayList<CourseSection>();
+            //List<CourseSection> filteredContents = new ArrayList<CourseSection>();
 
-            if(courseContents!=null) {
-                for (final CourseSection courseSection : courseContents) {
-                    List<CourseModule> filteredModules = new ArrayList<CourseModule>();
-                    List<CourseModule> moduleList = new ArrayList<CourseModule>(courseSection.getModuleList());
 
-                    for (CourseModule courseModule : moduleList)
-                        if (courseModule.getLabel().toLowerCase().contains(query.toLowerCase()))
-                            filteredModules.add(courseModule);
+            List<CourseModule> filteredModules = new ArrayList<CourseModule>();
+            //List<CourseModule> moduleList = new ArrayList<CourseModule>(courseSection.getModuleList());
 
-                    filteredContents.add(new CourseSection(courseSection.getName(), filteredModules));
-                }
+            for (CourseModule courseModule : originalModuleList)
+                if (courseModule.getName().toLowerCase().contains(query.toLowerCase()))
+                    filteredModules.add(courseModule);
 
-                moduleList.clear();
 
-                for (CourseSection section : filteredContents)
-                    if (section.getModuleList().size() > 0)
-                        moduleList.addAll(section.getModuleList());
 
-                mCourseModuleListAdapter.notifyDataSetChanged();
-            }
+            moduleList.clear();
+
+
+            moduleList.addAll(filteredModules);
+
+            mAdapter.notifyDataSetChanged();
+
             return false;
         }
 
@@ -216,34 +272,37 @@ public class CourseContentsFragment extends Fragment {
 
 
     }
-    */
 
 
-    private class CourseSyncThread extends AsyncTask<String, Integer, Boolean> {
+    private class CourseContentsSyncTask extends AsyncTask<String, Integer, Boolean> {
         CourseContentsTask contentsTask;
         int courseid;
         Boolean syncStatus;
 
-        public CourseSyncThread(String token, int courseid) {
+        public CourseContentsSyncTask(String token, int courseid) {
             contentsTask = new CourseContentsTask(token);
             this.courseid = courseid;
         }
 
         @Override
         protected void onPreExecute() {
+            emptyView.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
 
         }
 
         @Override
         protected Boolean doInBackground(String... params) {
             Log.d("Background execute", "course contents");
+            CourseModule.deleteAll(CourseModule.class);
             syncStatus = contentsTask.syncCourseContents(courseid);
             ArrayList<CourseSection> sections = contentsTask.getCourseContents(courseid);
 
             // Save all sections into a listObject array for easy access inside
             //mapSectionsToListObjects(sections);
 
-            new ForumTask(token).syncForums(courseid);
+            //new ForumTask(token).syncForums(courseid);
 
             if (sections == null)
                 return false;
@@ -273,6 +332,16 @@ public class CourseContentsFragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             mAdapter.notifyDataSetChanged();
+            originalModuleList.addAll(moduleList);
+            progressBar.setVisibility(View.GONE);
+            if(mAdapter.getItemCount()==0)
+            {
+                mRecyclerView.setVisibility(View.GONE);
+                emptyView.setVisibility(View.VISIBLE);
+            }
+            else
+                mRecyclerView.setVisibility(View.VISIBLE);
+
 //            if (listObjects.size() != 0)
 //                contentEmptyLayout.setVisibility(LinearLayout.GONE);
 //            swipeLayout.setRefreshing(false);

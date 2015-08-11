@@ -191,4 +191,5 @@
     <color name="Y">#607d8b</color>
     <color name="Z">#1e7eac</color>
     <color name="standard">@color/X</color>
+    <color name="range">#51c4d4</color>
 </resources>

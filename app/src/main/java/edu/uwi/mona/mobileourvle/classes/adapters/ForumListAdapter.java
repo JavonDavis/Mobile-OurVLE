@@ -1,4 +1,4 @@
-package edu.uwi.mona.mobileourvle.classes;
+package edu.uwi.mona.mobileourvle.classes.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +13,7 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import java.util.List;
 
 import edu.uwi.mona.mobileourvle.R;
+import edu.uwi.mona.mobileourvle.classes.helpers.Colors;
 import edu.uwi.mona.mobileourvle.classes.models.CourseForum;
 
 /**

@@ -15,15 +15,13 @@ public class CourseTask {
 
     String token;
     String error;
-    long siteid;
 
     /**
      *
      * @param token
      */
-    public CourseTask(String token,long siteid) {
+    public CourseTask(String token) {
         this.token = token;
-        this.siteid = siteid;
     }
 
     /**
@@ -68,8 +66,7 @@ public class CourseTask {
      * @return syncStatus
      */
     public Boolean syncUserCourses() {
-        SiteInfo site = SiteInfo.findById(SiteInfo.class,
-                siteid);
+        SiteInfo site = SiteInfo.listAll(SiteInfo.class).get(0);
 
         if (site == null)
             return false;

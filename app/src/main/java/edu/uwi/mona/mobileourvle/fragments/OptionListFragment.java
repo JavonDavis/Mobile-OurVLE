@@ -6,7 +6,7 @@ import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
 
-import edu.uwi.mona.mobileourvle.classes.HomeOptionsAdapter;
+import edu.uwi.mona.mobileourvle.classes.adapters.HomeOptionsAdapter;
 
 /**
  * A fragment representing a list of options for the home screen.

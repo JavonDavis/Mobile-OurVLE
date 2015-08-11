@@ -14,7 +14,23 @@
 		android:scrollbars="vertical"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"/>
-	
+
+	<ProgressBar
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:visibility="gone"
+		android:id="@+id/progress"
+		android:layout_centerInParent="true"/>
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/no_course_contents"
+		android:visibility="gone"
+		android:layout_centerInParent="true"
+		android:id="@+id/emptyText" />
+
+
 	<!--<TextView
 	        android:id="@android:id/empty"
 	        android:layout_width="wrap_content"

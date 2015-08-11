@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.uwi.mona.mobileourvle.fragments.ForumFragment">
@@ -7,6 +7,22 @@
         android:id="@+id/discussion_list"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
+        android:layout_centerInParent="true"
         android:layout_height="match_parent"/>
 
-</LinearLayout>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/progress"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_discussion_posts"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:id="@+id/emptyText" />
+
+</RelativeLayout>

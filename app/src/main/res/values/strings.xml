@@ -94,9 +94,12 @@
 
     <string-array name="options">
         <item>Courses</item>
-        <item>Messages</item>
         <item>Forums</item>
+        <item>Messages</item>
+        <item>Feedback</item>
         <item>Log Out</item>
     </string-array>
+    <string name="title_activity_message_list">MessageListActivity</string>
+    <string name="no_messages">No Messages</string>
 
 </resources>

@@ -3,12 +3,19 @@ package edu.uwi.mona.mobileourvle.classes.tasks;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,13 +94,49 @@ public class LoginTask extends AsyncTask<String,String,Boolean> {
 //        if(!getPosts())
 //            return false;
 
-        new GetUserImageTask().execute(siteInfo.getUserpictureurl());
+        getUserImage(siteInfo.getUserpictureurl());
 
         return true;
     }
 
+    private boolean getUserImage(String imageUrl)
+    {
+        InputStream input = null;
+        OutputStream output = null;
+        HttpURLConnection connection = null;
+        try {
+            URL url = new URL(imageUrl);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.connect();
+
+            // Make directories if required
+            File f = new File(Environment.getExternalStorageDirectory()
+                    + "/OurVLE/");
+            f.mkdirs();
+
+            // download the file
+            input = connection.getInputStream();
+            output = new FileOutputStream(
+                    Environment.getExternalStorageDirectory() + "/OurVLE/"
+                            + "profile_pic");
+
+            byte data[] = new byte[4096];
+            int count;
+            while ((count = input.read(data)) != -1) {
+                output.write(data, 0, count);
+            }
+
+            output.close();
+            input.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+
     private boolean getCourseInfo() {
-        CourseTask cTask = new CourseTask(token, siteInfo.getId());
+        CourseTask cTask = new CourseTask(token);
 
         publishProgress(context.getString(R.string.login_prog_sync_course));
         Boolean usrCourseSyncStatus = cTask.syncUserCourses();
