@@ -241,6 +241,8 @@ public class CourseContentsActivity extends AppCompatActivity
             if (!url.startsWith("http://") && !url.startsWith("https://"))
                 url = "http://" + url;
 
+            url+=("?wstoken=" + siteInfo.getToken());
+
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(browserIntent);
         } else //noinspection StatementWithEmptyBody
