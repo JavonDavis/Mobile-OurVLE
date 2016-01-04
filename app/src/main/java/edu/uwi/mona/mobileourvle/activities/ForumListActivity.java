@@ -20,8 +20,11 @@ public class ForumListActivity extends AppCompatActivity implements ForumListFra
         Toolbar toolbar = (Toolbar) findViewById(R.id.forum_list_toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        //Doesn't hurt
+        if(getSupportActionBar()!=null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+        }
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,12 +45,7 @@ public class ForumListActivity extends AppCompatActivity implements ForumListFra
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (id)
-        {
-
-        }
+        
         return super.onOptionsItemSelected(item);
     }
 

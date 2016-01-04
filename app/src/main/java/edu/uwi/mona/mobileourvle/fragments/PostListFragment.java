@@ -85,7 +85,7 @@ public class PostListFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
-        mAdapter = new PostListAdapter(mPosts,getActivity());
+        mAdapter = new PostListAdapter(mPosts);
 
 //        mAdapter = new MoodleCourseAdapter(getParentActivity(), null,
 //                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);

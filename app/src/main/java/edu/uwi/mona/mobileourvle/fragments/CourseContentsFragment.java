@@ -33,7 +33,7 @@ import edu.uwi.mona.mobileourvle.classes.models.SiteInfo;
 import edu.uwi.mona.mobileourvle.classes.tasks.CourseContentsTask;
 
 /**
- * @author Aston Hamilton
+ * @author Javon Davis
  */
 public class CourseContentsFragment extends Fragment {
 
@@ -43,16 +43,13 @@ public class CourseContentsFragment extends Fragment {
     private ProgressBar progressBar;
     private TextView emptyView;
     private Menu menu;
-    private int searchID;
 
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private final ArrayList<CourseModule> moduleList = new ArrayList<>();
     private ArrayList<CourseModule> originalModuleList = new ArrayList<>(); //used in search
     private String token;
-    private List<CourseSection> sections;
 
 
     public static CourseContentsFragment newInstance(int courseId) {
@@ -89,7 +86,7 @@ public class CourseContentsFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
 
-        sections = CourseSection.find(CourseSection.class,
+        List<CourseSection> sections = CourseSection.find(CourseSection.class,
                 "courseid = ?", get_id() + "");
 
         // Add modules to sections
@@ -111,7 +108,7 @@ public class CourseContentsFragment extends Fragment {
         }
 
         ArrayList<CourseModule> modules;
-        for (CourseSection section:sections) {
+        for (CourseSection section: sections) {
             modules = section.getModules();
             if (modules.size() > 0) {
 
@@ -141,13 +138,13 @@ public class CourseContentsFragment extends Fragment {
         inflater.inflate(R.menu.menu_course_contents, menu);
         this.menu = menu;
         addSearchOption();
+        setRetainInstance(true);
     }
 
     public void addSearchOption()
     {
         //add search button to menu
         MenuItem item = menu.add("Search");
-        searchID = item.getItemId();
 
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         SearchView searchView = new SearchView(getActivity());
@@ -155,13 +152,6 @@ public class CourseContentsFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchListener());
         item.setActionView(searchView);
     }
-
-    /*public void removeSearchOption()
-    {
-        //add search button to menu
-        menu.removeItem(searchID);
-
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -193,7 +183,7 @@ public class CourseContentsFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
@@ -213,17 +203,9 @@ public class CourseContentsFragment extends Fragment {
 
         return view;
     }
-//
-//    @Override
-//    public void onListItemClick(final ListView l, final View v,
-//                                final int position, final long id) {
-//        mListener.onCourseModuleSelected(
-//                (CourseModule) mCourseModuleListAdapter.getItem(position));
-//    }
 
     @Override
     public void onStop() {
-        //removeSearchOption();
         super.onStop();
     }
 
@@ -241,12 +223,7 @@ public class CourseContentsFragment extends Fragment {
         @Override
         public boolean onQueryTextChange(String query)
         {
-            //list to hold filtered courses
-            //List<CourseSection> filteredContents = new ArrayList<CourseSection>();
-
-
-            List<CourseModule> filteredModules = new ArrayList<CourseModule>();
-            //List<CourseModule> moduleList = new ArrayList<CourseModule>(courseSection.getModuleList());
+            List<CourseModule> filteredModules = new ArrayList<>();
 
             for (CourseModule courseModule : originalModuleList)
                 if (courseModule.getName().toLowerCase().contains(query.toLowerCase()))
@@ -299,11 +276,6 @@ public class CourseContentsFragment extends Fragment {
             syncStatus = contentsTask.syncCourseContents(courseid);
             ArrayList<CourseSection> sections = contentsTask.getCourseContents(courseid);
 
-            // Save all sections into a listObject array for easy access inside
-            //mapSectionsToListObjects(sections);
-
-            //new ForumTask(token).syncForums(courseid);
-
             if (sections == null)
                 return false;
 
@@ -323,10 +295,7 @@ public class CourseContentsFragment extends Fragment {
                 }
             }
 
-            if (syncStatus)
-                return true;
-            else
-                return false;
+            return syncStatus;
         }
 
         @Override
@@ -341,10 +310,6 @@ public class CourseContentsFragment extends Fragment {
             }
             else
                 mRecyclerView.setVisibility(View.VISIBLE);
-
-//            if (listObjects.size() != 0)
-//                contentEmptyLayout.setVisibility(LinearLayout.GONE);
-//            swipeLayout.setRefreshing(false);
         }
 
     }

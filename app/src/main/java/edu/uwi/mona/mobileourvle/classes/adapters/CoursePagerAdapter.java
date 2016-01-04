@@ -15,7 +15,6 @@ import edu.uwi.mona.mobileourvle.fragments.ParticipantsListFragment;
  */
 public class CoursePagerAdapter extends FragmentPagerAdapter {
 
-    private final int COUNT = 3;
     private String tabTitles[] = new String[] { "Resources", "Forums", "Participants" };
     private int courseId;
 
@@ -42,7 +41,7 @@ public class CoursePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return COUNT;
+        return 3;
     }
 
     @Override

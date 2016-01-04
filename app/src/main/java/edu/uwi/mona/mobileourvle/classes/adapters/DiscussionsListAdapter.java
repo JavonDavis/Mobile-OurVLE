@@ -1,6 +1,5 @@
 package edu.uwi.mona.mobileourvle.classes.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,20 +18,17 @@ import edu.uwi.mona.mobileourvle.classes.models.ForumDiscussion;
 public class DiscussionsListAdapter extends RecyclerView.Adapter<DiscussionsListAdapter.ViewHolder> {
 
     private List<ForumDiscussion> mDiscussions;
-    private Context mContext;
 
-    public DiscussionsListAdapter(List<ForumDiscussion> discussions, Context context)
+    public DiscussionsListAdapter(List<ForumDiscussion> discussions)
     {
         mDiscussions = discussions;
-        mContext = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_discussion, parent, false);
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        return new ViewHolder(v);
     }
 
     @Override
@@ -44,15 +40,6 @@ public class DiscussionsListAdapter extends RecyclerView.Adapter<DiscussionsList
 
         holder.author.setText(author);
         holder.discussionTitle.setText(title);
-
-//        String course = forum.getCoursename();
-//        holder.courseTitle.setText(course.trim());
-//        Colors colors = new Colors(mContext);
-//        Character letter = course.trim().trim().toUpperCase().charAt(0);
-//        TextDrawable drawable = TextDrawable.builder()
-//                .buildRound(Character.toString(letter).toUpperCase(), colors.getColor(letter));
-//
-//        holder.letter.setImageDrawable(drawable);
 
     }
 

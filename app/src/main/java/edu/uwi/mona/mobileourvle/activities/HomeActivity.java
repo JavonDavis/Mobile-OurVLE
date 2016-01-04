@@ -1,10 +1,8 @@
 package edu.uwi.mona.mobileourvle.activities;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,7 +24,6 @@ import edu.uwi.mona.mobileourvle.classes.models.DiscussionPost;
 import edu.uwi.mona.mobileourvle.classes.models.ForumDiscussion;
 import edu.uwi.mona.mobileourvle.classes.models.ModuleContent;
 import edu.uwi.mona.mobileourvle.classes.models.MoodleCourse;
-import edu.uwi.mona.mobileourvle.classes.models.MoodleCourseFormatOption;
 import edu.uwi.mona.mobileourvle.classes.models.MoodleFunction;
 import edu.uwi.mona.mobileourvle.classes.models.SiteInfo;
 import edu.uwi.mona.mobileourvle.fragments.OptionListFragment;
@@ -36,20 +33,19 @@ import edu.uwi.mona.mobileourvle.fragments.OptionListFragment;
  */
 public class HomeActivity extends AppCompatActivity implements OptionListFragment.OnOptionSelectedListener{
 
-    private Toolbar homeToolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        homeToolbar = (Toolbar) findViewById(R.id.homeToolbar);
+        Toolbar homeToolbar = (Toolbar) findViewById(R.id.homeToolbar);
         setSupportActionBar(homeToolbar);
 
         CircularImageView imageView = (CircularImageView) findViewById(R.id.profile_pic);
 
         Bitmap userImage = ImageDecoder.decodeImage(new File(
                 Environment.getExternalStorageDirectory() + "/OurVLE/profile_pic"));
+
         if (userImage != null)
             imageView.setImageBitmap(userImage);
 
@@ -59,13 +55,14 @@ public class HomeActivity extends AppCompatActivity implements OptionListFragmen
                     .commit();
         }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
     }
 
     @Override
     public void onOptionSelected(int id) {
-        //Toast.makeText(this, "click", Toast.LENGTH_LONG).show();
         Intent intent;
         switch(id+1)
         {
@@ -93,7 +90,7 @@ public class HomeActivity extends AppCompatActivity implements OptionListFragmen
                 break;
             case 4:
                 intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                        "mailto", "ourvlemobilesupport@gmail.com", null));
+                        "mailto", "ourvle.mobile.feedback@gmail.com", null));
                 intent.putExtra(Intent.EXTRA_TEXT,"Sent from OurVLE mobile");
                 startActivity(Intent.createChooser(intent, "Send Email"));
                 break;

@@ -22,7 +22,6 @@ public class RestToken {
     private String username;
     private String password;
     private String url;
-    private Token token = new Token();
 
     public RestToken(String username, String password) {
         this.username = username;
@@ -42,22 +41,14 @@ public class RestToken {
             e.printStackTrace();
         }
 
-
-        token = new Token();
-        // Check Moodle mobile service.
-        if (token != null) {
-            if (token.getToken() == null)
-                getTokenRequest(urlParams,
-                        MoodleFunctions.SERVICE_MOODLE_MOBILE);
-        }
-
-
-        return token;
+        return getTokenRequest(urlParams,
+                MoodleFunctions.SERVICE_MOODLE_MOBILE);
     }
 
-    private void getTokenRequest(String urlParams, String serviceName) {
+    private Token getTokenRequest(String urlParams, String serviceName) {
 
         HttpURLConnection con;
+        Token token = new Token();
         try {
             con = (HttpURLConnection) new URL(url + "?" + urlParams
                     + "&service=" + serviceName).openConnection();
@@ -77,10 +68,12 @@ public class RestToken {
             Gson gson = new GsonBuilder().create();
             token = gson.fromJson(reader, Token.class);
             reader.close();
+            return token;
 
         } catch (Exception e) {
             token.appenedError("\n" + serviceName + " : " + e.getMessage());
         }
 
+        return token;
     }
 }

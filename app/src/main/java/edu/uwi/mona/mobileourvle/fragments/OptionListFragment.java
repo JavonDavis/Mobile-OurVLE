@@ -14,6 +14,7 @@ import edu.uwi.mona.mobileourvle.classes.adapters.HomeOptionsAdapter;
  * <p/>
  * Activities containing this fragment MUST implement the {@link OnOptionSelectedListener}
  * interface.
+ * @author Javon Davis
  */
 public class OptionListFragment extends ListFragment {
 
@@ -21,8 +22,7 @@ public class OptionListFragment extends ListFragment {
     HomeOptionsAdapter adapter;
 
     public static OptionListFragment newInstance() {
-        OptionListFragment fragment = new OptionListFragment();
-        return fragment;
+        return new OptionListFragment();
     }
 
     /**
@@ -72,8 +72,6 @@ public class OptionListFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ListView listView = getListView();
-//        listView.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
-//        listView.setDivider(new ColorDrawable(Color.GRAY));
         listView.setDividerHeight(3);
     }
 

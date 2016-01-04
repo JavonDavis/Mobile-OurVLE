@@ -8,4 +8,11 @@
     tools:context="edu.uwi.mona.mobileourvle.activities.SplashActivity">
 
 
+    <ProgressBar
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:indeterminate="true"
+        android:id="@+id/progressBar2"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

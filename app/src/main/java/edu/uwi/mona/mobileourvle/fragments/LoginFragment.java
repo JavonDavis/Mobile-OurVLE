@@ -1,15 +1,9 @@
 package edu.uwi.mona.mobileourvle.fragments;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -18,9 +12,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.apache.http.HttpStatus;
 
 import edu.uwi.mona.mobileourvle.R;
 import edu.uwi.mona.mobileourvle.classes.tasks.LoginTask;
@@ -52,16 +43,24 @@ public class LoginFragment extends Fragment{
         mUsernameTextbox = (EditText) fragmentView.findViewById(R.id.id_number_field);
         mPasswordTextBox = (EditText) fragmentView.findViewById(R.id.password_field);
 
+
+
         ourvleLong = (TextView) fragmentView.findViewById(R.id.ourvle_long);
         ourvleShort = (TextView) fragmentView.findViewById(R.id.ourvle_short);
 
         progressBar = (ProgressBar) fragmentView.findViewById(R.id.progress);
         loginBox = (LinearLayout) fragmentView.findViewById(R.id.loginBox);
 
-        Typeface main = Typeface.createFromAsset(getActivity().getAssets(),"jacks.ttf");
+        Typeface main = Typeface.createFromAsset(getActivity().getAssets(),"roboto.ttf");
+        Typeface main2 = Typeface.createFromAsset(getActivity().getAssets(),"jacks.ttf");
+
+        mUsernameTextbox.setTypeface(main);
+        mPasswordTextBox.setTypeface(main);
+
+        loginButton.setTypeface(main);
 
         ourvleLong.setTypeface(main);
-        ourvleShort.setTypeface(main);
+        ourvleShort.setTypeface(main2);
 
         // Attach Login button
         loginButton.setOnClickListener(new LoginButtonListener());

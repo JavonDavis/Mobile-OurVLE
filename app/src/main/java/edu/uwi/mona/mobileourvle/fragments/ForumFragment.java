@@ -92,7 +92,7 @@ public class ForumFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
-        mAdapter = new DiscussionsListAdapter(mDiscussions,getActivity());
+        mAdapter = new DiscussionsListAdapter(mDiscussions);
 
 //        mAdapter = new MoodleCourseAdapter(getParentActivity(), null,
 //                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);

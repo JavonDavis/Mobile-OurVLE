@@ -14,14 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
 import edu.uwi.mona.mobileourvle.R;
-import edu.uwi.mona.mobileourvle.classes.adapters.DiscussionsListAdapter;
 import edu.uwi.mona.mobileourvle.classes.adapters.ParticipantListAdapter;
 import edu.uwi.mona.mobileourvle.classes.helpers.RecyclerItemClickListener;
 import edu.uwi.mona.mobileourvle.classes.models.CourseParticipant;
@@ -34,14 +30,12 @@ import edu.uwi.mona.mobileourvle.classes.tasks.ParticipantTask;
 public class ParticipantsListFragment extends Fragment {
     private static final String ARG_PARAM1 = "courseid";
     private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
     private ProgressBar progressBar;
     private String token;
     private TextView emptyView;
     private List<CourseParticipant> mParticipants;
 
-    // TODO: Rename and change types of parameters
     private int mCourseId;
 
     private OnParticipantSelectedListener mListener;
@@ -51,7 +45,6 @@ public class ParticipantsListFragment extends Fragment {
      * @param courseId Parameter 1.
      * @return A new instance of fragment ParticipantsListFragment associated with the courseid.
      */
-    // TODO: Rename and change types and number of parameters
     public static ParticipantsListFragment newInstance(int courseId) {
         ParticipantsListFragment fragment = new ParticipantsListFragment();
         Bundle args = new Bundle();
@@ -107,7 +100,7 @@ public class ParticipantsListFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
@@ -156,8 +149,7 @@ public class ParticipantsListFragment extends Fragment {
      * activity.
      */
     public interface OnParticipantSelectedListener {
-        // TODO: Update argument type and name
-        public void onParticipantSelected(CourseParticipant participant);
+        void onParticipantSelected(CourseParticipant participant);
     }
 
     private class ParticipantSyncTask extends

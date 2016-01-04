@@ -19,9 +19,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,8 +70,10 @@ public class CourseContentsActivity extends AppCompatActivity
         final Toolbar toolbar = (Toolbar) findViewById(R.id.course_toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar()!= null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         siteInfo = SiteInfo.listAll(SiteInfo.class).get(0);
 
@@ -91,88 +93,19 @@ public class CourseContentsActivity extends AppCompatActivity
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
-
-//        if (savedInstanceState == null) {
-//            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.container, CourseContentsFragment.newInstance(courseid))
-//                    .commit();
-//        }
     }
-
-
-//    @Override
-//    protected void onResume() {
-//        if (mOnDiscussionSeclectedReceiver == null)
-//            mOnDiscussionSeclectedReceiver = new FragmentResponseListerner() {
-//                @Override
-//                public void onResponseReceived(final Context context, final Bundle data) {
-//
-//                    final ForumDiscussion discussion = ((ForumDiscussionParcel) data
-//                            .getParcelable(ForumDiscussionListFragment.ResponseArgs.Discussion))
-//                            .getWrappedObejct();
-//
-//                    final Intent intent = new Intent(CourseContentsActivity.this,
-//                            ForumDiscussionPagerActivity.class);
-//
-//                    intent.putExtra(ParcelKeys.USER_SESSION,
-//                            new UserSessionParcel(mUserSession));
-//
-//                    intent.putExtra(ParcelKeys.FORUM_DISCUSSION_ID,
-//                            discussion.getId());
-//
-//                    intent.putExtra(ParcelKeys.PARENT,
-//                            new CourseForumParcel(mUserSession.getContext()
-//                                    .getSiteInfo()
-//                                    .getNewsForum())
-//                    );
-//
-//                    intent.putExtra(ParcelKeys.PARENT,
-//                            new DiscussionParentParcel(
-//                                    new DiscussionParent(
-//                                            mUserSession.getContext()
-//                                                    .getSiteInfo()
-//                                                    .getNewsForum()
-//                                    )
-//                            )
-//                    );
-//
-//                    intent.putExtra(ParcelKeys.FORUM_DISCUSSION_ID,
-//                            discussion.getId());
-//
-//                    startActivity(intent);
-//                }
-//            };
-//
-//        FragmentResponseManager.registerReceiver(getApplicationContext(),
-//                ForumDiscussionListFragment.Responses.onForumSelected,
-//                mOnDiscussionSeclectedReceiver);
-//
-//        super.onResume();
-//    }
 
     @Override
     protected void onPause() {
-//        if (mOnDiscussionSeclectedReceiver != null)
-//            FragmentResponseManager.unregisterReceiver(getApplicationContext(),
-//                    mOnDiscussionSeclectedReceiver);
         super.onPause();
     }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_course_contents, menu);
-
-        this.menu = menu;
-        return true;
-    }*/
-
 
     static File courseFile;
     @Override
     public void onCourseModuleSelected(final CourseModule module) {
         List<ModuleContent> contents = module.getContents();
-        ModuleContent content = null;
+        ModuleContent content = new ModuleContent();
+
         if(!contents.isEmpty()) {
             content = contents.get(0);
         }
@@ -192,7 +125,8 @@ public class CourseContentsActivity extends AppCompatActivity
             File location = new File(Environment.getExternalStorageDirectory(), folderLocation);
 
             if (!location.exists()) {
-                location.mkdirs();  // makes the subfolder
+                if(!location.mkdirs())
+                    Toast.makeText(this,"Error making directory to store file",Toast.LENGTH_LONG).show();  // makes the subfolder
             }
 
 
@@ -204,7 +138,7 @@ public class CourseContentsActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "Downloading File: " + module.getName(),
                         Toast.LENGTH_LONG).show();
                 String token = SiteInfo.listAll(SiteInfo.class).get(0).getToken();
-                final String url = module.getUrl() + "&token=" + token;
+                final String url = content.getFileurl() + "&token=" + token;
                 final DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
 
                 request.setDescription("Course file download");
@@ -232,11 +166,6 @@ public class CourseContentsActivity extends AppCompatActivity
         } else if (module.getUrl() != null) {
 
             String url = module.getUrl();
-            //final Intent webviewIntent = new Intent(this,CourseContentsResourceActivity.class);
-            //webviewIntent.putExtra("URL",url);
-
-            //startActivity(webviewIntent);
-            //Toast.makeText(this,"not a resource", Toast.LENGTH_LONG).show();
 
             if (!url.startsWith("http://") && !url.startsWith("https://"))
                 url = "http://" + url;
@@ -249,6 +178,7 @@ public class CourseContentsActivity extends AppCompatActivity
             if ("label".equalsIgnoreCase(module.getModname())) {
                 // do nothing
             } else {
+                Log.d("resource","invalid");
                 Toast.makeText(getApplicationContext(),
                         "This resource is not yet supported by OurVLE Mobile", Toast.LENGTH_SHORT).show();
             }
@@ -283,7 +213,6 @@ public class CourseContentsActivity extends AppCompatActivity
 
     @Override
     public void onParticipantSelected(final CourseParticipant participant) {
-        Toast.makeText(this, participant.getFirstname(), Toast.LENGTH_LONG).show();
 
         new AlertDialog.Builder(this)
                 .setTitle(participant.getFullname())
@@ -292,7 +221,6 @@ public class CourseContentsActivity extends AppCompatActivity
                 .setPositiveButton("Send Message", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //Toast.makeText(CourseContentsActivity.this,"Send message",Toast.LENGTH_SHORT).show();
 
                         final EditText input = new EditText(CourseContentsActivity.this);
 

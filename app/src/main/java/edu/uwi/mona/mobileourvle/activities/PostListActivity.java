@@ -22,8 +22,10 @@ public class PostListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.post_toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if(getSupportActionBar()!=null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

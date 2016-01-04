@@ -46,8 +46,10 @@ public class ForumActivity extends AppCompatActivity implements ForumFragment.On
         title.setText(courseName+" - "+forumName);
         title.setTextColor(getResources().getColor(R.color.white));
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if(getSupportActionBar()!=null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         if(savedInstanceState == null)
         {
@@ -65,12 +67,6 @@ public class ForumActivity extends AppCompatActivity implements ForumFragment.On
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        switch (id)
-        {
-
-        }
 
         return super.onOptionsItemSelected(item);
     }

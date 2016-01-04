@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="edu.uwi.mona.mobileourvle" >
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -12,10 +13,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name=".activities.LoginActivity"
-            android:label="@string/title_activity_login" >
-        </activity>
 
         <meta-data
             android:name="DATABASE"
@@ -29,6 +26,11 @@
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="edu.uwi.mona.mobileourvle" />
+
+        <activity
+            android:name=".activities.LoginActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
 
         <activity
             android:name=".activities.HomeActivity"
@@ -66,7 +68,7 @@
         <activity
             android:name=".activities.MessageListActivity"
             android:label="@string/title_activity_message_list"
-            android:parentActivityName=".activities.HomeActivity" >
+            android:parentActivityName=".activities.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.uwi.mona.mobileourvle.activities.HomeActivity" />

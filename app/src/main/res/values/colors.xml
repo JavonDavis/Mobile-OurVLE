@@ -192,4 +192,6 @@
     <color name="Z">#1e7eac</color>
     <color name="standard">@color/X</color>
     <color name="range">#51c4d4</color>
+    <color name="button_background">#ab3939
+    </color>
 </resources>
