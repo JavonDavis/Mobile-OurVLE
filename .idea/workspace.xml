@@ -10,150 +10,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b964c68a-1a58-434e-b78a-d789d4fcedd5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/button_background.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/helpers/Session.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/outputFileStates.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/assets/jacks.ttf" afterPath="$PROJECT_DIR$/app/src/main/assets/jacks.ttf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/home_bg.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/home_bg.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/login_background.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/login_background.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/right_arrow_grey.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/right_arrow_grey.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/user_icon.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/user_icon.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/.idea/.name" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/circularimageview_1_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/circularimageview_1_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/com_amulyakhare_textdrawable_1_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/com_amulyakhare_textdrawable_1_0_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/sugar_1_3_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/sugar_1_3_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/res/mipmap-hdpi/ic_launcher.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/res/mipmap-mdpi/ic_launcher.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/res/mipmap-xhdpi/ic_launcher.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/res/mipmap-xxhdpi/ic_launcher.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/proguard-rules.pro" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/androidTest/java/edu/uwi/mona/mobileourvle/app/ApplicationTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MobileOurvle.iml" afterPath="$PROJECT_DIR$/MobileOurvle.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/.gitignore" afterPath="$PROJECT_DIR$/app/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/proguard-rules.pro" afterPath="$PROJECT_DIR$/app/proguard-rules.pro" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/androidTest/java/edu/uwi/mona/mobileourvle/ApplicationTest.java" afterPath="$PROJECT_DIR$/app/src/androidTest/java/edu/uwi/mona/mobileourvle/ApplicationTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/CourseContentsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/CourseContentsActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/CourseListActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/CourseListActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/ForumActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/ForumActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/ForumListActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/ForumListActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/HomeActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/HomeActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/LoginActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/LoginActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/MessageListActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/MessageListActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/PostListActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/PostListActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/SplashActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/activities/SplashActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/CourseContentAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/CourseContentAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/CoursePagerAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/CoursePagerAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/DiscussionsListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/DiscussionsListAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/ForumListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/ForumListAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/HomeOptionsAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/HomeOptionsAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/MessageListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/MessageListAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/ParticipantListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/ParticipantListAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/PostListAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/PostListAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/helpers/Colors.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/helpers/Colors.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/helpers/GsonExclude.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/helpers/GsonExclude.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/helpers/ImageDecoder.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/helpers/ImageDecoder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/helpers/RecyclerItemClickListener.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/helpers/RecyclerItemClickListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/CourseForum.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/CourseForum.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/CourseModule.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/CourseModule.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/CourseParticipant.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/CourseParticipant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/CourseSection.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/CourseSection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/DiscussionPost.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/DiscussionPost.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/ForumDiscussion.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/ForumDiscussion.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/Message.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/Message.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/Messages.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/Messages.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/ModuleContent.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/ModuleContent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/MoodleCourse.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/MoodleCourse.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/MoodleCourseFormatOption.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/MoodleCourseFormatOption.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/MoodleFunction.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/MoodleFunction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/SiteInfo.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/SiteInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/UserCourse.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/models/UserCourse.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/CourseRestContent.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/CourseRestContent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/CourseRestForum.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/CourseRestForum.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/CourseRestParticipant.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/CourseRestParticipant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/DiscussionRestPost.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/DiscussionRestPost.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/ForumRestDiscussion.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/ForumRestDiscussion.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/MoodleFunctions.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/MoodleFunctions.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/MoodleRestCourse.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/MoodleRestCourse.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/MoodleRestMessage.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/MoodleRestMessage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/Posts.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/Posts.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/RestToken.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/RestToken.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/SiteRestInfo.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/SiteRestInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/Token.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/moodle/Token.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/CourseContentsTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/CourseContentsTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/CourseTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/CourseTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/DiscussionTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/DiscussionTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/ForumTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/ForumTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/GetUserImageTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/GetUserImageTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/LoginTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/LoginTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/MessageTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/MessageTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/ParticipantTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/ParticipantTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/PostTask.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/tasks/PostTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/transport/MoodleRestCall.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/transport/MoodleRestCall.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/CourseContentsFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/CourseContentsFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/CourseListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/CourseListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/ForumFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/ForumFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/ForumListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/ForumListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/LoginFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/LoginFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/MessageListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/MessageListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/OptionListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/OptionListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/ParticipantsListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/ParticipantsListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/PostListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/fragments/PostListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/circle_background_textview.xml" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/circle_background_textview.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/tab_border.xml" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/tab_border.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_course_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_course_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_courses_list.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_courses_list.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_forum.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_forum.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_forum_list.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_forum_list.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_home.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_home.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_message_list.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_message_list.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_post.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_post.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_splash.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_splash.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_course_contents.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_course_contents.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_course_list.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_course_list.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_forum.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_forum.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_forum_list.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_forum_list.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_login_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_login_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_message_list.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_message_list.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_participants_list.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_participants_list.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_post.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_post.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/home_option.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/home_option.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item_course_contents.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_course_contents.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item_course_list.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_course_list.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item_discussion.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_discussion.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item_forum.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_forum.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item_participant.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_participant.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item_post.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_post.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/message_list_item.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/message_list_item.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_course_contents.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_course_contents.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_courses.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_courses.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_forum_list.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_forum_list.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_participants_list.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_participants_list.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values-w820dp/dimens.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values-w820dp/dimens.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle.properties" afterPath="$PROJECT_DIR$/gradle.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradlew.bat" afterPath="$PROJECT_DIR$/gradlew.bat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.gradle" afterPath="$PROJECT_DIR$/settings.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/src/main/res/values/styles.xml" />
     </list>
     <ignored path="MobileOurvle.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -180,7 +48,38 @@
     <favorites_list name="MobileOurvle" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="styles.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.7692308">
+              <caret line="4" column="49" selection-start-line="4" selection-start-column="49" selection-end-line="4" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="15.196078">
+              <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-3.5244565">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="GenerateSignedApkSettings">
     <option name="KEY_STORE_PATH" value="$PROJECT_DIR$/../keystore.jks" />
@@ -1674,6 +1573,84 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MobileOurvle" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MobileOurvle" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MobileOurvle" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MobileOurvle" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mobileourvle" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MobileOurvle" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -1970,7 +1947,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1992,7 +1969,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16074313" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286119" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2081,14 +2058,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="195" column="4" selection-start-line="195" selection-start-column="4" selection-end-line="195" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="49" selection-start-line="4" selection-start-column="49" selection-end-line="4" selection-end-column="49" />
           <folding />
         </state>
       </provider>
@@ -2407,25 +2376,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-40.625">
-          <caret line="65" column="28" selection-start-line="65" selection-start-column="28" selection-end-line="65" selection-end-column="28" />
-          <folding>
-            <element signature="e#587#605#0" expanded="true" />
-            <element signature="e#1146#1176#0" expanded="true" />
-            <element signature="e#1296#1325#0" expanded="true" />
-            <element signature="e#1450#1480#0" expanded="true" />
-            <element signature="e#1609#1649#0" expanded="true" />
-            <element signature="e#1773#1808#0" expanded="true" />
-            <element signature="e#1928#1958#0" expanded="true" />
-            <element signature="e#2081#2110#0" expanded="true" />
-            <element signature="e#2231#2262#0" expanded="true" />
-            <element signature="e#2592#2629#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/uwi/mona/mobileourvle/classes/adapters/ForumListAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7735426">
@@ -2502,6 +2452,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.29372197">
           <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.7692308">
+          <caret line="4" column="49" selection-start-line="4" selection-start-column="49" selection-end-line="4" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="15.196078">
+          <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.5244565">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>

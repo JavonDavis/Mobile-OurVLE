@@ -17,3 +17,17 @@ allprojects {
         jcenter()
     }
 }
+<<<<<<< HEAD
+=======
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:20.+'
+    compile 'com.android.support:support-v4:20.+'
+    compile 'com.google.code.gson:gson:2.2.+'
+    compile 'joda-time:joda-time:2.3'
+    compile 'org.mnode.ical4j:ical4j:1.0.5.2@jar'
+    compile 'com.madgag.spongycastle:core:1.50.0.0@jar'
+    compile 'org.sourceforge.ah.android.utilities:android-utilities:1.0@aar'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+>>>>>>> f22b64820d289ef2d4cd66b67d200f02f84b5dd0
