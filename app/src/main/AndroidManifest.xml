@@ -33,7 +33,7 @@
         </activity>
 
         <activity
-            android:name=".activities.HomeActivity"
+            android:name=".activities.OurVLEActivity"
             android:label="@string/title_activity_home" >
         </activity>
         <activity
@@ -68,10 +68,10 @@
         <activity
             android:name=".activities.MessageListActivity"
             android:label="@string/title_activity_message_list"
-            android:parentActivityName=".activities.HomeActivity">
+            android:parentActivityName=".activities.OurVLEActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.uwi.mona.mobileourvle.activities.HomeActivity" />
+                android:value=".activities.OurVLEActivity" />
         </activity>
     </application>
 

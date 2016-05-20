@@ -1,21 +1,19 @@
 package edu.uwi.mona.mobileourvle.activities;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
 import edu.uwi.mona.mobileourvle.R;
 import edu.uwi.mona.mobileourvle.classes.models.CourseForum;
 import edu.uwi.mona.mobileourvle.fragments.ForumFragment;
-import edu.uwi.mona.mobileourvle.fragments.ForumListFragment;
 
 public class ForumActivity extends AppCompatActivity implements ForumFragment.OnDiscussionSelectedListener{
 
@@ -43,7 +41,8 @@ public class ForumActivity extends AppCompatActivity implements ForumFragment.On
         String courseName = forum.getCoursename();
         String forumName = forum.getName();
 
-        title.setText(courseName+" - "+forumName);
+        String forumTitle = String.format(Locale.US,getString(R.string.forum_title),courseName,forumName);
+        title.setText(forumTitle);
         title.setTextColor(getResources().getColor(R.color.white));
 
         if(getSupportActionBar()!=null) {

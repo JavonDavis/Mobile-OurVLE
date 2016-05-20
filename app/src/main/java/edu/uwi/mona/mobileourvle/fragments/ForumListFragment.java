@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +34,6 @@ public class ForumListFragment extends Fragment {
     private static final String ARG_PARAM_COURSE_ID = "Course ID";
     private OnForumSelectedListener mListener;
     private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
     private ProgressBar progressBar;
     private TextView emptyView;
@@ -117,7 +114,7 @@ public class ForumListFragment extends Fragment {
             mRecyclerView.setHasFixedSize(true);
 
 
-            mLayoutManager = new LinearLayoutManager(getActivity());
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(mLayoutManager);
 
 
@@ -129,9 +126,8 @@ public class ForumListFragment extends Fragment {
             mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    int itemPosition = position;
 
-                    mListener.onForumSelected(forums.get(itemPosition).getForumid());
+                    mListener.onForumSelected(forums.get(position).getForumid());
 
                 }
             }));
@@ -180,7 +176,7 @@ public class ForumListFragment extends Fragment {
      *
      */
     public interface OnForumSelectedListener {
-        public void onForumSelected(int id);
+        void onForumSelected(int id);
     }
 
     private class ForumLoaderTask extends AsyncTask<String,Integer,Boolean>
@@ -200,7 +196,7 @@ public class ForumListFragment extends Fragment {
 
             // Get course ids
             List<MoodleCourse> mCourses = MoodleCourse.listAll(MoodleCourse.class);
-            ArrayList<String> courseIds = new ArrayList<String>();
+            ArrayList<String> courseIds = new ArrayList<>();
             for (int i = 0; i < mCourses.size(); i++)
                 courseIds.add(mCourses.get(i).getCourseid() + "");
             if (task.syncForums(courseIds)) {

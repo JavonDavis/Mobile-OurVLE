@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import edu.uwi.mona.mobileourvle.fragments.CourseContentsFragment;
-import edu.uwi.mona.mobileourvle.fragments.CourseListFragment;
 import edu.uwi.mona.mobileourvle.fragments.ForumListFragment;
 import edu.uwi.mona.mobileourvle.fragments.ParticipantsListFragment;
 

@@ -12,7 +12,6 @@ import edu.uwi.mona.mobileourvle.R;
 public class Colors {
 
     public HashMap<Character,Integer> colorHashMap = new HashMap<>();
-    private HashMap<Character, Integer> idMap = new HashMap<>();
     private static Context mContext;
 
     public void populate()

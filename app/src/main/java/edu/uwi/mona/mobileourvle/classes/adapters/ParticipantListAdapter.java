@@ -15,7 +15,6 @@ import java.util.List;
 import edu.uwi.mona.mobileourvle.R;
 import edu.uwi.mona.mobileourvle.classes.helpers.Colors;
 import edu.uwi.mona.mobileourvle.classes.models.CourseParticipant;
-import edu.uwi.mona.mobileourvle.fragments.ParticipantsListFragment;
 
 /**
  * @author Javon Davis

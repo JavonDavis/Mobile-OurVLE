@@ -12,7 +12,8 @@ import edu.uwi.mona.mobileourvle.R;
 
 
 /**
- * Created by javon_000 on 09/06/2015.
+ * Created by javon 09/06/2015.
+ * @author Javon Davis
  */
 public class HomeOptionsAdapter extends BaseAdapter {
 

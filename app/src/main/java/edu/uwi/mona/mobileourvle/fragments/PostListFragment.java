@@ -32,7 +32,6 @@ public class PostListFragment extends Fragment {
     private int discussionId;
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
     private ProgressBar progressBar;
     private TextView emptyView;
@@ -81,7 +80,7 @@ public class PostListFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
@@ -93,7 +92,6 @@ public class PostListFragment extends Fragment {
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                int itemPosition = position;
 
                 Toast.makeText(getActivity(), "Click " + position, Toast.LENGTH_LONG).show();
 

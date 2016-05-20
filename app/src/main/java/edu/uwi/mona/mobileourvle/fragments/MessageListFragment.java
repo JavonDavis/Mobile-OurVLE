@@ -38,8 +38,7 @@ public class MessageListFragment extends ListFragment {
     private OnMessageSelectedListener mListener;
 
     public static MessageListFragment newInstance() {
-        MessageListFragment fragment = new MessageListFragment();
-        return fragment;
+        return new MessageListFragment();
     }
 
     /**
@@ -129,7 +128,7 @@ public class MessageListFragment extends ListFragment {
             }
         });
 
-        List<Integer> userids = new ArrayList<Integer>();
+        List<Integer> userids = new ArrayList<>();
         int currentuserid = siteInfo.getUserid();
 
         for (int i = 0; i < mMessages.size(); i++) {
@@ -162,7 +161,7 @@ public class MessageListFragment extends ListFragment {
 
     Boolean isInList(List<Integer> ids, int id) {
         for (int i = 0; i < ids.size(); i++)
-            if (ids.get(i).intValue() == id)
+            if (ids.get(i) == id)
                 return true;
         return false;
     }
@@ -180,10 +179,7 @@ public class MessageListFragment extends ListFragment {
         protected Boolean doInBackground(String... params) {
             // Sync from server and update
             MessageTask mst = new MessageTask(siteInfo.getToken());
-            if (mst.syncMessages(siteInfo.getUserid()))
-                return true;
-            else
-                return false;
+            return mst.syncMessages(siteInfo.getUserid());
         }
 
         @Override

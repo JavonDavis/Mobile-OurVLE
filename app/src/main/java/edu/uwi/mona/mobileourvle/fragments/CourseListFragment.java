@@ -42,16 +42,14 @@ public class CourseListFragment extends Fragment{
     //private MoodleCourseAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<MoodleCourse> moodleCourses;
     private ProgressBar progressBar;
     private TextView emptyView;
     private String token;
 
     public static CourseListFragment newInstance() {
-        final CourseListFragment f = new CourseListFragment();
 
-        return f;
+        return new CourseListFragment();
     }
 
     @Override
@@ -87,7 +85,7 @@ public class CourseListFragment extends Fragment{
                              final Bundle savedInstanceState) {
 
         View view = inflater
-                .inflate(R.layout.fragment_course_list, container, false);
+                .inflate(R.layout.fragment_ourvle_course_list, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.course_list);
         emptyView = (TextView) view.findViewById(R.id.emptyText);
@@ -98,7 +96,7 @@ public class CourseListFragment extends Fragment{
             mRecyclerView.setHasFixedSize(true);
 
 
-            mLayoutManager = new LinearLayoutManager(getActivity());
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(mLayoutManager);
 
 
@@ -110,9 +108,8 @@ public class CourseListFragment extends Fragment{
             mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    int itemPosition = position;
 
-                    MoodleCourse tempCourse = moodleCourses.get(itemPosition);
+                    MoodleCourse tempCourse = moodleCourses.get(position);
 
                     Intent intent = new Intent(getActivity(), CourseContentsActivity.class);
                     intent.putExtra("courseid", tempCourse.getCourseid());
@@ -160,8 +157,7 @@ public class CourseListFragment extends Fragment{
 
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_course_list, parent, false);
-            ViewHolder vh = new ViewHolder(v);
-            return vh;
+            return new ViewHolder(v);
         }
 
         @Override
@@ -223,10 +219,8 @@ public class CourseListFragment extends Fragment{
     private boolean getCourseInfo() {
         CourseTask cTask = new CourseTask(token);
 
-        Boolean usrCourseSyncStatus = cTask.syncUserCourses();
-
         // Success on user's course sync is what matters
-        return usrCourseSyncStatus;
+        return cTask.syncUserCourses();
     }
 
 }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.uwi.mona.mobileourvle.R;
-import edu.uwi.mona.mobileourvle.activities.HomeActivity;
+import edu.uwi.mona.mobileourvle.activities.OurVLEActivity;
 import edu.uwi.mona.mobileourvle.classes.models.CourseForum;
 import edu.uwi.mona.mobileourvle.classes.models.ForumDiscussion;
 import edu.uwi.mona.mobileourvle.classes.models.MoodleCourse;
@@ -259,7 +258,7 @@ public class LoginTask extends AsyncTask<String,String,Boolean> {
     @Override
     protected void onPostExecute(Boolean status) {
         if (status) {
-            Intent i = new Intent(context, HomeActivity.class);
+            Intent i = new Intent(context, OurVLEActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                     | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             context.startActivity(i);

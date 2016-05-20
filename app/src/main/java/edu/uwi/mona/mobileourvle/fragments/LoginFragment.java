@@ -20,8 +20,6 @@ public class LoginFragment extends Fragment{
 
     private EditText mUsernameTextbox;
     private EditText mPasswordTextBox;
-    private TextView ourvleShort,ourvleLong;
-    private Button loginButton;
     private ProgressBar progressBar;
     private LinearLayout loginBox;
 
@@ -38,15 +36,14 @@ public class LoginFragment extends Fragment{
         // Inflate the layout for this fragment
         final View fragmentView = inflater.inflate(R.layout.fragment_login_main, container, false);
 
-        loginButton = (Button) fragmentView.findViewById(R.id.login_btn);
+        Button loginButton = (Button) fragmentView.findViewById(R.id.login_btn);
 
         mUsernameTextbox = (EditText) fragmentView.findViewById(R.id.id_number_field);
         mPasswordTextBox = (EditText) fragmentView.findViewById(R.id.password_field);
 
 
-
-        ourvleLong = (TextView) fragmentView.findViewById(R.id.ourvle_long);
-        ourvleShort = (TextView) fragmentView.findViewById(R.id.ourvle_short);
+        TextView ourvleLong = (TextView) fragmentView.findViewById(R.id.ourvle_long);
+        TextView ourvleShort = (TextView) fragmentView.findViewById(R.id.ourvle_short);
 
         progressBar = (ProgressBar) fragmentView.findViewById(R.id.progress);
         loginBox = (LinearLayout) fragmentView.findViewById(R.id.loginBox);

@@ -31,12 +31,12 @@ import edu.uwi.mona.mobileourvle.fragments.OptionListFragment;
 /*
  * @author Javon Davis
  */
-public class HomeActivity extends AppCompatActivity implements OptionListFragment.OnOptionSelectedListener{
+public class OurVLEActivity extends AppCompatActivity implements OptionListFragment.OnOptionSelectedListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_ourvle_home);
 
         Toolbar homeToolbar = (Toolbar) findViewById(R.id.homeToolbar);
         setSupportActionBar(homeToolbar);
@@ -110,7 +110,7 @@ public class HomeActivity extends AppCompatActivity implements OptionListFragmen
 
                         doLogout();
 
-                        final Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                        final Intent intent = new Intent(OurVLEActivity.this, LoginActivity.class);
 
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
